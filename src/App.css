@@ -1,0 +1,19 @@
+/* login and register */
+#login-register {
+  background-color: #f5f0e6; 
+}
+
+.login-register-wrapper {
+  padding-bottom: 200px;
+}
+
+@media (max-width: 576px) {
+  .login-register-wrapper {
+    padding-bottom: 0;
+  }
+}
+
+/* events */
+.event-container-background {
+  background-color: #f5f0e6; 
+}
