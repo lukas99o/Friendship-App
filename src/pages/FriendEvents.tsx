@@ -1,5 +1,8 @@
 import { GetFriendEvents } from "../api/friendEvents";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { GetEventParticipantStatus } from "../api/participantStatus";
+import { JoinEvent } from "../api/joinEvent";
+import { LeaveEvent } from "../api/leaveEvent";
 
 interface EventDto {
     eventId: number;
@@ -15,6 +18,7 @@ interface EventDto {
 export default function FriendEvents() {
     const [friendEvents, setFriendEvents] = useState<EventDto[]>([]);
     const [loading, setLoading] = useState(true);
+    const [joinedEvents, setJoinedEvents] = useState<number[]>([]);
 
     const fetchFriendEvents = async () => {
         GetFriendEvents().then((res) => {
@@ -23,7 +27,13 @@ export default function FriendEvents() {
         })
     }
 
-    fetchFriendEvents();
+    useEffect(() => {
+        fetchFriendEvents();
+
+        GetEventParticipantStatus().then((res) => {
+            setJoinedEvents(res);
+        })
+    }, []);
 
     const formatDate = (dateStr: string) => {
         const options: Intl.DateTimeFormatOptions = {
@@ -38,8 +48,25 @@ export default function FriendEvents() {
         return date.toLocaleDateString(undefined, options);
     }
 
+    const toggleJoinStatus = async (eventId: number) => {
+        try {
+            if (joinedEvents.includes(eventId)) {
+                // Leave event
+                await LeaveEvent(eventId);
+                setJoinedEvents(joinedEvents.filter(id => id !== eventId));
+            } else {
+                // Join event
+                await JoinEvent(eventId);
+                setJoinedEvents([...joinedEvents, eventId]);
+            }
+        } catch (error) {
+            console.error("Error toggling join status:", error);
+            alert("Ett fel uppstod när du försökte ändra din status för evenemanget.");
+        }
+    }
+
     return (
-        <div className="min-vw-100 min-vh-100 d-flex align-items-center flex-column pt-5">
+        <div className="min-vw-100 min-vh-100 d-flex align-items-center flex-column pt-5 mt-5">
             <div className="container my-4 d-flex flex-column">
                 <h1 className="text-center mb-4">Vän Träffar</h1>
 
@@ -70,6 +97,13 @@ export default function FriendEvents() {
                         {e.interests && e.interests.length > 0 && (
                             <p>Intressen: {e.interests.join(", ")}</p>
                         )}
+
+                        <button
+                            className={`btn ${joinedEvents.includes(e.eventId) ? "btn-danger" : "btn-success"}`}
+                            onClick={() => toggleJoinStatus(e.eventId)}
+                        >
+                            {joinedEvents.includes(e.eventId) ? "Lämna" : "Gå med"}
+                        </button>
                     </div>
                 ))}
             </div>
