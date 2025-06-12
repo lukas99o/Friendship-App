@@ -3,6 +3,7 @@ import { getEvents } from "../api/events";
 import { getInterests } from "../api/interests";
 import { JoinEvent } from "../api/joinEvent";
 import { LeaveEvent } from "../api/leaveEvent";
+import { GetEventParticipantStatus } from "../api/participantStatus";
 
 interface EventDto {
     eventId: number;
@@ -27,11 +28,15 @@ export default function Events() {
 
     useEffect(() => {
         getInterests().then(setInterests);
-
+        
         getEvents({ ageMin: null, ageMax: null, interests: null }).then((res) => {
             setEvents(res);
             setLoading(false);
         });
+
+        GetEventParticipantStatus().then((res) => {
+            setJoinedEvents(res);
+        })
     }, []);
 
     const handleSearch = () => {
@@ -87,7 +92,7 @@ export default function Events() {
     }
 
     return (
-        <div className="event-container-background min-vw-100 min-vh-100 d-flex align-items-center flex-column pt-5">
+        <div className="event-container-background min-vw-100 min-vh-100 d-flex align-items-center flex-column pt-5 mt-5">
             <div className="container my-4 d-flex flex-column">
                 <h1 className="text-center mb-4">Träffar</h1>
 

@@ -4,6 +4,7 @@ import Login from './pages/Login'
 import Events from './pages/Events'
 import Register from './pages/Register'
 import FriendEvents from "./pages/FriendEvents"
+import CreateEvent from './pages/CreateEvent'
 // Components
 import ProtectedRoute from './components/ProtectedRoute'
 import Navbar from "./components/Navbar"
@@ -14,7 +15,6 @@ export default function App() {
   return (
     <div>
       <Navbar />
-
       <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/register" element={<Register />} />
@@ -26,6 +26,11 @@ export default function App() {
       <Route path="friendevents" element={
         <ProtectedRoute>
           <FriendEvents />
+        </ProtectedRoute>
+      } />
+      <Route path="/create-event" element={
+        <ProtectedRoute>
+          <CreateEvent />
         </ProtectedRoute>
       } />
       <Route path="*" element={<div>404 Not Found</div>} />
