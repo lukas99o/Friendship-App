@@ -25,7 +25,7 @@ export default function Navbar() {
     if (!isLoggedIn) return null;
 
     return (
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark vw-100 fixed-top">
+        <nav className="navbar navbar-expand-lg navbar-light bg-light vw-100 fixed-top shadow text-black">
             <div className="container">
                 <Link className="navbar-brand" to="/events">Vänskap</Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -44,7 +44,7 @@ export default function Navbar() {
                             <Link className="nav-link" to="/create-event">Skapa Evenemang</Link>
                         </li>
                     </ul>
-                    <button className="btn btn-outline-light" onClick={handleLogout}>
+                    <button className="btn btn-outline-dark text-black custom-btn" onClick={handleLogout}>
                         Logga ut
                     </button>
                 </div>
