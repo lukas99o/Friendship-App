@@ -13,9 +13,7 @@
   }
 }
 
-/* navbar */
-.custom-btn:hover {
-  background-color: #ddd !important;
-  color: black !important;
-  border-color: black !important;
+/* events */
+.event-container-background {
+  background-color: #f5f0e6; 
 }
