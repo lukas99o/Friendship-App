@@ -27,7 +27,8 @@ body {
   display: flex;
   min-width: 320px;
   min-height: 100vh;
-  background-color: #f5f0e6; 
+  /* background-color: #f5f0e6;  */
+  background-color: #ccddff;
   align-items: center;
   justify-content: center;
 }
