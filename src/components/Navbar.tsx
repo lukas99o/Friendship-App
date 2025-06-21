@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 export default function Navbar() {
@@ -24,27 +24,52 @@ export default function Navbar() {
 
     if (!isLoggedIn) return null;
 
+    const logo = "/images/logo.png"; 
+
     return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-light vw-100 fixed-top shadow text-black">
+        <nav className="navbar navbar-expand-lg navbar-dark vw-100 fixed-top shadow">
             <div className="container">
-                <Link className="navbar-brand" to="/events">Vänskap</Link>
+                <NavLink className="navbar-brand fs-3 fw-bold" to="/events">
+                    <img src={logo} alt="Vänskap" style={{ maxHeight: "50px", mixBlendMode: "multiply" }} />
+                </NavLink>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span className="navbar-toggler-icon"></span>
                 </button>
 
                 <div className="collapse navbar-collapse" id="navbarNav">
-                    <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                    <ul className="navbar-nav me-auto mb-2 mb-lg-0 navbar-ul">
                         <li className="nav-item">
-                            <Link className="nav-link" to="/events">Träffar</Link>
+                            <NavLink
+                                className={({ isActive }) =>
+                                    `nav-link ${isActive ? "active-link" : ""}`
+                                }
+                                to="/events"
+                            >
+                                Träffar
+                            </NavLink>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/friendevents">Vän Träffar</Link>
+                            <NavLink
+                                className={({ isActive }) =>
+                                    `nav-link ${isActive ? "active-link" : ""}`
+                                }
+                                to="/friendevents"
+                            >
+                                Vän Träffar
+                            </NavLink>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/create-event">Skapa Evenemang</Link>
+                            <NavLink
+                                className={({ isActive }) =>
+                                    `nav-link ${isActive ? "active-link" : ""}`
+                                }
+                                to="/create-event"
+                            >
+                                Skapa Evenemang
+                            </NavLink>
                         </li>
                     </ul>
-                    <button className="btn btn-outline-dark text-black custom-btn" onClick={handleLogout}>
+                    <button className="btn btn-outline-light" onClick={handleLogout}>
                         Logga ut
                     </button>
                 </div>

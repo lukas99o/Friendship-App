@@ -8,6 +8,7 @@ import CreateEvent from './pages/CreateEvent'
 // Components
 import ProtectedRoute from './components/ProtectedRoute'
 import Navbar from "./components/Navbar"
+import Slideshow from './components/Slideshow'
 
 import './App.css'
 
@@ -15,6 +16,7 @@ export default function App() {
   return (
     <div>
       <Navbar />
+      <Slideshow />
       <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/register" element={<Register />} />

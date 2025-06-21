@@ -3,17 +3,8 @@ import { useEffect, useState } from "react";
 import { GetEventParticipantStatus } from "../api/participantStatus";
 import { JoinEvent } from "../api/joinEvent";
 import { LeaveEvent } from "../api/leaveEvent";
-
-interface EventDto {
-    eventId: number;
-    title: string;
-    startTime: string;
-    endTime: string;
-    location: string;
-    ageRangeMax: number;
-    ageRangeMin: number;
-    interests: string[];
-}
+import EventCard from "../components/EventCard";
+import type { EventDto } from "../types.ts";
 
 export default function FriendEvents() {
     const [friendEvents, setFriendEvents] = useState<EventDto[]>([]);
@@ -76,35 +67,13 @@ export default function FriendEvents() {
 
             <div className="container d-flex flex-column align-items-center">
                 {friendEvents.map((e) => (
-                    <div
+                    <EventCard
                         key={e.eventId}
-                        className="border rounded p-3 mb-3 bg-light shadow-sm w-50"
-                        style={{ maxWidth: "600px"}}
-                    >
-
-                        <h2>{e.title}</h2>
-                        <p>
-                            {formatDate(e.startTime)} - {formatDate(e.endTime)}
-                        </p>
-
-                        {e.location && <p>Plats: {e.location}</p>}
-                        {(e.ageRangeMin || e.ageRangeMax) && (
-                            <p>
-                                Åldersgräns: {e.ageRangeMin} - {e.ageRangeMax}
-                            </p>
-                        )}
-
-                        {e.interests && e.interests.length > 0 && (
-                            <p>Intressen: {e.interests.join(", ")}</p>
-                        )}
-
-                        <button
-                            className={`btn ${joinedEvents.includes(e.eventId) ? "btn-danger" : "btn-success"}`}
-                            onClick={() => toggleJoinStatus(e.eventId)}
-                        >
-                            {joinedEvents.includes(e.eventId) ? "Lämna" : "Gå med"}
-                        </button>
-                    </div>
+                        event={e}
+                        isJoined={joinedEvents.includes(e.eventId)}
+                        onToggleJoin={toggleJoinStatus}
+                        formatDate={formatDate}
+                    />
                 ))}
             </div>
         </div>
