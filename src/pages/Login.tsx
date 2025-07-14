@@ -12,7 +12,7 @@ export default function Login() {
         setError("");
 
         try {
-            const res = await fetch("https://localhost:7106/api/auth/login", {
+            const res = await fetch("https://friendship-c3cfdgejf5ateyc2.swedencentral-01.azurewebsites.net/api/auth/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password })

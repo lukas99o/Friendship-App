@@ -1,5 +1,5 @@
 export async function getEvents(filters: any) {
-    const res = await fetch("https://localhost:7106/api/Event/publicevents", {
+    const res = await fetch("https://friendship-c3cfdgejf5ateyc2.swedencentral-01.azurewebsites.net/api/event/publicevents", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

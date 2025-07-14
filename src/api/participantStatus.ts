@@ -5,7 +5,7 @@ export async function GetEventParticipantStatus() {
         return null;
     }
 
-    const res = await fetch("https://localhost:7106/api/event/participant-status", {
+    const res = await fetch("https://friendship-c3cfdgejf5ateyc2.swedencentral-01.azurewebsites.net/api/event/participant-status", {
         method: "GET",
         headers: {
             "Authorization": `Bearer ${token}`

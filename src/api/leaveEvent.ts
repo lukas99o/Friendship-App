@@ -5,7 +5,7 @@ export async function LeaveEvent(id: number) {
         return null;
     }
 
-    const res = await fetch(`https://localhost:7106/api/event/leave/${id}`, {
+    const res = await fetch(`https://friendship-c3cfdgejf5ateyc2.swedencentral-01.azurewebsites.net/api/event/leave/${id}`, {
         method: "POST",
         headers: {
             "Authorization": `Bearer ${token}`,
