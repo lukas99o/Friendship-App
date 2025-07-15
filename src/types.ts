@@ -1,3 +1,8 @@
+interface EventParticipantDto {
+  userName: string;
+  role: string; 
+}
+
 export interface EventDto {
   eventId: number;
   title: string;
@@ -8,4 +13,6 @@ export interface EventDto {
   ageRangeMin: number;
   interests: string[];
   img: string;
+  eventParticipants?: EventParticipantDto[];
+  description?: string;
 }

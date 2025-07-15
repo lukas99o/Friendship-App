@@ -63,7 +63,7 @@ export default function CreateEventPage() {
     }
 
     return (
-        <div className="min-vh-100 d-flex justify-content-center align-items-center py-5">
+        <div className="d-flex justify-content-center align-items-center">
             <div className="card shadow-sm w-100" style={{ maxWidth: "600px" }}>
                 <div className="card-body p-4 p-md-5">
                     <h2 className="mb-4 text-center fw-bold">Skapa Event</h2>

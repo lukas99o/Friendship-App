@@ -23,7 +23,7 @@ export default function Register() {
         }
 
         try {
-            const res = await fetch("https://friendship-c3cfdgejf5ateyc2.swedencentral-01.azurewebsites.net/api/auth/register", {
+            const res = await fetch("https://localhost:7106/api/auth/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -50,7 +50,7 @@ export default function Register() {
     }
 
     return (
-        <div className="d-flex justify-content-center align-items-center min-vh-100 min-vw-100 login-register-wrapper" id="login-register">
+        <div className="d-flex justify-content-center align-items-center login-register-wrapper" id="login-register">
             <form onSubmit={handleRegister} className="p-4 rounded shadow bg-white" style={{ minWidth: "300px" }}>
                 <h2 className="mb-4 text-center">Registrera dig</h2>
 

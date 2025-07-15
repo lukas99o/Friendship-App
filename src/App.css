@@ -1,4 +1,67 @@
-.event-container {
-    background-color: #fafafa;
-    opacity: 0.8;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: #333;
+  line-height: 1.6;
+  background-color: #121212;
+}
+
+.navbar {
+  background: 	linear-gradient(to right, #f9d423, #ff4e50);
+  opacity: 0.93;
+  font-size: 1.1rem;
+}
+
+.active-link {
+  color: #ffeb3b !important;
+  font-weight: bold;
+  border-bottom: 2px solid #ffee58;
+}
+
+.slideshow-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -2;
+}
+
+.slideshow-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  transition: opacity 1s ease-in-out;
+  opacity: 0;
+}
+
+.fade-in {
+  opacity: 1;
+}
+
+.fade-out {
+  opacity: 0;
+}
+
+.navbar-logout-btn {
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 1.1rem;
+  cursor: pointer;
+  opacity: 0.93;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.navbar-logout-btn:hover, .navbar-logout-btn:focus {
+  color: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.85);
 }

@@ -3,8 +3,8 @@ import { Routes, Route } from 'react-router-dom'
 import Login from './pages/Login'
 import Events from './pages/Events'
 import Register from './pages/Register'
-import FriendEvents from "./pages/FriendEvents"
 import CreateEvent from './pages/CreateEvent'
+import MoreInfo from './pages/MoreInfo';
 // Components
 import ProtectedRoute from './components/ProtectedRoute'
 import Navbar from "./components/Navbar"
@@ -17,26 +17,28 @@ export default function App() {
     <div>
       <Navbar />
       <Slideshow />
-      <Routes>
-      <Route path="/" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/events" element={
-        <ProtectedRoute>
-          <Events />
-        </ProtectedRoute>
-      } />
-      <Route path="friendevents" element={
-        <ProtectedRoute>
-          <FriendEvents />
-        </ProtectedRoute>
-      } />
-      <Route path="/create-event" element={
-        <ProtectedRoute>
-          <CreateEvent />
-        </ProtectedRoute>
-      } />
-      <Route path="*" element={<div>404 Not Found</div>} />
-      </Routes>
+      <main style={{ paddingTop: "120px", paddingBottom: "40px" }}>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/events" element={
+            <ProtectedRoute>
+              <Events />
+            </ProtectedRoute>
+          } />
+          <Route path="/create-event" element={
+            <ProtectedRoute>
+              <CreateEvent />
+            </ProtectedRoute>
+          } />
+          <Route path="/more-info/:eventId" element={
+            <ProtectedRoute>
+              <MoreInfo />
+            </ProtectedRoute>
+          } />
+          <Route path="*" element={<div>404 Not Found</div>} />
+        </Routes>
+      </main>
     </div>
     
   )
