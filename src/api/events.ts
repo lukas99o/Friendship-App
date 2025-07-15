@@ -1,5 +1,5 @@
 export async function getEvents(filters: any) {
-    const res = await fetch("https://ashy-stone-09b187203.2.azurestaticapps.net/api/event/publicevents", {
+    const res = await fetch("https://friendship-c3cfdgejf5ateyc2.swedencentral-01.azurewebsites.net/api/event/publicevents", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
