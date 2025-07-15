@@ -1,4 +1,4 @@
-import { Navigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { readEvent } from "../api/readEvent";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
