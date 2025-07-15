@@ -3,6 +3,7 @@ import { getEvents } from "../api/events";
 import { JoinEvent } from "../api/joinEvent";
 import { LeaveEvent } from "../api/leaveEvent";
 import { GetEventParticipantStatus } from "../api/participantStatus";
+import { GetFriendEvents } from "../api/friendEvents";
 import EventCard from "../components/EventCard";
 import Dropdown from "../components/Dropdown";
 import type { EventDto } from "../types.ts";
@@ -14,6 +15,7 @@ export default function Events() {
     const [ageMax, setAgeMax] = useState<number | "">("");
     const [joinedEvents, setJoinedEvents] = useState<number[]>([]);
     const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
+    const [showOnlyFriendsEvents, setShowOnlyFriendsEvents] = useState(false);
 
     useEffect(() => {        
         getEvents({ ageMin: null, ageMax: null, interests: null }).then((res) => {
@@ -22,22 +24,32 @@ export default function Events() {
         });
 
         GetEventParticipantStatus().then((res) => {
+            console.log("Joined events:", res);
             setJoinedEvents(res);
         })
     }, []);
 
     const handleSearch = () => {
         setLoading(true);
-        const filters = {
-            ageMin: ageMin === "" ? null : ageMin,
-            ageMax: ageMax === "" ? null : ageMax,
-            interests: selectedInterests.length > 0 ? selectedInterests : null,
-        };
 
-        getEvents(filters).then((res) => {
-            setEvents(res);
-            setLoading(false);
-        });
+        if (showOnlyFriendsEvents) {
+            GetFriendEvents().then((res) => {
+                setEvents(res);
+                setLoading(false);
+            });
+        }
+        else {
+            const filters = {
+                ageMin: ageMin === "" ? null : ageMin,
+                ageMax: ageMax === "" ? null : ageMax,
+                interests: selectedInterests.length > 0 ? selectedInterests : null,
+            };
+
+            getEvents(filters).then((res) => {
+                setEvents(res);
+                setLoading(false);
+            });
+        }
     };
 
     const formatDate = (dateStr: string) => {
@@ -71,9 +83,9 @@ export default function Events() {
     }
 
     return (
-        <div className="min-vw-100 d-flex flex-column mb-5" style={{ marginTop: "100px" }}>
-            <div className="container mt-3 d-flex flex-column p-3 rounded" style={{ backgroundColor: "#fafafa", opacity: 0.93, zIndex: 1 }}>
-                <div className="gap-2 max-w-full flex-column flex-md-row d-flex bg-d">
+        <div className="d-flex flex-column">
+            <div className="container d-flex flex-column p-3 rounded" style={{ backgroundColor: "#fafafa", opacity: 0.93, zIndex: 1 }}>
+                <div className="gap-2 max-w-full flex-column flex-md-row d-flex bg-d">   
                     <div className="flex-1">
                         <Dropdown 
                             selectedInterests={selectedInterests}
@@ -111,7 +123,16 @@ export default function Events() {
                     </div>
                 )}
 
-                <div className="d-flex justify-content-center mt-3">
+                <div className="d-flex mt-3 justify-content-around align-items-center">
+                    <div className="form-check">
+                        <label className="form-check-label">Visa endast vänners evenemang</label>
+                        <input
+                            type="checkbox"
+                            className="form-check-input"
+                            onChange={(e) => setShowOnlyFriendsEvents(e.target.checked)}
+                        />
+                    </div>
+                    
                     <button className="btn btn-dark w-25" onClick={handleSearch}>
                     🔍 Sök
                     </button>

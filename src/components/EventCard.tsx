@@ -1,4 +1,5 @@
 import type { EventDto } from "../types.ts";
+import { Link } from "react-router-dom";
 
 interface EventCardProps {
   event: EventDto;
@@ -39,10 +40,9 @@ export default function EventCard({ event, isJoined, onToggleJoin, formatDate }:
         </div>
 
         <div className="d-flex gap-2">
-          <button 
-          className="btn mt-2 btn-outline-info w-100">
-          Mer Info
-          </button>
+          <Link to={`/more-info/${event.eventId}`} className="btn mt-2 btn-outline-info w-100">
+            Mer Info
+          </Link>
           <button
             className={`btn mt-2 ${isJoined ? "btn-outline-danger" : "btn-outline-success"} w-100`}
             onClick={() => onToggleJoin(event.eventId)}

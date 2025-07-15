@@ -12,7 +12,7 @@ export default function Login() {
         setError("");
 
         try {
-            const res = await fetch("https://friendship-c3cfdgejf5ateyc2.swedencentral-01.azurewebsites.net/api/auth/login", {
+            const res = await fetch("https://localhost:7106/api/auth/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password })
@@ -33,7 +33,7 @@ export default function Login() {
     }
 
     return (
-        <div className="d-flex justify-content-center align-items-center min-vh-100 min-vw-100 login-register-wrapper" id="login-register">
+        <div className="d-flex justify-content-center align-items-center login-register-wrapper" id="login-register">
             <form onSubmit={handleLogin} className="p-4 rounded shadow bg-white" style={{ minWidth: "300px" }}>
                 <h2 className="mb-4 text-center">Logga in</h2>
 

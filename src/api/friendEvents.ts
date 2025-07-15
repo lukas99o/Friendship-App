@@ -5,7 +5,7 @@ export async function GetFriendEvents() {
         return null;
     }
 
-    const res = await fetch("https://friendship-c3cfdgejf5ateyc2.swedencentral-01.azurewebsites.net/api/event/friendsevents", {
+    const res = await fetch("https://localhost:7106/api/event/friendsevents", {
         method: "GET",
         headers: {
             "Authorization": `Bearer ${token}`

@@ -45,17 +45,7 @@ export default function Navbar() {
                                 }
                                 to="/events"
                             >
-                                Träffar
-                            </NavLink>
-                        </li>
-                        <li className="nav-item">
-                            <NavLink
-                                className={({ isActive }) =>
-                                    `nav-link ${isActive ? "active-link" : ""}`
-                                }
-                                to="/friendevents"
-                            >
-                                Vän Träffar
+                                Evenemang
                             </NavLink>
                         </li>
                         <li className="nav-item">
@@ -69,7 +59,7 @@ export default function Navbar() {
                             </NavLink>
                         </li>
                     </ul>
-                    <button className="btn btn-outline-light" onClick={handleLogout}>
+                    <button onClick={handleLogout} className="navbar-logout-btn">
                         Logga ut
                     </button>
                 </div>
