@@ -11,8 +11,27 @@ import Navbar from "./components/Navbar"
 import Slideshow from './components/Slideshow'
 
 import './App.css'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export default function App() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("jwtToken");
+    const expiresAt = localStorage.getItem("jwtExpiresAt");
+
+    if (token && expiresAt) {
+      const currentTime = new Date().getTime();
+      if (currentTime > parseInt(expiresAt)) {
+        localStorage.removeItem("jwtToken");
+        localStorage.removeItem("jwtExpiresAt");
+        
+        navigate("/");
+      }
+    }
+  }, [navigate]);
+
   return (
     <div>
       <Navbar />

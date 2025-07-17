@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../context/authContext"; 
 
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
+    const { login } = useAuth(); 
 
     async function handleLogin(e: React.FormEvent) {
         e.preventDefault();
@@ -24,8 +26,9 @@ export default function Login() {
             }
 
             const data = await res.json();
-            localStorage.setItem("jwtToken", data.token);
-            window.dispatchEvent(new Event("storage"));
+
+            login(data.token); 
+
             navigate("/events");
         } catch {
             setError("Något gick fel.");

@@ -1,26 +1,9 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useAuth } from "../context/authContext";
 
 export default function Navbar() {
+    const { isLoggedIn, logout } = useAuth();
     const navigate = useNavigate();
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => !!localStorage.getItem("jwtToken"));
-
-    useEffect(() => {
-        const handleStorageChange = () => {
-            setIsLoggedIn(!!localStorage.getItem("jwtToken"));
-        };
-
-        window.addEventListener("storage", handleStorageChange);
-        return () => {
-            window.removeEventListener("storage", handleStorageChange);
-        }
-    }, [])
-
-    const handleLogout = () => {
-        localStorage.removeItem("jwtToken");
-        window.dispatchEvent(new Event("storage"));
-        navigate("/");
-    };
 
     if (!isLoggedIn) return null;
 
@@ -59,11 +42,14 @@ export default function Navbar() {
                             </NavLink>
                         </li>
                     </ul>
-                    <button onClick={handleLogout} className="navbar-logout-btn">
+                    <button onClick={() => {
+                        logout();    
+                        navigate("/");
+                    }} className="navbar-logout-btn">
                         Logga ut
                     </button>
                 </div>
             </div>
         </nav>
-    )
+    );
 }
