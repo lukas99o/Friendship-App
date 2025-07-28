@@ -13,12 +13,46 @@ export default function Register() {
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
+    function validateEmail(email: string) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
+    function validatePassword(password: string) {
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+        return passwordRegex.test(password);
+    }
+
+    function validateDateOfBirth(date: string) {
+        const today = new Date();
+        const birthDate = new Date(date);
+        return birthDate <= today;
+    }
+
     async function handleRegister(e: React.FormEvent) {
         e.preventDefault();
         setError("");
+        const errors: string[] = [];
+
+        if (!validateEmail(email)) {
+            errors.push("Ogiltig e-postadress");
+        }
+
+        if (!validatePassword(password)) {
+            errors.push("Lösenordet måste vara minst 8 tecken långt och innehålla en stor bokstav, en liten bokstav, en siffra och ett specialtecken");
+        }
+
+        if (!validateDateOfBirth(dateOfBirth)) {
+            errors.push("Ogiltigt födelsedatum");
+        }
 
         if (password !== confirmPassword) {
             setError("Lösenorden matchar inte");
+            return;
+        }
+
+        if (errors.length > 0) {
+            setError(errors.join(". "));
             return;
         }
 
@@ -39,11 +73,21 @@ export default function Register() {
             });
 
             if (!res.ok) {
-                setError("Registrering misslyckades");
+                const errorText = await res.text();
+                
+                if (errorText === "E-postadressen används redan.") {
+                    setError("E-postadressen används redan.");
+                } else if (errorText === "Användarnamnet är redan taget.") {
+                    setError("Användarnamnet är redan taget.");
+                } else {
+                    setError("Något gick fel. Försök igen.");
+                }
+
                 return;
             }
-
-            navigate("/");
+            
+            const data = await res.json();
+            navigate("/verificationPage", { state: { confirmationLink: data.link, email: email}});
         } catch {
             setError("Något gick fel.")
         }
@@ -51,7 +95,7 @@ export default function Register() {
 
     return (
         <div className="d-flex justify-content-center align-items-center login-register-wrapper" id="login-register">
-            <form onSubmit={handleRegister} className="p-4 rounded shadow bg-white" style={{ minWidth: "300px" }}>
+            <form onSubmit={handleRegister} className="p-4 rounded shadow bg-white" style={{ width: "300px" }}>
                 <h2 className="mb-4 text-center">Registrera dig</h2>
 
                 <div className="mb-3">
@@ -62,6 +106,7 @@ export default function Register() {
                         value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
                         required
+                        maxLength={50}
                     />
                 </div>
 
@@ -73,6 +118,7 @@ export default function Register() {
                         value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
                         required
+                        maxLength={50}
                     />
                 </div>
 
@@ -84,6 +130,7 @@ export default function Register() {
                         value={userName}
                         onChange={(e) => setUserName(e.target.value)}
                         required
+                        maxLength={50}
                     />
                 </div>
 

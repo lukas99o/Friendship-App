@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useAuth } from "../context/authContext"; 
+import { useAuth } from "../context/AuthContext"; 
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -21,14 +21,18 @@ export default function Login() {
             });
 
             if (!res.ok) {
-                setError("Fel användarnamn eller lösenord");
+                const errorText = await res.text();
+                if (errorText === "Du måste bekräfta din e-post först.") {
+                    setError("Du måste bekräfta din e-post först.");
+                } else {
+                    setError("Felaktig e-post eller lösenord.");
+                }
+
                 return;
             }
 
             const data = await res.json();
-
             login(data.token); 
-
             navigate("/events");
         } catch {
             setError("Något gick fel.");

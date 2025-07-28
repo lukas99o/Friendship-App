@@ -5,6 +5,8 @@ import Events from './pages/Events'
 import Register from './pages/Register'
 import CreateEvent from './pages/CreateEvent'
 import MoreInfo from './pages/MoreInfo';
+import VerificationPage from './pages/VerificationPage'
+import ConfirmEmail from './pages/ConfirmEmail'
 // Components
 import ProtectedRoute from './components/ProtectedRoute'
 import Navbar from "./components/Navbar"
@@ -40,6 +42,8 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/verificationPage" element={<VerificationPage />} />
+          <Route path="/confirm-email" element={<ConfirmEmail />} />
           <Route path="/events" element={
             <ProtectedRoute>
               <Events />
