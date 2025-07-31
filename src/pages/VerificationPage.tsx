@@ -2,20 +2,18 @@ import { useLocation } from "react-router-dom";
 
 export default function VerificationPage() {
     const location = useLocation();
-    const confirmationLink = location.state?.confirmationLink;
     const email = location.state?.email;
 
     async function handleResendEmail() {
         if (!email) return;
 
-        const res = await fetch("/api/auth/resend-email", {
+        const res = await fetch(`https://localhost:7106/api/auth/resend-email?email=${encodeURIComponent(email)}`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email }),
+            headers: { "Content-Type": "application/json" }
         });
 
-        const data = await res.json();
-        alert(data.message);
+        const message = await res.text();
+        alert(message);
     }
 
     return (

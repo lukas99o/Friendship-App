@@ -85,9 +85,9 @@ export default function Register() {
 
                 return;
             }
-            
-            const data = await res.json();
-            navigate("/verificationPage", { state: { confirmationLink: data.link, email: email}});
+
+            console.log("Registrering lyckades");
+            navigate("/verificationPage", { state: { email: email}});
         } catch {
             setError("Något gick fel.")
         }

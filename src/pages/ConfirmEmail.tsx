@@ -25,10 +25,11 @@ export default function VerifyEmail() {
     }, [searchParams]);
 
     return (
-        <div className="d-flex justify-content-center align-items-center vh-100">
+        <div className="d-flex justify-content-center">
             <div className="text-center p-4 rounded shadow bg-white">
                 {status === "loading" && <p>Verifierar e-postadress...</p>}
                 {status === "success" && <p className="text-success">Din e-postadress har bekräftats! Du kan nu logga in.</p>}
+                {status === "success" && <a href="/" className="btn btn-primary mt-3">Logga in</a>}
                 {status === "error" && <p className="text-danger">Verifikationen misslyckades. Länken kan vara ogiltig eller ha gått ut.</p>}
             </div>
         </div>
