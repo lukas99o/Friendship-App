@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext"; 
 
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
+    const { login } = useAuth(); 
 
     async function handleLogin(e: React.FormEvent) {
         e.preventDefault();
@@ -19,13 +21,18 @@ export default function Login() {
             });
 
             if (!res.ok) {
-                setError("Fel användarnamn eller lösenord");
+                const errorText = await res.text();
+                if (errorText === "Du måste bekräfta din e-post först.") {
+                    setError("Du måste bekräfta din e-post först.");
+                } else {
+                    setError("Felaktig e-post eller lösenord.");
+                }
+
                 return;
             }
 
             const data = await res.json();
-            localStorage.setItem("jwtToken", data.token);
-            window.dispatchEvent(new Event("storage"));
+            login(data.token); 
             navigate("/events");
         } catch {
             setError("Något gick fel.");

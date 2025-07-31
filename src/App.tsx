@@ -5,14 +5,35 @@ import Events from './pages/Events'
 import Register from './pages/Register'
 import CreateEvent from './pages/CreateEvent'
 import MoreInfo from './pages/MoreInfo';
+import VerificationPage from './pages/VerificationPage'
+import ConfirmEmail from './pages/ConfirmEmail'
 // Components
 import ProtectedRoute from './components/ProtectedRoute'
 import Navbar from "./components/Navbar"
 import Slideshow from './components/Slideshow'
 
 import './App.css'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export default function App() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("jwtToken");
+    const expiresAt = localStorage.getItem("jwtExpiresAt");
+
+    if (token && expiresAt) {
+      const currentTime = new Date().getTime();
+      if (currentTime > parseInt(expiresAt)) {
+        localStorage.removeItem("jwtToken");
+        localStorage.removeItem("jwtExpiresAt");
+        
+        navigate("/");
+      }
+    }
+  }, [navigate]);
+
   return (
     <div>
       <Navbar />
@@ -21,6 +42,8 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/verificationPage" element={<VerificationPage />} />
+          <Route path="/confirm-email" element={<ConfirmEmail />} />
           <Route path="/events" element={
             <ProtectedRoute>
               <Events />
