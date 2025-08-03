@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/authContext";
+import { useAuth } from "../context/temo";
 
 export default function Navbar() {
     const { isLoggedIn, logout } = useAuth();
