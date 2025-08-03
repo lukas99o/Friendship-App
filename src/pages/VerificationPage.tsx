@@ -7,7 +7,7 @@ export default function VerificationPage() {
     async function handleResendEmail() {
         if (!email) return;
 
-        const res = await fetch(`https://localhost:7106/api/auth/resend-email?email=${encodeURIComponent(email)}`, {
+        const res = await fetch(`https://friendship-c3cfdgejf5ateyc2.swedencentral-01.azurewebsites.net/api/auth/resend-email?email=${encodeURIComponent(email)}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" }
         });

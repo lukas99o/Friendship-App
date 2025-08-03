@@ -14,7 +14,7 @@ export default function VerifyEmail() {
             return;
         }
 
-        fetch(`https://localhost:7106/api/auth/confirm-email?userId=${userId}&token=${encodeURIComponent(token)}`, {
+        fetch(`https://friendship-c3cfdgejf5ateyc2.swedencentral-01.azurewebsites.net/api/auth/confirm-email?userId=${userId}&token=${encodeURIComponent(token)}`, {
             method: "POST"
         })
             .then(res => {
