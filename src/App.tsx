@@ -7,10 +7,12 @@ import CreateEvent from './pages/CreateEvent'
 import MoreInfo from './pages/MoreInfo';
 import VerificationPage from './pages/VerificationPage'
 import ConfirmEmail from './pages/ConfirmEmail'
+import StartPage from './pages/StartPage'
 // Components
 import ProtectedRoute from './components/ProtectedRoute'
 import Navbar from "./components/Navbar"
 import Slideshow from './components/Slideshow'
+import PublicRoute from './components/PublicRoute'
 
 import './App.css'
 import { useEffect } from 'react'
@@ -40,10 +42,31 @@ export default function App() {
       <Slideshow />
       <main style={{ paddingTop: "120px", paddingBottom: "40px" }}>
         <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/verificationPage" element={<VerificationPage />} />
-          <Route path="/confirm-email" element={<ConfirmEmail />} />
+          <Route path="/" element={
+            <PublicRoute>
+              <StartPage />
+            </PublicRoute>
+          } />
+          <Route path="/login" element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          } />
+          <Route path="/register" element={
+            <PublicRoute>
+              <Register />
+            </PublicRoute>
+          } />
+          <Route path="/verificationPage" element={
+            <PublicRoute>
+              <VerificationPage />
+            </PublicRoute>
+          } />
+          <Route path="/confirm-email" element={
+            <PublicRoute>
+              <ConfirmEmail />
+            </PublicRoute>
+          } />
           <Route path="/events" element={
             <ProtectedRoute>
               <Events />

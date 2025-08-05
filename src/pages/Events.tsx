@@ -84,7 +84,7 @@ export default function Events() {
 
     return (
         <div className="d-flex flex-column">
-            <div className="container d-flex flex-column p-3 rounded" style={{ backgroundColor: "#fafafa", opacity: 0.93, zIndex: 1 }}>
+            <div className="container d-flex flex-column p-3 rounded" style={{ backgroundColor: "#fafafa", opacity: 0.95, zIndex: 1 }}>
                 <div className="gap-2 max-w-full flex-column flex-md-row d-flex bg-d">   
                     <div className="flex-1">
                         <Dropdown 

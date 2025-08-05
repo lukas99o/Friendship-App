@@ -4,9 +4,6 @@ import { useAuth } from "../context/authContext";
 export default function Navbar() {
     const { isLoggedIn, logout } = useAuth();
     const navigate = useNavigate();
-
-    if (!isLoggedIn) return null;
-
     const logo = "/images/logo.png"; 
 
     return (
@@ -21,33 +18,76 @@ export default function Navbar() {
 
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0 navbar-ul">
-                        <li className="nav-item">
-                            <NavLink
-                                className={({ isActive }) =>
-                                    `nav-link ${isActive ? "active-link" : ""}`
-                                }
-                                to="/events"
-                            >
-                                Evenemang
-                            </NavLink>
-                        </li>
-                        <li className="nav-item">
-                            <NavLink
-                                className={({ isActive }) =>
-                                    `nav-link ${isActive ? "active-link" : ""}`
-                                }
-                                to="/create-event"
-                            >
-                                Skapa Evenemang
-                            </NavLink>
-                        </li>
+                        {isLoggedIn && (
+                            <>
+                                <li className="nav-item">
+                                    <NavLink
+                                        className={({ isActive }) =>
+                                            `nav-link ${isActive ? "active-link" : ""}`
+                                        }
+                                    to="/events"
+                                    >
+                                        Evenemang
+                                    </NavLink>
+                                </li>
+                                <li className="nav-item">
+                                    <NavLink
+                                        className={({ isActive }) =>
+                                            `nav-link ${isActive ? "active-link" : ""}`
+                                        }
+                                        to="/create-event"
+                                    >
+                                        Skapa Evenemang
+                                    </NavLink>
+                                </li>
+                            </>
+                        )}
+                        {!isLoggedIn && (
+                            <>
+                                <li className="nav-item">
+                                    <NavLink
+                                        className={({ isActive }) =>
+                                            `nav-link ${isActive ? "active-link" : ""}`
+                                        }
+                                        to="/"
+                                    >
+                                        Startsida
+                                    </NavLink>
+                                </li>
+                                <li className="nav-item">
+                                    <NavLink
+                                        className={({ isActive }) =>
+                                            `nav-link ${isActive ? "active-link" : ""}`
+                                        }
+                                        to="/login"
+                                    >
+                                        Logga in
+                                    </NavLink>
+                                </li>
+                                <li className="nav-item">
+                                    <NavLink
+                                        className={({ isActive }) =>
+                                            `nav-link ${isActive ? "active-link" : ""}`
+                                        }
+                                        to="/register"
+                                    >
+                                        Registrera
+                                    </NavLink>
+                                </li>
+                            </>
+                        )}
+
                     </ul>
-                    <button onClick={() => {
-                        logout();    
-                        navigate("/");
-                    }} className="navbar-logout-btn">
-                        Logga ut
-                    </button>
+                    {isLoggedIn && (
+                        <>
+                            <button onClick={() => {
+                                logout();
+                                navigate("/");
+                            }} className="navbar-logout-btn">
+                                Logga ut
+                            </button>
+                        </>
+                    )}
                 </div>
             </div>
         </nav>

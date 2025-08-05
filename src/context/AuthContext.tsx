@@ -13,7 +13,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const isAuthPage = ["/", "/register", "/verificationPage", "/confirm-email"].includes(location.pathname);
+  const isAuthPage = ["/", "/login", "/register", "/verificationPage", "/confirm-email"].includes(location.pathname);
 
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => {
     const token = localStorage.getItem("jwtToken");

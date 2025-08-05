@@ -26,12 +26,16 @@ export default function Slideshow() {
     }, []);
 
     return (
-        <div className="slideshow-container">
-            <img
-                src={imageList[currentIndex]}
-                alt={`Slideshow image ${currentIndex + 1}`}
-                className={`slideshow-image ${fade ? "fade-in" : "fade-out"}`}
-            />
-        </div>
+        <>
+            <div className="slideshow-container">
+                <img
+                    src={imageList[currentIndex]}
+                    alt={`Slideshow image ${currentIndex + 1}`}
+                    className={`slideshow-image ${fade ? "fade-in" : "fade-out"}`}
+                />
+            </div>
+
+            <div className="slideshow-overlay"></div>
+        </>
     )
 }
