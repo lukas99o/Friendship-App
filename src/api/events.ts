@@ -1,4 +1,10 @@
-export async function getEvents(filters: any) {
+import type { EventDto } from "../types";
+
+export async function getEvents(filters: {
+    ageMin: number | null;
+    ageMax: number | null;
+    interests: string[] | null;
+}): Promise<EventDto[]> {
     const res = await fetch("https://localhost:7106/api/event/publicevents", {
         method: "POST",
         headers: {
