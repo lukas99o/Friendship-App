@@ -16,10 +16,14 @@ export default function Events() {
     const [joinedEvents, setJoinedEvents] = useState<number[]>([]);
     const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
     const [showOnlyFriendsEvents, setShowOnlyFriendsEvents] = useState(false);
+    const [alphabeticalOrder, setAlphabeticalOrder] = useState(false);
+    const [dateOrder, setDateOrder] = useState(false);
 
     useEffect(() => {        
         getEvents({ ageMin: null, ageMax: null, interests: null }).then((res) => {
-            setEvents(res);
+            const sorted = res.sort((a, b) => a.title.localeCompare(b.title));
+            setEvents(sorted);
+            setAlphabeticalOrder(true);
             setLoading(false);
         });
 
@@ -46,7 +50,15 @@ export default function Events() {
             };
 
             getEvents(filters).then((res) => {
-                setEvents(res);
+                let result = res;
+
+                if (alphabeticalOrder) {
+                    result = res.sort((a, b) => a.title.localeCompare(b.title));
+                } else if (dateOrder) {
+                    result = res.sort((a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime());
+                }
+
+                setEvents(result);
                 setLoading(false);
             });
         }
@@ -124,6 +136,23 @@ export default function Events() {
                 )}
 
                 <div className="d-flex mt-3 justify-content-around align-items-center">
+                    <div className="form-group d-flex align-items-center">
+                        <label htmlFor="sortDropdown" className="me-2 mb-0" style={{ whiteSpace: "nowrap" }}>Sortera efter:</label>
+                        <select
+                            id="sortDropdown"
+                            className="form-control"
+                            value={alphabeticalOrder ? "alphabetical" : dateOrder ? "date" : ""}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                setAlphabeticalOrder(value === "alphabetical");
+                                setDateOrder(value === "date");
+                            }}
+                        >
+                            <option value="alphabetical">Alfabetiskt</option>
+                            <option value="date">Datum</option>
+                        </select>
+                    </div>
+
                     <div className="form-check">
                         <label className="form-check-label">Visa endast vänners evenemang</label>
                         <input
