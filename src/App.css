@@ -86,3 +86,21 @@ body {
   color: transparent; 
   letter-spacing: 1px;
 }
+
+.btn-grass {
+  background-color: #9adfa6ff;
+  color: white;
+  border: none;
+  width: 200px;
+  height: 40px;
+  border-radius: 6px;
+}
+
+.btn-grass:hover {
+  background-color: #8bcf97ff;
+
+}
+
+.btn-grass-active {
+  background-color: rgb(211, 157, 211);
+}

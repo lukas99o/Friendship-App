@@ -64,18 +64,6 @@ export default function Events() {
         }
     };
 
-    const formatDate = (dateStr: string) => {
-        const options: Intl.DateTimeFormatOptions = {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-            hour: "2-digit",
-            minute: "2-digit"
-        };
-        const date = new Date(dateStr);
-        return date.toLocaleDateString(undefined, options);
-    }
-
     const toggleJoinStatus = async (eventId: number) => {
         try {
             if (joinedEvents.includes(eventId)) {
@@ -179,7 +167,6 @@ export default function Events() {
                     event={e}
                     isJoined={joinedEvents.includes(e.eventId)}
                     onToggleJoin={toggleJoinStatus}
-                    formatDate={formatDate}
                 />
                 ))}
             </div>

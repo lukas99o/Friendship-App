@@ -20,3 +20,23 @@ export async function getEvents(filters: {
 
     return await res.json();
 }
+
+export async function getMyCreatedEvents(): Promise<EventDto[]> {
+    const res = await fetch("https://localhost:7106/api/event/my-created-events", {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
+        }
+    });
+    if (!res.ok) throw new Error("Failed to fetch created events");
+    return res.json();
+}
+
+export async function getMyJoinedEvents(): Promise<EventDto[]> {
+    const res = await fetch("https://localhost:7106/api/event/my-joined-events", {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
+        }
+    });
+    if (!res.ok) throw new Error("Failed to fetch joined events");
+    return res.json();
+}

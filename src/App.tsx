@@ -8,6 +8,7 @@ import MoreInfo from './pages/MoreInfo';
 import VerificationPage from './pages/VerificationPage'
 import ConfirmEmail from './pages/ConfirmEmail'
 import StartPage from './pages/StartPage'
+import MyEvents from './pages/MyEvents'
 // Components
 import ProtectedRoute from './components/ProtectedRoute'
 import Navbar from "./components/Navbar"
@@ -75,6 +76,11 @@ export default function App() {
           <Route path="/create-event" element={
             <ProtectedRoute>
               <CreateEvent />
+            </ProtectedRoute>
+          } />
+          <Route path="/my-events" element={
+            <ProtectedRoute>
+              <MyEvents />
             </ProtectedRoute>
           } />
           <Route path="/more-info/:eventId" element={
