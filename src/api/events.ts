@@ -40,3 +40,4 @@ export async function getMyJoinedEvents(): Promise<EventDto[]> {
     if (!res.ok) throw new Error("Failed to fetch joined events");
     return res.json();
 }
+

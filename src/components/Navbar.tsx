@@ -40,6 +40,16 @@ export default function Navbar() {
                                         Skapa Evenemang
                                     </NavLink>
                                 </li>
+                                <li className="nav-item">
+                                    <NavLink
+                                        className={({ isActive }) =>
+                                            `nav-link ${isActive ? "active-link" : ""}`
+                                        }
+                                        to="/my-events"
+                                    >
+                                        Mina Evenemang
+                                    </NavLink>
+                                </li>
                             </>
                         )}
                         {!isLoggedIn && (

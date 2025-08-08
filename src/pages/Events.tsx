@@ -19,19 +19,27 @@ export default function Events() {
     const [alphabeticalOrder, setAlphabeticalOrder] = useState(false);
     const [dateOrder, setDateOrder] = useState(false);
 
-    useEffect(() => {        
-        getEvents({ ageMin: null, ageMax: null, interests: null }).then((res) => {
-            const sorted = res.sort((a, b) => a.title.localeCompare(b.title));
-            setEvents(sorted);
-            setAlphabeticalOrder(true);
-            setLoading(false);
-        });
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const joined = await GetEventParticipantStatus();
+                setJoinedEvents(joined);
 
-        GetEventParticipantStatus().then((res) => {
-            console.log("Joined events:", res);
-            setJoinedEvents(res);
-        })
+                const allEvents = await getEvents({ ageMin: null, ageMax: null, interests: null });
+                const filteredEvents = allEvents.filter(e => !joined.includes(e.eventId));
+                const sorted = filteredEvents.sort((a, b) => a.title.localeCompare(b.title));
+
+                setEvents(sorted);
+                setAlphabeticalOrder(true);
+                setLoading(false);
+            } catch (error) {
+                console.error("Något gick fel:", error);
+            }
+        };
+
+        fetchData();
     }, []);
+
 
     const handleSearch = () => {
         setLoading(true);
@@ -50,15 +58,15 @@ export default function Events() {
             };
 
             getEvents(filters).then((res) => {
-                let result = res;
+                let filtered = res.filter(e => !joinedEvents.includes(e.eventId));
 
                 if (alphabeticalOrder) {
-                    result = res.sort((a, b) => a.title.localeCompare(b.title));
+                    filtered = filtered.sort((a, b) => a.title.localeCompare(b.title));
                 } else if (dateOrder) {
-                    result = res.sort((a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime());
+                    filtered = filtered.sort((a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime());
                 }
 
-                setEvents(result);
+                setEvents(filtered);
                 setLoading(false);
             });
         }
@@ -123,7 +131,7 @@ export default function Events() {
                     </div>
                 )}
 
-                <div className="d-flex mt-3 justify-content-around align-items-center">
+                <div className="d-flex mt-3 justify-content-around align-items-center flex-wrap gap-3">
                     <div className="form-group d-flex align-items-center">
                         <label htmlFor="sortDropdown" className="me-2 mb-0" style={{ whiteSpace: "nowrap" }}>Sortera efter:</label>
                         <select

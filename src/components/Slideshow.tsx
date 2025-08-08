@@ -2,12 +2,10 @@ import { useEffect, useState } from "react";
 
 const imageList = [
     "/images/slideshow1.jpg",
-    "/images/slideshow2.webp",
+    "/images/slideshow2.jpg",
     "/images/slideshow3.jpg",
     "/images/slideshow4.jpg",
-    "/images/slideshow5.jpg",
-    "/images/slideshow6.jpg",
-    "/images/slideshow7.jpg",
+    "/images/slideshow5.jpg"
 ]
 
 export default function Slideshow() {

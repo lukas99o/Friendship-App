@@ -15,6 +15,7 @@ export default function CreateEventPage() {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [interests, setInterests] = useState<string[]>([]);
     const [isPublic, setIsPublic] = useState(false);
+    const [img, setImg] = useState("");
     const navigate = useNavigate();
 
     React.useEffect(() => {
@@ -26,17 +27,6 @@ export default function CreateEventPage() {
         setError("");
         
         try {
-            console.log({
-    title,
-    startTime: new Date(startTime).toISOString(),
-    endTime: new Date(endTime).toISOString(),
-    location,
-    ageRangeMin: ageRangeMin === "" ? null : ageRangeMin,
-    ageRangeMax: ageRangeMax === "" ? null : ageRangeMax,
-    interests: selectedInterests,
-    isPublic,
-});
-
             await CreateEvent({
                 title,
                 startTime: new Date(startTime).toISOString(),
@@ -45,9 +35,10 @@ export default function CreateEventPage() {
                 ageRangeMin: ageRangeMin === "" ? null : ageRangeMin,
                 ageRangeMax: ageRangeMax === "" ? null : ageRangeMax,
                 interests: selectedInterests,
-                isPublic
+                isPublic,
+                img
             });
-            navigate("/events");
+            navigate("/my-events");
 
         } catch (err) {
             setError("Kunde inte skapa eventet.");
@@ -149,6 +140,19 @@ export default function CreateEventPage() {
                                         onChange={(e) => setAgeRangeMax(Number(e.target.value))}
                                     />
                                     <label htmlFor="ageMax">Åldersgräns Max</label>
+                                </div>
+                            </div>
+                            <div className="col md-6">
+                                <div className="form-floating">
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="img"
+                                        placeholder="Bild URL"
+                                        value={img}
+                                        onChange={(e) => setImg(e.target.value)}
+                                    />
+                                    <label htmlFor="img">Bild URL</label>
                                 </div>
                             </div>
                             <div>

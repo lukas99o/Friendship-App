@@ -38,9 +38,9 @@ export default function App() {
 
   return (
     <>
-      <nav>
+      <header>
         <Navbar />
-      </nav>
+      </header>
 
       <main style={{ paddingTop: "120px", paddingBottom: "40px" }}>
         <Slideshow />
