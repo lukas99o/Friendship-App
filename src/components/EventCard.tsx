@@ -1,16 +1,16 @@
 import type { EventDto } from "../types.ts";
 import { Link } from "react-router-dom";
+import { formatDate } from "../utils/date";
 
 interface EventCardProps {
   event: EventDto;
   isJoined: boolean;
   onToggleJoin: (eventId: number) => void;
-  formatDate: (dateStr: string) => string;
 }
 
-export default function EventCard({ event, isJoined, onToggleJoin, formatDate }: EventCardProps) {
+export default function EventCard({ event, isJoined, onToggleJoin }: EventCardProps) {
   return (
-    <div className="card shadow-sm border-0 overflow-hidden" style={{ width: "100%", maxWidth: "600px", height: "100%", borderRadius: "16px", opacity: 0.93 }}>
+    <div className="card shadow-sm border-0 overflow-hidden" style={{ width: "100%", maxWidth: "600px", height: "100%", borderRadius: "16px", opacity: 0.95 }}>
       {event.img && (
         <div style={{ height: "200px", overflow: "hidden" }}>
           <img

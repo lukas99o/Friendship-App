@@ -16,18 +16,30 @@ export default function Events() {
     const [joinedEvents, setJoinedEvents] = useState<number[]>([]);
     const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
     const [showOnlyFriendsEvents, setShowOnlyFriendsEvents] = useState(false);
+    const [alphabeticalOrder, setAlphabeticalOrder] = useState(false);
+    const [dateOrder, setDateOrder] = useState(false);
 
-    useEffect(() => {        
-        getEvents({ ageMin: null, ageMax: null, interests: null }).then((res) => {
-            setEvents(res);
-            setLoading(false);
-        });
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const joined = await GetEventParticipantStatus();
+                setJoinedEvents(joined);
 
-        GetEventParticipantStatus().then((res) => {
-            console.log("Joined events:", res);
-            setJoinedEvents(res);
-        })
+                const allEvents = await getEvents({ ageMin: null, ageMax: null, interests: null });
+                const filteredEvents = allEvents.filter(e => !joined.includes(e.eventId));
+                const sorted = filteredEvents.sort((a, b) => a.title.localeCompare(b.title));
+
+                setEvents(sorted);
+                setAlphabeticalOrder(true);
+                setLoading(false);
+            } catch (error) {
+                console.error("Något gick fel:", error);
+            }
+        };
+
+        fetchData();
     }, []);
+
 
     const handleSearch = () => {
         setLoading(true);
@@ -46,23 +58,19 @@ export default function Events() {
             };
 
             getEvents(filters).then((res) => {
-                setEvents(res);
+                let filtered = res.filter(e => !joinedEvents.includes(e.eventId));
+
+                if (alphabeticalOrder) {
+                    filtered = filtered.sort((a, b) => a.title.localeCompare(b.title));
+                } else if (dateOrder) {
+                    filtered = filtered.sort((a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime());
+                }
+
+                setEvents(filtered);
                 setLoading(false);
             });
         }
     };
-
-    const formatDate = (dateStr: string) => {
-        const options: Intl.DateTimeFormatOptions = {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-            hour: "2-digit",
-            minute: "2-digit"
-        };
-        const date = new Date(dateStr);
-        return date.toLocaleDateString(undefined, options);
-    }
 
     const toggleJoinStatus = async (eventId: number) => {
         try {
@@ -84,7 +92,7 @@ export default function Events() {
 
     return (
         <div className="d-flex flex-column">
-            <div className="container d-flex flex-column p-3 rounded" style={{ backgroundColor: "#fafafa", opacity: 0.93, zIndex: 1 }}>
+            <div className="container d-flex flex-column p-3 rounded" style={{ backgroundColor: "#fafafa", opacity: 0.95, zIndex: 1 }}>
                 <div className="gap-2 max-w-full flex-column flex-md-row d-flex bg-d">   
                     <div className="flex-1">
                         <Dropdown 
@@ -123,7 +131,24 @@ export default function Events() {
                     </div>
                 )}
 
-                <div className="d-flex mt-3 justify-content-around align-items-center">
+                <div className="d-flex mt-3 justify-content-around align-items-center flex-wrap gap-3">
+                    <div className="form-group d-flex align-items-center">
+                        <label htmlFor="sortDropdown" className="me-2 mb-0" style={{ whiteSpace: "nowrap" }}>Sortera efter:</label>
+                        <select
+                            id="sortDropdown"
+                            className="form-control"
+                            value={alphabeticalOrder ? "alphabetical" : dateOrder ? "date" : ""}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                setAlphabeticalOrder(value === "alphabetical");
+                                setDateOrder(value === "date");
+                            }}
+                        >
+                            <option value="alphabetical">Alfabetiskt</option>
+                            <option value="date">Datum</option>
+                        </select>
+                    </div>
+
                     <div className="form-check">
                         <label className="form-check-label">Visa endast vänners evenemang</label>
                         <input
@@ -150,7 +175,6 @@ export default function Events() {
                     event={e}
                     isJoined={joinedEvents.includes(e.eventId)}
                     onToggleJoin={toggleJoinStatus}
-                    formatDate={formatDate}
                 />
                 ))}
             </div>

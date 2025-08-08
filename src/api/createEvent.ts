@@ -14,6 +14,7 @@ export default async function CreateEvent(parameters: any) {
             isPublic: parameters.isPublic,
             ageRangeMax: parameters.ageRangeMax,
             ageRangeMin: parameters.ageRangeMin,
+            img: parameters.img
         })
     });
 
