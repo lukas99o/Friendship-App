@@ -10,5 +10,6 @@ export async function readEvent(eventId: number) {
   if (!response.ok) {
     throw new Error("Failed to fetch event");
   }
+  //hej
   return await response.json();
 }
