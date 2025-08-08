@@ -68,7 +68,7 @@ export default function Register() {
                     userName,
                     firstName,
                     lastName,
-                    dateOfBirth: new Date(dateOfBirth).toISOString()
+                    dateOfBirth: dateOfBirth
                 })
             });
 
