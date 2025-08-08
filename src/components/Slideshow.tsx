@@ -5,7 +5,7 @@ const imageList = [
     "/images/slideshow2.jpg",
     "/images/slideshow3.jpg",
     "/images/slideshow4.jpg",
-    "/images/slideshow5.jpg",
+    "/images/slideshow5.jpg"
 ]
 
 export default function Slideshow() {
