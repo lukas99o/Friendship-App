@@ -9,8 +9,8 @@ import { Link } from "react-router-dom";
 export default function MyEvents() {
     const [createdEvents, setCreatedEvents] = useState<EventDto[]>([]);
     const [joinedEvents, setJoinedEvents] = useState<EventDto[]>([]);
-    const [invitedEvents, setInvitedEvents] = useState<EventDto[]>([]);
-    const [loading, setLoading] = useState(true);
+    // const [invitedEvents, setInvitedEvents] = useState<EventDto[]>([]);
+    // const [loading, setLoading] = useState(true);
     const [activeView, setActiveView] = useState<"created" | "joined" | "invited" | "saved">("joined");
 
     useEffect(() => {
@@ -24,9 +24,7 @@ export default function MyEvents() {
                 setCreatedEvents(created);
             } catch (error) {
                 console.error("Fel vid hämtning av evenemang", error);
-            } finally {
-                setLoading(false);
-            }
+            } 
         }
 
         fetchEvents();
@@ -54,9 +52,9 @@ export default function MyEvents() {
         }
     };
 
-    const askQuestion = (eventId: number) => {
-        // Gör ingenting just nu
-    };
+    // const askQuestion = (eventId: number) => {
+    //     // Gör ingenting just nu
+    // };
 
     const renderEvents = (events: EventDto[]) => (
         events.map((event) => (
@@ -89,7 +87,7 @@ export default function MyEvents() {
                     <button
                         type="button"
                         className="btn btn-primary btn-sm"
-                        onClick={() => askQuestion(event.eventId)}
+                        // onClick={() => askQuestion(event.eventId)}
                     >
                         💬
                     </button>
@@ -130,12 +128,12 @@ export default function MyEvents() {
                     )
                 )}
                 {activeView === "invited" && (
-                    invitedEvents.length > 0 ? renderEvents(invitedEvents) : (
+                    // invitedEvents.length > 0 ? renderEvents(invitedEvents) : (
                         <div className="alert alert-info w-100 text-center">
                             Du har inga väntande inbjudningar.
                         </div>
                     )
-                )}
+                }
                 {activeView === "saved" && (
                     <div className="alert alert-info w-100 text-center">
                         Inga sparade evenemang.
