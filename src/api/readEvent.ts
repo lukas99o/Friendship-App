@@ -1,5 +1,5 @@
 export async function readEvent(eventId: number) {
-  const response = await fetch(`https://friendship-c3cfdgejf5ateyc2.swedencentral-01.azurewebsites.net/api/event/${eventId}`, {
+  const response = await fetch(`https://localhost:7106/api/event/${eventId}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

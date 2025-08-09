@@ -5,7 +5,7 @@ export async function getEvents(filters: {
     ageMax: number | null;
     interests: string[] | null;
 }): Promise<EventDto[]> {
-    const res = await fetch("https://friendship-c3cfdgejf5ateyc2.swedencentral-01.azurewebsites.net/api/event/publicevents", {
+    const res = await fetch("https://localhost:7106/api/event/publicevents", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -22,7 +22,7 @@ export async function getEvents(filters: {
 }
 
 export async function getMyCreatedEvents(): Promise<EventDto[]> {
-    const res = await fetch("https://friendship-c3cfdgejf5ateyc2.swedencentral-01.azurewebsites.net/api/event/my-created-events", {
+    const res = await fetch("https://localhost:7106/api/event/my-created-events", {
         headers: {
             Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
         }
@@ -32,7 +32,7 @@ export async function getMyCreatedEvents(): Promise<EventDto[]> {
 }
 
 export async function getMyJoinedEvents(): Promise<EventDto[]> {
-    const res = await fetch("https://friendship-c3cfdgejf5ateyc2.swedencentral-01.azurewebsites.net/api/event/my-joined-events", {
+    const res = await fetch("https://localhost:7106/api/event/my-joined-events", {
         headers: {
             Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
         }
