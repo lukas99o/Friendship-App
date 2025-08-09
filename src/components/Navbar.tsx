@@ -6,10 +6,19 @@ export default function Navbar() {
     const navigate = useNavigate();
     const logo = "/images/logo.png"; 
 
+    const closeNavbar = () => {
+        const navbarToggler = document.querySelector('.navbar-toggler') as HTMLButtonElement;
+        const navbarCollapse = document.querySelector('.navbar-collapse') as HTMLElement;
+        
+        if (navbarCollapse?.classList.contains('show')) {
+            navbarToggler?.click();
+        }
+    };
+
     return (
         <nav className="navbar navbar-expand-lg navbar-dark vw-100 fixed-top shadow">
             <div className="container">
-                <NavLink className="navbar-brand fs-3 fw-bold" to="/events">
+                <NavLink className="navbar-brand fs-3 fw-bold" to="/events" onClick={closeNavbar}>
                     <img src={logo} alt="Vänskap" style={{ maxHeight: "50px", mixBlendMode: "multiply" }} />
                 </NavLink>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -25,7 +34,8 @@ export default function Navbar() {
                                         className={({ isActive }) =>
                                             `nav-link ${isActive ? "active-link" : ""}`
                                         }
-                                    to="/events"
+                                        to="/events"
+                                        onClick={closeNavbar}
                                     >
                                         Evenemang
                                     </NavLink>
@@ -36,6 +46,7 @@ export default function Navbar() {
                                             `nav-link ${isActive ? "active-link" : ""}`
                                         }
                                         to="/create-event"
+                                        onClick={closeNavbar}
                                     >
                                         Skapa Evenemang
                                     </NavLink>
@@ -46,6 +57,7 @@ export default function Navbar() {
                                             `nav-link ${isActive ? "active-link" : ""}`
                                         }
                                         to="/my-events"
+                                        onClick={closeNavbar}
                                     >
                                         Mina Evenemang
                                     </NavLink>
@@ -60,6 +72,7 @@ export default function Navbar() {
                                             `nav-link ${isActive ? "active-link" : ""}`
                                         }
                                         to="/"
+                                        onClick={closeNavbar}
                                     >
                                         Startsida
                                     </NavLink>
@@ -70,6 +83,7 @@ export default function Navbar() {
                                             `nav-link ${isActive ? "active-link" : ""}`
                                         }
                                         to="/login"
+                                        onClick={closeNavbar}
                                     >
                                         Logga in
                                     </NavLink>
@@ -80,6 +94,7 @@ export default function Navbar() {
                                             `nav-link ${isActive ? "active-link" : ""}`
                                         }
                                         to="/register"
+                                        onClick={closeNavbar}
                                     >
                                         Registrera
                                     </NavLink>
@@ -93,6 +108,7 @@ export default function Navbar() {
                             <button onClick={() => {
                                 logout();
                                 navigate("/");
+                                closeNavbar();
                             }} className="navbar-logout-btn">
                                 Logga ut
                             </button>
