@@ -16,6 +16,7 @@ export default function CreateEventPage() {
     const [interests, setInterests] = useState<string[]>([]);
     const [isPublic, setIsPublic] = useState(false);
     const [img, setImg] = useState("");
+    const [description, setDescription] = useState("");
     const navigate = useNavigate();
 
     React.useEffect(() => {
@@ -54,10 +55,10 @@ export default function CreateEventPage() {
     }
 
     return (
-        <div className="d-flex justify-content-center align-items-center">
+        <div className="d-flex justify-content-center align-items-center container">
             <div className="card shadow-sm w-100" style={{ maxWidth: "600px" }}>
                 <div className="card-body p-4 p-md-5">
-                    <h2 className="mb-4 text-center fw-bold">Skapa Event</h2>
+                    <h2 className="mb-4 text-center fw-bold">Skapa Evenemang</h2>
                     <form onSubmit={handleSubmit} className="d-flex flex-column gap-4">
 
                         <div className="form-floating">
@@ -113,6 +114,19 @@ export default function CreateEventPage() {
                                 required
                             />
                             <label htmlFor="location">Plats</label>
+                        </div>
+
+                        <div className="form-floating">
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="description"
+                                placeholder="Beskrivning"
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                                required
+                            />
+                            <label htmlFor="description">Beskrivning</label>
                         </div>
 
                         <div className="row g-3">

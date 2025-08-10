@@ -1,10 +1,12 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authContext";
+import { useEffect, useRef } from "react";
 
 export default function Navbar() {
     const { isLoggedIn, logout } = useAuth();
     const navigate = useNavigate();
-    const logo = "/images/logo.png"; 
+    const logo = "/images/logo.png";
+    const navbarRef = useRef<HTMLElement>(null);
 
     const closeNavbar = () => {
         const navbarToggler = document.querySelector('.navbar-toggler') as HTMLButtonElement;
@@ -15,8 +17,22 @@ export default function Navbar() {
         }
     };
 
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (navbarRef.current && !navbarRef.current.contains(event.target as Node)) {
+                closeNavbar();
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
     return (
-        <nav className="navbar navbar-expand-lg navbar-dark vw-100 fixed-top shadow">
+        <nav ref={navbarRef} className="navbar navbar-expand-lg navbar-dark vw-100 fixed-top shadow">
             <div className="container">
                 <NavLink className="navbar-brand fs-3 fw-bold" to="/events" onClick={closeNavbar}>
                     <img src={logo} alt="Vänskap" style={{ maxHeight: "50px", mixBlendMode: "multiply" }} />
