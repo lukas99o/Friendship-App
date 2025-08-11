@@ -61,10 +61,10 @@ export default function Navbar() {
                                         className={({ isActive }) =>
                                             `nav-link ${isActive ? "active-link" : ""}`
                                         }
-                                        to="/create-event"
+                                        to="/my-events"
                                         onClick={closeNavbar}
                                     >
-                                        Skapa Evenemang
+                                        Mina Evenemang
                                     </NavLink>
                                 </li>
                                 <li className="nav-item">
@@ -72,10 +72,10 @@ export default function Navbar() {
                                         className={({ isActive }) =>
                                             `nav-link ${isActive ? "active-link" : ""}`
                                         }
-                                        to="/my-events"
+                                        to="/friends"
                                         onClick={closeNavbar}
                                     >
-                                        Mina Evenemang
+                                        Vänner
                                     </NavLink>
                                 </li>
                             </>

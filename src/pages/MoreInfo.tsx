@@ -28,7 +28,7 @@ export default function MoreInfo() {
   if (!event) return <div className="text-center shadow rounded pt-4 pb-1 mx-auto" style={{ backgroundColor: "rgba(255, 255, 255, 0.93)", maxWidth: "300px" }}><p>Eventet hittades inte.</p></div>;
 
   return (
-    <div className="container" style={{ maxWidth: "1200px", opacity: 0.93 }}>
+    <div className="container" style={{ maxWidth: "1200px" }}>
         
         <button onClick={() => navigate(-1)} className="btn btn-warning text-decoration-none mb-3">
           ← Tillbaka
@@ -87,6 +87,43 @@ export default function MoreInfo() {
               <p>{event.description}</p>
             </div>
           )}
+
+          <div className="mt-5">
+            <h5 className="mb-3">💬 Meddelanden</h5>
+            
+            <div 
+              className="border rounded-3 p-3 mb-3 bg-white shadow-sm position-relative" 
+              style={{ 
+                height: "300px", 
+                overflowY: "auto",
+                background: "linear-gradient(145deg, #f8f9fa, #e9ecef)"
+              }}
+            >
+              <div className="text-center text-muted h-100 d-flex align-items-center justify-content-center">
+                <div>
+                  <i className="bi bi-chat-dots-fill fs-1 opacity-50 mb-3"></i>
+                  <p className="mb-0">Inga meddelanden än...</p>
+                  <small>Var första att starta konversationen!</small>
+                </div>
+              </div>
+            </div>
+
+            <div className="input-group shadow-sm">
+              <span className="input-group-text bg-warning border-warning">
+                <i className="bi bi-chat-fill text-white"></i>
+              </span>
+              <input 
+                type="text" 
+                className="form-control border-warning" 
+                placeholder="Skriv ett meddelande..." 
+                style={{ borderLeft: "none" }}
+              />
+              <button className="btn btn-warning px-4 fw-bold">
+                <i className="bi bi-send-fill me-1"></i>
+                Skicka
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

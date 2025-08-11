@@ -105,6 +105,11 @@ export default function MyEvents() {
 
     return (
         <div className="container">
+            <div>
+                <Link to={"/create-event"} className="btn btn-orange w-100 mb-3 create-btn">
+                    Skapa Evenemang
+                </Link>
+            </div>
             <div className="d-flex justify-content-around p-4 gap-4 bg-light shadow-sm flex-wrap" style={{ borderRadius: "1rem" }}>
                 <button className={`btn-orange ${activeView === "joined" ? 'btn-orange-active' : ''}`} style={{ borderRadius: "1rem"}} onClick={() => setActiveView("joined")}>Deltar</button>
                 <button className={`btn-orange ${activeView === "created" ? 'btn-orange-active' : ''}`} style={{ borderRadius: "1rem"}} onClick={() => setActiveView("created")}>Skapat</button>

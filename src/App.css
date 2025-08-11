@@ -108,6 +108,10 @@
   background-color: #ffbd59;        
 }
 
+.create-btn:hover {
+  color: white;
+}
+
 @media screen and (max-width: 768px) {
   .fancy-title {
     font-size: 3rem; 

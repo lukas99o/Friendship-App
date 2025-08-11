@@ -1,4 +1,4 @@
-interface EventParticipantDto {
+export interface EventParticipantDto {
   userName: string;
   role: string; 
 }
