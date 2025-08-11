@@ -15,4 +15,11 @@ export interface EventDto {
   img: string;
   eventParticipants?: EventParticipantDto[];
   description?: string;
+  messages?: EventMessageDto[];
+}
+
+export interface EventMessageDto {
+  createdAt: number;
+  content: string;
+  senderId: string;
 }

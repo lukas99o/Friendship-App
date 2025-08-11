@@ -2,12 +2,15 @@ import { useParams } from "react-router-dom";
 import { readEvent } from "../api/readEvent";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import type { EventDto } from "../types.ts";
+import { eventSendMessage } from "../api/eventSendMessage";
+import type { EventDto, EventMessageDto } from "../types.ts";
+import * as signalR from "@microsoft/signalr";
 
 export default function MoreInfo() {
   const { eventId } = useParams();
   const [event, setEvent] = useState<EventDto | null>(null);
   const [loading, setLoading] = useState(true);
+  const [messages, setMessages] = useState<EventMessageDto[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,6 +26,35 @@ export default function MoreInfo() {
         });
     }
   }, [eventId]);
+
+  useEffect(() => {
+    if (!eventId) return;
+
+    const connection = new signalR.HubConnectionBuilder()
+      .withUrl(`https://din-api-url/messageHub?eventId=${eventId}`)
+      .withAutomaticReconnect()
+      .build();
+
+    connection.start().then(() => {
+      console.log("SignalR connected");
+
+      connection.on("ReceiveMessage", (message) => {
+        setMessages(prev => [...prev, message]);
+      });
+    });
+
+    return () => {
+      connection.stop();
+    };
+  }, [eventId]);
+
+  const sendMessage = async () => {
+  if (connection && messageText.trim()) {
+    await connection.invoke("SendMessage", Number(eventId), "MittNamn", messageText);
+    setMessageText("");
+  }
+};
+
 
   if (loading) return <div className="text-center shadow rounded pt-4 pb-1 mx-auto" style={{ backgroundColor: "rgba(255, 255, 255, 0.93)", maxWidth: "300px" }}><p>Laddar...</p></div>;
   if (!event) return <div className="text-center shadow rounded pt-4 pb-1 mx-auto" style={{ backgroundColor: "rgba(255, 255, 255, 0.93)", maxWidth: "300px" }}><p>Eventet hittades inte.</p></div>;
@@ -101,9 +133,20 @@ export default function MoreInfo() {
             >
               <div className="text-center text-muted h-100 d-flex align-items-center justify-content-center">
                 <div>
-                  <i className="bi bi-chat-dots-fill fs-1 opacity-50 mb-3"></i>
-                  <p className="mb-0">Inga meddelanden än...</p>
-                  <small>Var första att starta konversationen!</small>
+                  {messages.length > 0 ? (
+                    messages.map((msg, index) => (
+                      <div key={index} className="mb-2">
+                        <strong>{msg.senderId}</strong> <small className="text-muted">{new Date(msg.createdAt).toLocaleString()}</small>
+                        <p className="mb-0">{msg.content}</p>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="text-center">
+                      <i className="bi bi-chat-dots-fill fs-1 opacity-50 mb-3"></i>
+                      <p className="mb-0">Inga meddelanden än...</p>
+                      <small>Var första att starta konversationen!</small>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
