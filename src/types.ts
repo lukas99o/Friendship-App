@@ -23,3 +23,13 @@ export interface EventMessageDto {
   content: string;
   senderId: string;
 }
+
+export interface MessageDto {
+  user: string;
+  text: string;
+}
+
+export interface UserDto {
+  eventId: number;
+  username: string;
+}

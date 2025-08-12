@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { readEvent } from "../api/readEvent";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { eventSendMessage } from "../api/eventSendMessage";
 import type { EventDto, EventMessageDto } from "../types.ts";
@@ -11,7 +11,10 @@ export default function MoreInfo() {
   const [event, setEvent] = useState<EventDto | null>(null);
   const [loading, setLoading] = useState(true);
   const [messages, setMessages] = useState<EventMessageDto[]>([]);
+  const [messageText, setMessageText] = useState("");
   const navigate = useNavigate();
+
+  const connectionRef = useRef<signalR.HubConnection | null>(null);
 
   useEffect(() => {
     if (eventId) {
@@ -41,7 +44,10 @@ export default function MoreInfo() {
       connection.on("ReceiveMessage", (message) => {
         setMessages(prev => [...prev, message]);
       });
-    });
+    })
+    .catch(err => console.error("SignalR connection error:", err));
+
+    connectionRef.current = connection;
 
     return () => {
       connection.stop();
@@ -49,12 +55,15 @@ export default function MoreInfo() {
   }, [eventId]);
 
   const sendMessage = async () => {
-  if (connection && messageText.trim()) {
-    await connection.invoke("SendMessage", Number(eventId), "MittNamn", messageText);
-    setMessageText("");
-  }
-};
-
+    if (connectionRef.current && messageText.trim()) {
+      try {
+        await connectionRef.current.invoke("SendMessage", Number(eventId), "MittNamn", messageText);
+        setMessageText("");
+      } catch (error) {
+        console.error("Failed to send message:", error);
+      }
+    }
+  };
 
   if (loading) return <div className="text-center shadow rounded pt-4 pb-1 mx-auto" style={{ backgroundColor: "rgba(255, 255, 255, 0.93)", maxWidth: "300px" }}><p>Laddar...</p></div>;
   if (!event) return <div className="text-center shadow rounded pt-4 pb-1 mx-auto" style={{ backgroundColor: "rgba(255, 255, 255, 0.93)", maxWidth: "300px" }}><p>Eventet hittades inte.</p></div>;
@@ -161,7 +170,7 @@ export default function MoreInfo() {
                 placeholder="Skriv ett meddelande..." 
                 style={{ borderLeft: "none" }}
               />
-              <button className="btn btn-warning px-4 fw-bold">
+              <button className="btn btn-warning px-4 fw-bold" onClick={sendMessage}>
                 <i className="bi bi-send-fill me-1"></i>
                 Skicka
               </button>
