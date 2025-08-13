@@ -1,75 +1,96 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as signalR from "@microsoft/signalr";
-import type { MessageDto, UserDto } from "../types.ts";
 
-const EventChat: React.FC<UserDto> = ({ eventId, username }) => {
-  const [connection, setConnection] = useState<signalR.HubConnection | null>(null);
-  const [messages, setMessages] = useState<MessageDto[]>([]);
-  const [input, setInput] = useState("");
+interface EventMessageDto {
+  id: number;
+  senderId: string;
+  content: string;
+  createdAt: string;
+}
+
+interface Props {
+  conversationId: number;
+  senderId: string;
+}
+
+export default function EventChat({ conversationId, senderId }: Props) {
+  const [messages, setMessages] = useState<EventMessageDto[]>([]);
+  const [messageText, setMessageText] = useState("");
+  const connectionRef = useRef<signalR.HubConnection | null>(null);
 
   useEffect(() => {
-    const newConnection = new signalR.HubConnectionBuilder()
-      .withUrl("https://localhost:7106/messagehub") 
+    if (!conversationId) return;
+
+    const connection = new signalR.HubConnectionBuilder()
+      .withUrl("https://localhost:7106/messageHub") 
       .withAutomaticReconnect()
       .build();
 
-    newConnection.start()
-      .then(() => {
-        console.log("SignalR Connected.");
-        newConnection.invoke("JoinEventGroup", eventId);
-      })
-      .catch(err => console.error("SignalR Connection Error: ", err));
-
-    newConnection.on("ReceiveMessage", (user, message) => {
-      setMessages(prev => [...prev, { user, text: message }]);
+    connection.start().then(() => {
+      connection.invoke("JoinConversation", conversationId);
     });
 
-    newConnection.on("SystemMessage", (message) => {
-      setMessages(prev => [...prev, { user: "System", text: message }]);
+    connection.on("ReceiveMessage", (message: EventMessageDto) => {
+      setMessages(prev => [...prev, message]);
     });
 
-    setConnection(newConnection);
+    connectionRef.current = connection;
 
     return () => {
-      if (newConnection.state === signalR.HubConnectionState.Connected) {
-        newConnection.invoke("LeaveEventGroup", eventId);
-        newConnection.stop();
-      }
+      connection.invoke("LeaveConversation", conversationId).finally(() => {
+        connection.stop();
+      });
     };
-  }, [eventId]);
+  }, [conversationId]);
 
   const sendMessage = async () => {
-    if (connection && input.trim()) {
-      await connection.invoke("SendMessageToEvent", eventId, username, input);
-      setInput("");
+    if (connectionRef.current && messageText.trim()) {
+      await connectionRef.current.invoke("SendMessage", conversationId, senderId, messageText);
+      setMessageText("");
     }
   };
 
   return (
-    <div className="p-4 border rounded max-w-md">
-      <div className="h-64 overflow-y-auto border mb-2 p-2 bg-gray-50">
-        {messages.map((m, i) => (
-          <div key={i} className={m.user === "System" ? "text-gray-500 text-sm" : ""}>
-            <strong>{m.user}:</strong> {m.text}
+    <div>
+      <div 
+        className="border rounded-3 p-3 mb-3 bg-white shadow-sm position-relative"
+        style={{ height: "300px", overflowY: "auto", background: "linear-gradient(145deg, #f8f9fa, #e9ecef)" }}
+      >
+        {messages.length > 0 ? (
+          messages.map(msg => (
+            <div key={msg.id} className="mb-2">
+              <strong>{msg.senderId}</strong> <small className="text-muted">{new Date(msg.createdAt).toLocaleString()}</small>
+              <p className="mb-0">{msg.content}</p>
+            </div>
+          ))
+        ) : (
+          <div className="text-center text-muted h-100 d-flex align-items-center justify-content-center flex-column">
+            <i className="bi bi-chat-dots-fill fs-1 opacity-50 mb-3"></i>
+            <p className="mb-0">Inga meddelanden än...</p>
+            <small>Var första att starta konversationen!</small>
           </div>
-        ))}
+        )}
       </div>
-      <div className="flex gap-2">
+
+      <div className="input-group shadow-sm">
+        <span className="input-group-text bg-warning border-warning">
+          <i className="bi bi-chat-fill text-white"></i>
+        </span>
         <input
           type="text"
-          className="border p-1 flex-1"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
+          className="form-control border-warning"
+          placeholder="Skriv ett meddelande..."
+          style={{ borderLeft: "none" }}
+          value={messageText}
+          onChange={(e) => setMessageText(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") sendMessage();
+          }}
         />
-        <button
-          onClick={sendMessage}
-          className="bg-blue-500 text-white px-3 py-1 rounded"
-        >
-          Skicka
+        <button className="btn btn-warning px-4 fw-bold" onClick={sendMessage}>
+          <i className="bi bi-send-fill me-1"></i> Skicka
         </button>
       </div>
     </div>
   );
-};
-
-export default EventChat;
+}
