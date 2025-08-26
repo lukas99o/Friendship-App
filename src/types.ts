@@ -16,6 +16,7 @@ export interface EventDto {
   eventParticipants?: EventParticipantDto[];
   description?: string;
   messages?: EventMessageDto[];
+  conversationId: number;
 }
 
 export interface EventMessageDto {

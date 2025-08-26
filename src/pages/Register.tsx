@@ -184,7 +184,7 @@ export default function Register() {
 
                 <div className="text-center mt-3">
                     <span>Har du redan ett konto? </span>
-                    <Link to="/">Logga in</Link>
+                    <Link to="/login">Logga in</Link>
                 </div>
             </form>
         </div>

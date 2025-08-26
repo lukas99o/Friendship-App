@@ -2,7 +2,7 @@ export default function StartPage() {
     return (
         <div
             className="d-flex flex-column align-items-center px-3"
-            style={{ opacity: 0.95, minHeight: "85vh", fontFamily: "'Nunito', sans-serif" }}
+            style={{ minHeight: "85vh", fontFamily: "'Nunito', sans-serif" }}
         >
             <h1 className="fancy-title mb-4 text-center">Välkommen till Vänskap!</h1>
 

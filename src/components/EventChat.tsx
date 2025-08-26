@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as signalR from "@microsoft/signalr";
 
 interface EventMessageDto {
@@ -17,31 +17,40 @@ export default function EventChat({ conversationId, senderId }: Props) {
   const [messages, setMessages] = useState<EventMessageDto[]>([]);
   const [messageText, setMessageText] = useState("");
   const connectionRef = useRef<signalR.HubConnection | null>(null);
+  const bottomRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (!conversationId) return;
+    if (!conversationId) {
+      console.error("No conversation ID provided");
+      return;
+    }
 
     const connection = new signalR.HubConnectionBuilder()
       .withUrl("https://localhost:7106/messageHub") 
       .withAutomaticReconnect()
       .build();
 
-    connection.start().then(() => {
-      connection.invoke("JoinConversation", conversationId);
-    });
+    connection.start()
+      .then(() => connection.invoke("JoinConversation", conversationId))
+      .catch(err => console.error("SignalR connection failed: ", err));
 
     connection.on("ReceiveMessage", (message: EventMessageDto) => {
       setMessages(prev => [...prev, message]);
     });
 
     connectionRef.current = connection;
-
     return () => {
-      connection.invoke("LeaveConversation", conversationId).finally(() => {
-        connection.stop();
-      });
+      if (connectionRef.current) {
+        connectionRef.current.invoke("LeaveConversation", conversationId)
+          .catch(() => {})
+          .finally(() => connectionRef.current?.stop());
+      }
     };
   }, [conversationId]);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   const sendMessage = async () => {
     if (connectionRef.current && messageText.trim()) {
@@ -83,9 +92,7 @@ export default function EventChat({ conversationId, senderId }: Props) {
           style={{ borderLeft: "none" }}
           value={messageText}
           onChange={(e) => setMessageText(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") sendMessage();
-          }}
+          onKeyDown={(e) => e.key === "Enter" && sendMessage()}
         />
         <button className="btn btn-warning px-4 fw-bold" onClick={sendMessage}>
           <i className="bi bi-send-fill me-1"></i> Skicka
