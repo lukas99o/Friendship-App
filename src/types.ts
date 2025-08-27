@@ -5,6 +5,7 @@ export interface EventParticipantDto {
 
 export interface EventDto {
   eventId: number;
+  userId: string;
   title: string;
   startTime: string;
   endTime: string;
@@ -15,7 +16,7 @@ export interface EventDto {
   img: string;
   eventParticipants?: EventParticipantDto[];
   description?: string;
-  messages?: EventMessageDto[];
+  eventMessages?: EventMessageDto[];
   conversationId: number;
 }
 

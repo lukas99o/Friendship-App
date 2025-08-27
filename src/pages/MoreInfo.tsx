@@ -12,8 +12,6 @@ export default function MoreInfo() {
   const navigate = useNavigate();
   const userId = localStorage.getItem("userId") || "";
 
-  console.log(event?.conversationId)
-
   useEffect(() => {
     if (eventId) {
       readEvent(Number(eventId))
@@ -98,7 +96,7 @@ export default function MoreInfo() {
             <EventChat 
               conversationId={event.conversationId} 
               senderId={userId}
-              messageList={event.messages}
+              messageList={event.eventMessages}
             />
           )}
           </div>
