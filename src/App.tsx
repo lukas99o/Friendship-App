@@ -9,6 +9,7 @@ import VerificationPage from './pages/VerificationPage'
 import ConfirmEmail from './pages/ConfirmEmail'
 import StartPage from './pages/StartPage'
 import MyEvents from './pages/MyEvents'
+import Friends from './pages/Friends'
 // Components
 import ProtectedRoute from './components/ProtectedRoute'
 import Navbar from "./components/Navbar"
@@ -88,6 +89,11 @@ export default function App() {
           <Route path="/more-info/:eventId" element={
             <ProtectedRoute>
               <MoreInfo />
+            </ProtectedRoute>
+          } />
+          <Route path="/friends" element={
+            <ProtectedRoute>
+              <Friends />
             </ProtectedRoute>
           } />
           <Route path="*" element={<div>404 Not Found</div>} />

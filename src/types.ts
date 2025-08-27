@@ -27,3 +27,9 @@ export interface EventMessageDto {
   senderId: string;
   senderName: string;
 }
+
+export interface FriendDto {
+  userName: string;
+  name: string;
+  age: number;
+}
