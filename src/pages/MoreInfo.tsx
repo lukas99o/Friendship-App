@@ -10,7 +10,7 @@ export default function MoreInfo() {
   const [event, setEvent] = useState<EventDto | null>(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const username = localStorage.getItem("username") || "";
+  const userId = localStorage.getItem("userId") || "";
 
   console.log(event?.conversationId)
 
@@ -97,7 +97,7 @@ export default function MoreInfo() {
           {event && (
             <EventChat 
               conversationId={event.conversationId} 
-              senderId={username}
+              senderId={userId}
             />
           )}
           </div>

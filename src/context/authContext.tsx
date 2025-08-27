@@ -3,9 +3,10 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 interface AuthContextType {
   isLoggedIn: boolean;
-  login: (token: string, username: string, expiresInMs?: number) => void;
+  login: (token: string, username: string, userId: string, expiresInMs?: number) => void;
   logout: () => void;
   username?: string;
+  userId?: string;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -26,21 +27,29 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return localStorage.getItem("username") || undefined;
   });
 
-  const login = (token: string, username: string, expiresInMs = 1000 * 60 * 60 * 2) => {
+  const [userId, setUserId] = useState<string | undefined>(() => {
+    return localStorage.getItem("userId") || undefined;
+  });
+
+  const login = (token: string, username: string, userId: string, expiresInMs = 1000 * 60 * 60 * 2) => {
     const expiresAt = new Date().getTime() + expiresInMs;
     localStorage.setItem("jwtToken", token);
     localStorage.setItem("jwtExpiresAt", expiresAt.toString());
     localStorage.setItem("username", username);
+    localStorage.setItem("userId", userId); 
     setIsLoggedIn(true);
     setUsername(username);
+    setUserId(userId);
   };
 
   const logout = () => {
     localStorage.removeItem("jwtToken");
     localStorage.removeItem("jwtExpiresAt");
     localStorage.removeItem("username");
+    localStorage.removeItem("userId");
     setIsLoggedIn(false);
     setUsername(undefined);
+    setUserId(undefined);
     navigate("/");
   };
 
@@ -65,7 +74,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, [isAuthPage]);
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, username, login, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, username, userId, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

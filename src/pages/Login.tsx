@@ -32,7 +32,7 @@ export default function Login() {
             }
 
             const data = await res.json();
-            login(data.token, data.username);
+            login(data.token, data.username, data.userId);
             navigate("/events");
         } catch {
             setError("Något gick fel.");
