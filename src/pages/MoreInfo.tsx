@@ -98,6 +98,7 @@ export default function MoreInfo() {
             <EventChat 
               conversationId={event.conversationId} 
               senderId={userId}
+              messageList={event.messages}
             />
           )}
           </div>

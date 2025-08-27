@@ -20,7 +20,9 @@ export interface EventDto {
 }
 
 export interface EventMessageDto {
-  createdAt: number;
+  messageId: number;
+  createdAt: string;
   content: string;
   senderId: string;
+  senderName: string;
 }

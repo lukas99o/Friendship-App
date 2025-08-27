@@ -1,20 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import * as signalR from "@microsoft/signalr";
-
-interface EventMessageDto {
-  id: number;
-  senderId: string;
-  content: string;
-  createdAt: string;
-}
+import type { EventMessageDto } from "../types";
 
 interface Props {
   conversationId: number;
   senderId: string;
+  messageList?: EventMessageDto[];
 }
 
-export default function EventChat({ conversationId, senderId }: Props) {
-  const [messages, setMessages] = useState<EventMessageDto[]>([]);
+export default function EventChat({ conversationId, senderId, messageList }: Props) {
+  const [messages, setMessages] = useState<EventMessageDto[]>(messageList || []);
   const [messageText, setMessageText] = useState("");
   const connectionRef = useRef<signalR.HubConnection | null>(null);
   const bottomRef = useRef<HTMLDivElement | null>(null);
@@ -67,8 +62,8 @@ export default function EventChat({ conversationId, senderId }: Props) {
       >
         {messages.length > 0 ? (
           messages.map(msg => (
-            <div key={msg.id} className="mb-2">
-              <strong>{msg.senderId}</strong> <small className="text-muted">{new Date(msg.createdAt).toLocaleString()}</small>
+            <div key={msg.messageId} className="mb-2">
+              <strong>{msg.senderName}</strong> <small className="text-muted">{new Date(msg.createdAt).toLocaleString()}</small>
               <p className="mb-0">{msg.content}</p>
             </div>
           ))
