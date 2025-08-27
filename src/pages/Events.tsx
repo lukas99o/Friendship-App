@@ -93,8 +93,8 @@ export default function Events() {
     return (
         <div className="d-flex flex-column">
             <div className="container d-flex flex-column p-3 rounded" style={{ backgroundColor: "#fafafa", opacity: 0.95, zIndex: 1 }}>
-                <div className="gap-2 max-w-full flex-column flex-md-row d-flex bg-d">   
-                    <div className="flex-1">
+                <div className="gap-2 flex-column flex-md-row d-flex justify-content-between align-items-center">   
+                    <div>
                         <Dropdown 
                             selectedInterests={selectedInterests}
                             onChange={setSelectedInterests}
@@ -104,7 +104,7 @@ export default function Events() {
                     type="number"
                     placeholder="Minsta ålder"
                     value={ageMin}
-                    className="form-control flex-1 w-25-md w-sm-50"
+                    className="form-control"
                     onChange={(e) => setAgeMin(e.target.value === "" ? "" : Number(e.target.value))}
                     min={0}
                     />
@@ -112,7 +112,7 @@ export default function Events() {
                     type="number"
                     placeholder="Största ålder"
                     value={ageMax}
-                    className="form-control flex-1 w-25-md w-sm-50"
+                    className="form-control"
                     onChange={(e) => setAgeMax(e.target.value === "" ? "" : Number(e.target.value))}
                     min={0}
                     />
@@ -143,6 +143,7 @@ export default function Events() {
                                 setAlphabeticalOrder(value === "alphabetical");
                                 setDateOrder(value === "date");
                             }}
+                            style={ { cursor: "pointer" } }
                         >
                             <option value="alphabetical">Alfabetiskt</option>
                             <option value="date">Datum</option>
@@ -155,6 +156,7 @@ export default function Events() {
                             type="checkbox"
                             className="form-check-input"
                             onChange={(e) => setShowOnlyFriendsEvents(e.target.checked)}
+                            style={{ cursor: "pointer", border: "1px solid #777" }}
                         />
                     </div>
                     
