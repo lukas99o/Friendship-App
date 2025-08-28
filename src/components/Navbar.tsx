@@ -32,10 +32,10 @@ export default function Navbar() {
     }, []);
 
     return (
-        <nav ref={navbarRef} className="rounded navbar navbar-expand-lg navbar-dark vw-100 fixed-top shadow">
+        <nav ref={navbarRef} className="rounded navbar navbar-expand-lg navbar-dark fixed-top shadow">
             <div className="container">
                 <NavLink className="navbar-brand fs-3 fw-bold" to="/events" onClick={closeNavbar}>
-                    <img src={logo} alt="Vänskap" style={{ maxHeight: "50px", mixBlendMode: "multiply" }} />
+                <img src={logo} alt="Vänskap" style={{ maxHeight: "50px", mixBlendMode: "multiply" }} />
                 </NavLink>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span className="navbar-toggler-icon"></span>

@@ -13,11 +13,12 @@ export default function Friends() {
     const [username, setUsername] = useState<string>("")
 
     const sendFriendRequest = async (username: string) => {
-        try {
-            await SendFriendRequest(username)
-            setFriendRequestMessage("Vänförfrågan skickad!")
-        } catch (error) {
-            setFriendRequestMessage("Misslyckades med att skicka vänförfrågan.")
+        const success = await SendFriendRequest(username)
+
+        if (success) {
+            setFriendRequestMessage("Vänförfrågning skickad!")
+        } else {
+            setFriendRequestMessage("Misslyckades med att skicka vänförfrågning.")
         }
     }
 
@@ -39,8 +40,8 @@ export default function Friends() {
     }, [])
 
     return (
-        <div className="container bg-white rounded shadow p-4 d-flex gap-4 flex-sm-column flex-md-row">
-            <div className="border p-4 shadow-sm rounded order-sm-2 order-md-1" style={{ flex: 1, height: "fit-content" }}>
+        <div className="container bg-white rounded shadow p-4 d-flex gap-4 flex-column flex-lg-row">
+            <div className="border p-4 shadow-sm rounded order-sm-2 order-md-2 order-lg-1" style={{ flex: 1, height: "fit-content" }}>
                 <h1 className="text-center mb-2">Vänlista</h1>
                 {loadingFriends ? (
                     <p>Laddar vänner...</p>
@@ -58,9 +59,9 @@ export default function Friends() {
                     </div>
                 )}
             </div>
-            <div className="border p-4 shadow-sm rounded order-sm-1 order-md-2" style={{ flex: 1, height: "fit-content" }}>
-                <div className="border rounded p-2 mb-4 justify-content-around d-flex row">
-                    <div className="d-flex gap-2 align-items-center">
+            <div className="border p-4 shadow-sm rounded order-sm-1 order-md-1 order-lg-2" style={{ flex: 1, height: "fit-content" }}>
+                <div className="border rounded p-2 mb-4">
+                    <div className="d-flex gap-2 align-items-center justify-content-between">
                         <p className="mb-0" style={{ whiteSpace: "nowrap" }}><strong>Skicka vänförfrågning:</strong></p>
                         <div className="d-flex gap-2">
                             <input className="form-control" type="text" placeholder="Användarnamn..." required value={username} onChange={(e) => setUsername(e.target.value)} />
