@@ -12,10 +12,6 @@ export async function SendFriendRequest(username: string) {
             "Content-Type": "application/json"
         },
     });
-
-    if (!res.ok) {
-        throw new Error("Failed to send friend request");
-    }
-
-    return await res.json();
+        
+    return res.ok;
 }
