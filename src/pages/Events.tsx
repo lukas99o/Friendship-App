@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { getEvents } from "../api/events";
-import { JoinEvent } from "../api/joinEvent";
-import { LeaveEvent } from "../api/leaveEvent";
+import { getEvents } from "../api/events/events.ts";
+import { JoinEvent } from "../api/events/joinEvent.ts";
+import { LeaveEvent } from "../api/events/leaveEvent.ts";
 import { GetEventParticipantStatus } from "../api/participantStatus";
-import { GetFriendEvents } from "../api/friendEvents";
+import { GetFriendEvents } from "../api/events/friendEvents.ts";
 import EventCard from "../components/EventCard";
 import Dropdown from "../components/Dropdown";
 import type { EventDto } from "../types.ts";
@@ -91,8 +91,8 @@ export default function Events() {
     }
 
     return (
-        <div className="d-flex flex-column">
-            <div className="container d-flex flex-column p-3 rounded" style={{ backgroundColor: "#fafafa", opacity: 0.95, zIndex: 1 }}>
+        <div className="d-flex flex-column container">
+            <div className="d-flex flex-column p-3 rounded" style={{ backgroundColor: "#fafafa", opacity: 0.95, zIndex: 1 }}>
                 <div className="gap-2 flex-column flex-md-row d-flex justify-content-between align-items-center">   
                     <div>
                         <Dropdown 

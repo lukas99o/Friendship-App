@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import type { EventDto } from "../types.ts";
-import { getMyCreatedEvents, getMyJoinedEvents,  } from "../api/events";
+import { getMyCreatedEvents, getMyJoinedEvents,  } from "../api/events/events.ts";
 import { formatDate } from "../utils/date";
-import { LeaveEvent } from "../api/leaveEvent.ts";
-import { hostDeleteEvent } from "../api/deleteEvent.ts";
+import { LeaveEvent } from "../api/events/leaveEvent.ts";
+import { hostDeleteEvent } from "../api/events/deleteEvent.ts";
 import { Link } from "react-router-dom";
 
 export default function MyEvents() {
@@ -110,11 +110,11 @@ export default function MyEvents() {
                     Skapa Evenemang
                 </Link>
             </div>
-            <div className="d-flex justify-content-around p-4 gap-4 bg-light shadow-sm flex-wrap" style={{ borderRadius: "1rem" }}>
-                <button className={`btn-orange ${activeView === "joined" ? 'btn-orange-active' : ''}`} style={{ borderRadius: "1rem"}} onClick={() => setActiveView("joined")}>Deltar</button>
-                <button className={`btn-orange ${activeView === "created" ? 'btn-orange-active' : ''}`} style={{ borderRadius: "1rem"}} onClick={() => setActiveView("created")}>Skapat</button>
-                <button className={`btn-orange ${activeView === "invited" ? 'btn-orange-active' : ''}`} style={{ borderRadius: "1rem"}} onClick={() => setActiveView("invited")}>Inbjudan</button>
-                <button className={`btn-orange ${activeView === "saved" ? 'btn-orange-active' : ''}`} style={{ borderRadius: "1rem"}} onClick={() => setActiveView("saved")}>Sparat</button>
+            <div className="d-flex justify-content-around p-4 gap-4 bg-light shadow-sm flex-wrap rounded">
+                <button className={`btn-orange ${activeView === "joined" ? 'btn-orange-active' : ''}`} onClick={() => setActiveView("joined")}>Deltar</button>
+                <button className={`btn-orange ${activeView === "created" ? 'btn-orange-active' : ''}`} onClick={() => setActiveView("created")}>Skapat</button>
+                <button className={`btn-orange ${activeView === "invited" ? 'btn-orange-active' : ''}`} onClick={() => setActiveView("invited")}>Inbjudan</button>
+                <button className={`btn-orange ${activeView === "saved" ? 'btn-orange-active' : ''}`} onClick={() => setActiveView("saved")}>Sparat</button>
             </div>
 
             <div className="d-flex flex-row flex-wrap justify-content-around mt-4">

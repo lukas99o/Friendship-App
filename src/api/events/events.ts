@@ -1,4 +1,4 @@
-import type { EventDto } from "../types";
+import type { EventDto } from "../../types.ts";
 
 export async function getEvents(filters: {
     ageMin: number | null;

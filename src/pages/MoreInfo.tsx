@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { readEvent } from "../api/readEvent";
+import { readEvent } from "../api/events/readEvent.ts";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { EventDto } from "../types.ts";

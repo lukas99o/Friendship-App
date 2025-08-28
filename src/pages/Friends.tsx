@@ -1,18 +1,76 @@
-import { GetFriends } from '../api/getFriends'
+import { useState, useEffect } from 'react'
+import { GetFriends } from '../api/friends/getFriends'
+import { GetFriendRequests } from '../api/friends/getFriendsRequests'
+import type { FriendDto } from '../types'
 
 export default function Friends() {
+    const [friends, setFriends] = useState<FriendDto[]>([])
+    const [friendRequests, setFriendRequests] = useState<FriendDto[]>([])
+    const [loadingFriends, setLoadingFriends] = useState(true)
+    const [loadingRequests, setLoadingRequests] = useState(true)
+
+    useEffect(() => {
+        const fetchFriends = async () => {
+            const friendsData = await GetFriends()
+            setFriends(friendsData)
+            setLoadingFriends(false)
+            console.log(friendsData)
+        }
+
+        const fetchFriendRequests = async () => {
+            const requestsData = await GetFriendRequests()
+            setFriendRequests(requestsData)
+            setLoadingRequests(false)
+            console.log(requestsData)
+        }
+
+        fetchFriends()
+        fetchFriendRequests()
+    }, [])
+
     return (
-        <div className="container">
-            <div>
-                <h1>Vänlista</h1>
-                <div>
-
-                </div>
+        <div className="container bg-white rounded shadow p-4 d-flex gap-4">
+            <div className="border p-4 shadow rounded" style={{ flex: 1, height: "fit-content" }}>
+                <h1 className="text-center mb-2">Vänlista</h1>
+                {loadingFriends ? (
+                    <p>Laddar vänner...</p>
+                ) : friends.length > 0 ? (
+                    friends.map((friend) => (
+                        <div key={friend.userName}>
+                            <h5>{friend.name}, {friend.age}</h5>
+                            <p>{friend.userName}</p>
+                        </div>
+                    ))
+                ) : (
+                    <div>
+                        <p className="mb-2"><strong>Inga vänner att visa.</strong></p>
+                        <p>Lägg till vänner genom att skicka vänförfrågningar eller via deltagande i evenemang.</p>
+                    </div>
+                )}
             </div>
-            <div>
-                <h1>Vänförfrågningar</h1>
+            <div className="border p-4 shadow rounded" style={{ flex: 1, height: "fit-content" }}>
+                <div className="d-flex gap-2 border rounded p-2 align-items-center mb-4 justify-content-around">
+                    <p className="mb-0" style={{ whiteSpace: "nowrap" }}><strong>Skicka vänförfrågning:</strong></p>
+                    <div className="d-flex gap-2">
+                        <input className="form-control" type="text" placeholder="Användarnamn..." />
+                        <button className="btn-orange">Skicka</button>
+                    </div>
+                </div>
                 <div>
-
+                    <h2 className="text-center mb-2">Vänförfrågningar</h2>
+                    {loadingRequests ? (
+                        <p>Laddar vänförfrågningar...</p>
+                    ) : friendRequests.length > 0 ? (
+                        friendRequests.map((request) => (
+                            <div key={request.userName}>
+                                <p>{request.userName}</p>
+                                <button>Acceptera</button>
+                                <button>Avböj</button>
+                            </div>
+                        ))
+                    ) : (
+                        <p><strong>Inga vänförfrågningar att visa.</strong></p>
+                    )}
                 </div>
             </div>
         </div>

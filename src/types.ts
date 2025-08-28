@@ -33,3 +33,8 @@ export interface FriendDto {
   name: string;
   age: number;
 }
+
+export interface FriendRequestDto {
+  incomingUsernames: string[];
+  outgoingUsernames: string[];
+}

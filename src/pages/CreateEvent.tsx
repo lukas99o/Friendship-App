@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import CreateEvent from "../api/createEvent";
+import CreateEvent from "../api/events/createEvent";
 import { getInterests } from "../api/interests";
 import { useNavigate } from "react-router-dom";
 
