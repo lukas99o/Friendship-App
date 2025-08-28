@@ -74,7 +74,7 @@ export default function Friends() {
                     </div>    
                     {friendRequestMessage && <p className="mb-0">{friendRequestMessage}</p>}
                 </div>
-                <div>
+                <div className="border rounded p-2">
                     <h2 className="text-center mb-2">Vänförfrågningar</h2>
                     {loadingRequests ? (
                         <p>Laddar vänförfrågningar...</p>
@@ -84,10 +84,12 @@ export default function Friends() {
                                 <div>
                                     <p><strong>Vänförfrågningar till dig:</strong></p>
                                     {friendRequests.incomingUsernames.map((username) => (
-                                        <div key={username} className="d-flex gap-2 align-items-center">
+                                        <div key={username} className="d-flex gap-2 align-items-center justify-content-between">
                                             <span>{username}</span>
-                                            <button>Acceptera</button>
-                                            <button>Avböj</button>
+                                            <div className="bg-dark">
+                                                <button className="btn-orange">Acceptera</button>
+                                                <button className="btn-orange">Avböj</button>
+                                            </div>
                                         </div>
                                     ))}
                                 </div>
