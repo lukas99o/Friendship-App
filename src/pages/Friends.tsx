@@ -2,11 +2,15 @@ import { useState, useEffect } from 'react'
 import { GetFriends } from '../api/friends/getFriends'
 import { GetFriendRequests } from '../api/friends/getFriendsRequests'
 import { SendFriendRequest } from '../api/friends/sendFriendRequest'
-import type { FriendDto } from '../types'
+import type { FriendDto, FriendRequestDto } from '../types'
 
 export default function Friends() {
     const [friends, setFriends] = useState<FriendDto[]>([])
-    const [friendRequests, setFriendRequests] = useState<FriendDto[]>([])
+    const [friendRequests, setFriendRequests] = useState<FriendRequestDto>({
+        incomingUsernames: [],
+        outgoingUsernames: [],
+    });
+
     const [loadingFriends, setLoadingFriends] = useState(true)
     const [loadingRequests, setLoadingRequests] = useState(true)
     const [friendRequestMessage, setFriendRequestMessage] = useState<string | null>(null)
@@ -73,14 +77,33 @@ export default function Friends() {
                     <h2 className="text-center mb-2">Vänförfrågningar</h2>
                     {loadingRequests ? (
                         <p>Laddar vänförfrågningar...</p>
-                    ) : friendRequests.length > 0 ? (
-                        friendRequests.map((request) => (
-                            <div key={request.userName}>
-                                <p>{request.userName}</p>
-                                <button>Acceptera</button>
-                                <button>Avböj</button>
-                            </div>
-                        ))
+                    ) : (friendRequests.incomingUsernames?.length || friendRequests.outgoingUsernames?.length) ? (
+                        <>
+                            {friendRequests.incomingUsernames?.length > 0 && (
+                                <div>
+                                    <p><strong>Vänförfrågningar till dig:</strong></p>
+                                    {friendRequests.incomingUsernames.map((username) => (
+                                        <div key={username} className="d-flex gap-2 align-items-center">
+                                            <span>{username}</span>
+                                            <button>Acceptera</button>
+                                            <button>Avböj</button>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+
+                            {friendRequests.outgoingUsernames?.length > 0 && (
+                                <div className="mt-2">
+                                    <p><strong>Vänförfrågningar du skickat:</strong></p>
+                                    {friendRequests.outgoingUsernames.map((username) => (
+                                        <div key={username} className="d-flex gap-2 align-items-center">
+                                            <span>{username}</span>
+                                            <button>Avbryt</button>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </>
                     ) : (
                         <p><strong>Inga vänförfrågningar att visa.</strong></p>
                     )}
