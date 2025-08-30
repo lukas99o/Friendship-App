@@ -43,7 +43,7 @@ export default function App() {
         <Navbar />
       </header>
 
-      <main style={{ paddingTop: "120px", paddingBottom: "40px" }}>
+      <main>
         <Slideshow />
         <Routes>
           <Route path="/" element={
