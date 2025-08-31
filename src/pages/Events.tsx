@@ -170,7 +170,7 @@ export default function Events() {
                 {!loading && events.length === 0 && <p>Inga evenemang hittades.</p>}
             </div>
             
-            <div className="container d-flex flex-wrap justify-content-center gap-4 mt-4">
+            <div className="d-flex flex-wrap justify-content-center gap-4 mt-4">
                 {events.map((e) => (
                 <EventCard
                     key={e.eventId}

@@ -49,13 +49,13 @@ export default function Friends() {
     }, [])
 
     return (
-        <div className="container">
+        <div className="container bg-dark">
             <div className="bg-light d-flex rounded shadow p-4 justify-content-around mb-4">
                 <button className="btn-orange" style={{ width: "200px" }}>Vänner</button>
                 <button className="btn-orange" style={{ width: "200px" }}>Hitta Vänner</button>
             </div>
-            <div className="d-flex">
-                <div style={{ width: "45%" }}>
+            <div className="d-flex" style={{ height: "" }}>
+                <div className="bg-light rounded shadow p-4" style={{ width: "45%" }}>
                     {loadingFriends ? (
                         <p>Laddar vänner...</p>
                     ) : friends.length > 0 ? (
@@ -86,7 +86,7 @@ export default function Friends() {
                     <p>scroll</p>
                 </div>
                 <div style={{ width: "45%" }}>
-
+                    <p>vänprofil</p>
                 </div>
             </div>            
         </div>

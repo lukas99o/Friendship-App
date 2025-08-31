@@ -10,7 +10,7 @@ interface EventCardProps {
 
 export default function EventCard({ event, isJoined, onToggleJoin }: EventCardProps) {
   return (
-    <div className="card shadow-sm border-0 overflow-hidden" style={{ width: "100%", maxWidth: "600px", height: "100%", borderRadius: "16px", opacity: 0.95 }}>
+    <div className="card shadow-sm border-0 overflow-hidden rounded" style={{ width: "100%", maxWidth: "600px" }}>
       {event.img && (
         <div style={{ height: "200px", overflow: "hidden" }}>
           <img
