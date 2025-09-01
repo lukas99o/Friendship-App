@@ -94,7 +94,7 @@ export default function Register() {
     }
 
     return (
-        <div className="d-flex justify-content-center align-items-center login-register-wrapper" id="login-register">
+        <div className="d-flex justify-content-center align-items-center login-register-wrapper pb-5" id="login-register">
             <form onSubmit={handleRegister} className="p-4 rounded shadow bg-white" style={{ width: "300px" }}>
                 <h2 className="mb-4 text-center header">Registrera dig</h2>
 

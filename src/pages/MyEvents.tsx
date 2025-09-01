@@ -50,10 +50,27 @@ export default function MyEvents() {
 
     const renderEvents = (events: EventDto[]) => (
         events.map((event) => (
-            <div key={event.eventId} className="card p-2 gap-2" style={{ maxWidth: "600px", maxHeight: "220px", flexDirection: "row"}}>
+            <div
+                key={event.eventId}
+                className="card p-0 d-flex flex-column flex-md-row w-100"
+                style={{ maxWidth: "600px" }}
+            >
                 <img
                     src={event.img}
                     alt={event.title}
+                    className="d-block d-md-none w-100"
+                    style={{
+                        height: "180px",
+                        objectFit: "cover",
+                        borderTopLeftRadius: ".25rem",
+                        borderTopRightRadius: ".25rem"
+                    }}
+                />
+
+                <img
+                    src={event.img}
+                    alt={event.title}
+                    className="d-none d-md-block"
                     style={{
                         width: "150px",
                         height: "150px",
@@ -61,31 +78,33 @@ export default function MyEvents() {
                         borderTopLeftRadius: ".25rem",
                         borderBottomLeftRadius: ".25rem",
                         alignSelf: "center",
-                        flex: "1"
+                        flexShrink: 0
                     }}
                 />
 
-                <div style={{ flex: "1"}}>
-                    <h5 className="card-title">{event.title}</h5>
-                    <p className="text-muted mb-2" style={{ fontSize: "0.9rem" }}>
-                        {formatDate(event.startTime)} - {formatDate(event.endTime)}
-                    </p>
-                </div>
+                <div className="d-flex flex-column flex-grow-1 p-2 p-md-3">
+                    <div>
+                        <h5 className="card-title mb-1">{event.title}</h5>
+                        <p className="text-muted mb-0" style={{ fontSize: "0.9rem" }}>
+                            {formatDate(event.startTime)} - {formatDate(event.endTime)}
+                        </p>
+                    </div>
 
-                <div className="mt-auto d-flex gap-2 justify-content-end" style={{ flex: "1" }}>
-                    <Link 
-                        to={`/more-info/${event.eventId}`} 
-                        className="btn btn-outline-info"
+                    <div className="mt-2 mt-md-auto d-flex flex-column flex-md-row gap-2 justify-content-stretch justify-content-md-end">
+                        <Link
+                            to={`/more-info/${event.eventId}`}
+                            className="btn btn-outline-info w-100 w-md-auto"
                         >
-                        Mer Info
-                    </Link>
-                    <button
-                        type="button"
-                        className="btn btn-outline-danger"
-                        onClick={() => handleLeaveEvent(event.eventId)}
-                    >
-                        Lämna
-                    </button>
+                            Mer Info
+                        </Link>
+                        <button
+                            type="button"
+                            className="btn btn-outline-danger w-100 w-md-auto"
+                            onClick={() => handleLeaveEvent(event.eventId)}
+                        >
+                            Lämna
+                        </button>
+                    </div>
                 </div>
             </div>
         ))
@@ -98,14 +117,14 @@ export default function MyEvents() {
                     Skapa Evenemang
                 </Link>
             </div>
-            <div className="d-flex justify-content-around p-3 bg-light shadow-sm flex-wrap rounded">
-                <button className={`btn-orange ${activeView === "joined" ? 'btn-orange-active' : ''}`} onClick={() => setActiveView("joined")}>Deltar</button>
-                <button className={`btn-orange ${activeView === "created" ? 'btn-orange-active' : ''}`} onClick={() => setActiveView("created")}>Skapat</button>
-                <button className={`btn-orange ${activeView === "invited" ? 'btn-orange-active' : ''}`} onClick={() => setActiveView("invited")}>Inbjudan</button>
-                <button className={`btn-orange ${activeView === "saved" ? 'btn-orange-active' : ''}`} onClick={() => setActiveView("saved")}>Sparat</button>
+            <div className="d-flex justify-content-around p-3 bg-light shadow-sm flex-wrap rounded gap-2">
+                <button className={`btn-orange ${activeView === "joined" ? 'btn-orange-active' : ''}`} onClick={() => setActiveView("joined")} style={{ width: "100px"}}>Deltar</button>
+                <button className={`btn-orange ${activeView === "created" ? 'btn-orange-active' : ''}`} onClick={() => setActiveView("created")} style={{ width: "100px"}}>Skapat</button>
+                <button className={`btn-orange ${activeView === "invited" ? 'btn-orange-active' : ''}`} onClick={() => setActiveView("invited")} style={{ width: "100px"}}>Inbjudan</button>
+                <button className={`btn-orange ${activeView === "saved" ? 'btn-orange-active' : ''}`} onClick={() => setActiveView("saved")} style={{ width: "100px"}}>Sparat</button>
             </div>
 
-            <div className="d-flex flex-row flex-wrap mt-3 justify-content-between gap-3">
+            <div className="d-flex flex-row flex-wrap mt-3 justify-content-between gap-3 pb-5">
                 {activeView === "joined" && (
                     joinedEvents.length > 0 ? renderEvents(joinedEvents) : (
                         <div className="alert alert-info w-100 text-center">
@@ -121,7 +140,6 @@ export default function MyEvents() {
                     )
                 )}
                 {activeView === "invited" && (
-                    // invitedEvents.length > 0 ? renderEvents(invitedEvents) : (
                         <div className="alert alert-info w-100 text-center">
                             Du har inga väntande inbjudningar.
                         </div>

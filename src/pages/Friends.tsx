@@ -128,9 +128,9 @@ export default function Friends() {
     return (
         <div className="container d-flex flex-column h-100">
             {width < 968 && (
-                <div className="d-flex bg-light rounded shadow mb-3 p-3 justify-content-around gap-3 flex-wrap" style={{ flex: "0 1 auto"}}>
-                <button className={`btn-orange flex-grow-1 ${activeView ? 'btn-orange-active' : ''}`} onClick={() => setActiveView(true)}>Vänner</button>
-                <button className={`btn-orange flex-grow-1 ${!activeView ? 'btn-orange-active' : ''}`} onClick={() => setActiveView(false)}>Hitta Vänner</button>
+                <div className="d-flex bg-light rounded shadow mb-3 gap-3 p-3 flex-wrap" style={{ flex: "0 1 auto"}}>
+                    <button className={`btn-orange ${activeView ? 'btn-orange-active' : ''}`} onClick={() => setActiveView(true)} style={{ flex: 1 }}>Vänner</button>
+                    <button className={`btn-orange ${!activeView ? 'btn-orange-active' : ''}`} onClick={() => setActiveView(false)} style={{ flex: 1 }}>Hitta Vänner</button>
                 </div>
             )}
 
@@ -161,14 +161,17 @@ export default function Friends() {
                                 👤
                             </div>
                             <div>
-                                <h5 className="mb-1">{friend.username}</h5>
-                                <p className="mb-0 text-muted">{friend.name}, {calculateAge(friend.age)} år</p>
+                                <h5 className={`mb-1 ${width < 768 ? "fs-6" : ""}`}>{friend.username}</h5>
+                                <p className={`mb-0 text-muted ${width < 768 ? "fs-6" : ""}`}>{friend.name}, {calculateAge(friend.age)} år</p>
                             </div>
                             </div>
-                            <div className="d-flex gap-2">
-                            <button className="btn-orange flex-grow-1">Profil</button>
-                            <button className="btn-orange flex-grow-1">Chat</button>
-                            </div>
+                        <div className="d-flex flex-column flex-md-row gap-2">
+                            <button className="btn-orange">Profil</button>
+                            <button className="btn-orange">Chat</button>
+                        </div>
+
+
+
                         </div>
                         ))}
                     </div>
