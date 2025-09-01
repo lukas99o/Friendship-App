@@ -28,9 +28,7 @@ export default function MyEvents() {
         }
 
         fetchEvents();
-    }, []);
-
- 
+    }, []); 
 
     const handleLeaveEvent = (eventId: number) => {
         if (createdEvents.some(event => event.eventId === eventId)) {

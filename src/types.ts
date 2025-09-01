@@ -31,7 +31,7 @@ export interface EventMessageDto {
 export interface FriendDto {
   username: string;
   name: string;
-  age: number;
+  age: Date;
 }
 
 export interface FriendRequestDto {

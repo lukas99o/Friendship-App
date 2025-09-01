@@ -32,7 +32,7 @@ export default function Navbar() {
     }, []);
 
     return (
-        <nav ref={navbarRef} className="rounded navbar navbar-expand-lg navbar-dark fixed-top shadow">
+        <nav ref={navbarRef} className="navbar navbar-expand-lg navbar-dark fixed-top shadow">
             <div className="container" style={{ opacity: 1 }}>
                 <NavLink className="navbar-brand fs-3 fw-bold" to="/events" onClick={closeNavbar}>
                 <img src={logo} alt="Vänskap" style={{ maxHeight: "50px", mixBlendMode: "multiply" }} />
