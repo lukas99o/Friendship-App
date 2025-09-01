@@ -7,7 +7,6 @@ import { DeclineFriendRequest } from '../api/friends/declineFriendRequest'
 import { RegretFriendRequest } from '../api/friends/regretFriendRequest'
 import type { FriendDto, FriendRequestDto } from '../types'
 import { calculateAge } from '../utils/calculateAge'
-import { set } from 'date-fns'
 
 export default function Friends() {
     const [friends, setFriends] = useState<FriendDto[]>([])
