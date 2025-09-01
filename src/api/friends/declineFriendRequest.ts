@@ -5,7 +5,7 @@ export async function DeclineFriendRequest(username: string): Promise<boolean> {
         return false;
     }
 
-    const res = await fetch(`https://ashy-stone-09b187203.2.azurestaticapps.net/api/friendship/decline-friend-request/${username}`, {
+    const res = await fetch(`https://friendship-c3cfdgejf5ateyc2.swedencentral-01.azurewebsites.net/api/friendship/decline-friend-request/${username}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',

@@ -5,7 +5,7 @@ export async function JoinEvent(id: number) {
         return null;
     }
 
-    const res = await fetch(`https://ashy-stone-09b187203.2.azurestaticapps.net/api/event/join/${id}`, {
+    const res = await fetch(`https://friendship-c3cfdgejf5ateyc2.swedencentral-01.azurewebsites.net/api/event/join/${id}`, {
         method: "POST",
         headers: {
             "Authorization": `Bearer ${token}`,

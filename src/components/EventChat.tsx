@@ -21,7 +21,7 @@ export default function EventChat({ conversationId, senderId, messageList }: Pro
     }
 
     const connection = new signalR.HubConnectionBuilder()
-      .withUrl("https://ashy-stone-09b187203.2.azurestaticapps.net/messageHub") 
+      .withUrl("https://friendship-c3cfdgejf5ateyc2.swedencentral-01.azurewebsites.net/messageHub") 
       .withAutomaticReconnect()
       .build();
 
