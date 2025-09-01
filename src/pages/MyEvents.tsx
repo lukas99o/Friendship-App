@@ -9,8 +9,6 @@ import { Link } from "react-router-dom";
 export default function MyEvents() {
     const [createdEvents, setCreatedEvents] = useState<EventDto[]>([]);
     const [joinedEvents, setJoinedEvents] = useState<EventDto[]>([]);
-    // const [invitedEvents, setInvitedEvents] = useState<EventDto[]>([]);
-    // const [loading, setLoading] = useState(true);
     const [activeView, setActiveView] = useState<"created" | "joined" | "invited" | "saved">("joined");
 
     useEffect(() => {
@@ -50,13 +48,9 @@ export default function MyEvents() {
         }
     };
 
-    // const askQuestion = (eventId: number) => {
-    //     // Gör ingenting just nu
-    // };
-
     const renderEvents = (events: EventDto[]) => (
         events.map((event) => (
-            <div key={event.eventId} className="card mb-2 p-2 gap-2" style={{ maxWidth: "600px", maxHeight: "220px", flexDirection: "row", opacity: "0.95" }}>
+            <div key={event.eventId} className="card p-2 gap-2" style={{ maxWidth: "600px", maxHeight: "220px", flexDirection: "row"}}>
                 <img
                     src={event.img}
                     alt={event.title}
@@ -79,22 +73,18 @@ export default function MyEvents() {
                 </div>
 
                 <div className="mt-auto d-flex gap-2 justify-content-end" style={{ flex: "1" }}>
-                    <Link to={`/more-info/${event.eventId}`} className="btn btn-warning btn-sm">
-                        🔍
+                    <Link 
+                        to={`/more-info/${event.eventId}`} 
+                        className="btn btn-outline-info"
+                        >
+                        Mer Info
                     </Link>
                     <button
                         type="button"
-                        className="btn btn-primary btn-sm"
-                        // onClick={() => askQuestion(event.eventId)}
-                    >
-                        💬
-                    </button>
-                    <button
-                        type="button"
-                        className="btn btn-outline-danger btn-sm"
+                        className="btn btn-outline-danger"
                         onClick={() => handleLeaveEvent(event.eventId)}
                     >
-                        <p style={{ margin: "0", color: "transparent", background: "#999", padding: "0", backgroundClip: "text", WebkitBackgroundClip: "text" }}>❌</p>
+                        Lämna
                     </button>
                 </div>
             </div>
@@ -104,18 +94,18 @@ export default function MyEvents() {
     return (
         <div className="container">
             <div>
-                <Link to={"/create-event"} className="btn btn-orange w-100 mb-3 create-btn">
+                <Link to={"/create-event"} className="btn btn-orange w-100 mb-2 create-btn">
                     Skapa Evenemang
                 </Link>
             </div>
-            <div className="d-flex justify-content-around p-4 gap-4 bg-light shadow-sm flex-wrap rounded">
+            <div className="d-flex justify-content-around p-3 bg-light shadow-sm flex-wrap rounded">
                 <button className={`btn-orange ${activeView === "joined" ? 'btn-orange-active' : ''}`} onClick={() => setActiveView("joined")}>Deltar</button>
                 <button className={`btn-orange ${activeView === "created" ? 'btn-orange-active' : ''}`} onClick={() => setActiveView("created")}>Skapat</button>
                 <button className={`btn-orange ${activeView === "invited" ? 'btn-orange-active' : ''}`} onClick={() => setActiveView("invited")}>Inbjudan</button>
                 <button className={`btn-orange ${activeView === "saved" ? 'btn-orange-active' : ''}`} onClick={() => setActiveView("saved")}>Sparat</button>
             </div>
 
-            <div className="d-flex flex-row flex-wrap justify-content-around mt-4">
+            <div className="d-flex flex-row flex-wrap mt-3 justify-content-between gap-3">
                 {activeView === "joined" && (
                     joinedEvents.length > 0 ? renderEvents(joinedEvents) : (
                         <div className="alert alert-info w-100 text-center">

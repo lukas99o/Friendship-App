@@ -30,6 +30,11 @@ export default function Friends() {
 
         if (success) {
             setFriendRequestMessage("Vänförfrågning skickad!")
+
+            setLoadingRequests(true)
+            const requestsData = await GetFriendRequests()
+            setFriendRequests(requestsData)
+            setLoadingRequests(false)
         } else {
             setFriendRequestMessage("Misslyckades, fel användarnamn.")
         }
@@ -50,6 +55,7 @@ export default function Friends() {
             friendRequests.incomingUsernames = friendRequests.incomingUsernames?.filter(u => u !== username)
             setFriendRequests({ ...friendRequests })
 
+            setLoadingFriends(true)
             const friendsData = await GetFriends()
             setFriends(friendsData)
             setFilteredFriends(friendsData)
@@ -131,7 +137,7 @@ export default function Friends() {
             <div className="d-flex gap-3 flex-grow-1" style={{ overflowY: "hidden" }}>
                 {(width > 968 || (activeView && width < 968)) && (
                 <div className="bg-light rounded shadow p-3 d-flex flex-column" style={{ width: width > 968 ? "50%" : "100%" }}>
-                    <h3 className="mb-3" style={{ color: "orange" }}>Mina Vänner</h3>
+                    <h3 className="mb-3 header">Mina Vänner</h3>
                     {loadingFriends ? (
                     <p>Laddar vänner...</p>
                     ) : friends.length > 0 ? (
@@ -177,7 +183,7 @@ export default function Friends() {
 
                 {(width > 968 || (!activeView && width < 968)) && (
                 <div className="bg-light rounded shadow p-3 d-flex flex-column" style={{ width: width > 968 ? "50%" : "100%" }}>
-                    <h3 className="mb-3" style={{ color: "orange" }}>Vänförfrågningar</h3>
+                    <h3 className="mb-3 header">Vänförfrågningar</h3>
 
                     <div className="border rounded p-3 mb-4 bg-white shadow-sm" style={{ flexShrink: 0 }}>
                         <label className="form-label fw-bold">Skicka vänförfrågan:</label>

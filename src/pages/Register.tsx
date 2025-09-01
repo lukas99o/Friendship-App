@@ -96,7 +96,7 @@ export default function Register() {
     return (
         <div className="d-flex justify-content-center align-items-center login-register-wrapper" id="login-register">
             <form onSubmit={handleRegister} className="p-4 rounded shadow bg-white" style={{ width: "300px" }}>
-                <h2 className="mb-4 text-center">Registrera dig</h2>
+                <h2 className="mb-4 text-center header">Registrera dig</h2>
 
                 <div className="mb-3">
                     <label className="form-label">Förnamn</label>
@@ -141,6 +141,7 @@ export default function Register() {
                         className="form-control"
                         value={dateOfBirth}
                         onChange={(e) => setDateOfBirth(e.target.value)}
+                        max={new Date().toISOString().split("T")[0]}
                         required
                     />
                 </div>
@@ -180,7 +181,7 @@ export default function Register() {
 
                 {error && <div className="alert alert-danger py-1">{error}</div>}
 
-                <button type="submit" className="btn btn-success w-100">Registrera</button>
+                <button type="submit" className="btn-orange w-100">Registrera</button>
 
                 <div className="text-center mt-3">
                     <span>Har du redan ett konto? </span>

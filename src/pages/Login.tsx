@@ -42,7 +42,7 @@ export default function Login() {
     return (
         <div className="d-flex justify-content-center align-items-center login-register-wrapper" id="login-register">
             <form onSubmit={handleLogin} className="p-4 rounded shadow bg-white" style={{ minWidth: "300px" }}>
-                <h2 className="mb-4 text-center">Logga in</h2>
+                <h2 className="mb-4 text-center header">Logga in</h2>
 
                 <div className="mb-3">
                     <label className="form-label">Email</label>
@@ -70,7 +70,7 @@ export default function Login() {
 
                 {error && <div className="alert alert-danger py-1">{error}</div>}
 
-                <button type="submit" className="btn btn-primary w-100">Logga in</button>
+                <button type="submit" className="btn-orange w-100">Logga in</button>
 
                 <div className="text-center mt-3">
                     <span>Har du inget konto? </span>

@@ -93,84 +93,90 @@ export default function Events() {
     return (
         <div className="d-flex flex-column container">
             <div className="d-flex flex-column p-3 rounded" style={{ backgroundColor: "#fafafa", opacity: 0.95, zIndex: 1 }}>
-                <div className="gap-2 flex-column flex-md-row d-flex justify-content-between align-items-center">   
-                    <div>
+                <div className="d-flex flex-column gap-3">
+                    <div className="d-flex flex-column flex-md-row gap-2 justify-content-between align-items-center">
                         <Dropdown 
-                            selectedInterests={selectedInterests}
-                            onChange={setSelectedInterests}
+                        selectedInterests={selectedInterests}
+                        onChange={setSelectedInterests}
+                        />
+
+                        <input
+                        type="number"
+                        placeholder="Min ålder"
+                        value={ageMin}
+                        className="form-control"
+                        onChange={(e) => setAgeMin(e.target.value === "" ? "" : Number(e.target.value))}
+                        min={0}
+                        />
+
+                        <input
+                        type="number"
+                        placeholder="Max ålder"
+                        value={ageMax}
+                        className="form-control"
+                        onChange={(e) => setAgeMax(e.target.value === "" ? "" : Number(e.target.value))}
+                        min={0}
                         />
                     </div>
-                    <input
-                    type="number"
-                    placeholder="Minsta ålder"
-                    value={ageMin}
-                    className="form-control"
-                    onChange={(e) => setAgeMin(e.target.value === "" ? "" : Number(e.target.value))}
-                    min={0}
-                    />
-                    <input
-                    type="number"
-                    placeholder="Största ålder"
-                    value={ageMax}
-                    className="form-control"
-                    onChange={(e) => setAgeMax(e.target.value === "" ? "" : Number(e.target.value))}
-                    min={0}
-                    />
-                </div>
 
-                {selectedInterests.length > 0 && (
-                    <div className="mt-2 overflow-x-auto whitespace-nowrap">
+                    {selectedInterests.length > 0 && (
+                        <div>
                         <strong>Valda intressen:</strong>
-                        <div className="mt-1 flex flex-wrap gap-2">
+                        <div className="mt-2 d-flex flex-wrap gap-2">
                             {selectedInterests.map((interest) => (
-                            <span key={interest} className="badge bg-secondary">
+                            <span key={interest} className="badge bg-warning text-dark">
                                 {interest}
                             </span>
                             ))}
                         </div>
-                    </div>
-                )}
+                        </div>
+                    )}
 
-                <div className="d-flex mt-3 justify-content-around align-items-center flex-wrap gap-3">
-                    <div className="form-group d-flex align-items-center">
-                        <label htmlFor="sortDropdown" className="me-2 mb-0" style={{ whiteSpace: "nowrap" }}>Sortera efter:</label>
+                    <div className="d-flex flex-wrap gap-3 justify-content-between align-items-center">
+                        <div className="d-flex align-items-center gap-2">
+                        <label htmlFor="sortDropdown" className="mb-0 fw-semibold">Sortera:</label>
                         <select
                             id="sortDropdown"
-                            className="form-control"
+                            className="form-select"
                             value={alphabeticalOrder ? "alphabetical" : dateOrder ? "date" : ""}
                             onChange={(e) => {
-                                const value = e.target.value;
-                                setAlphabeticalOrder(value === "alphabetical");
-                                setDateOrder(value === "date");
+                            const value = e.target.value;
+                            setAlphabeticalOrder(value === "alphabetical");
+                            setDateOrder(value === "date");
                             }}
-                            style={ { cursor: "pointer" } }
+                            style={{ cursor: "pointer" }}
                         >
                             <option value="alphabetical">Alfabetiskt</option>
                             <option value="date">Datum</option>
                         </select>
-                    </div>
+                        </div>
 
-                    <div className="form-check">
-                        <label className="form-check-label">Visa endast vänners evenemang</label>
+                        <div className="form-check">
                         <input
                             type="checkbox"
                             className="form-check-input"
+                            id="friendsEventsOnly"
                             onChange={(e) => setShowOnlyFriendsEvents(e.target.checked)}
-                            style={{ cursor: "pointer", border: "1px solid #777" }}
+                            style={{ border: "1px solid #888"}}
                         />
-                    </div>
-                    
-                    <button className="btn btn-dark w-25" onClick={handleSearch}>
-                    🔍 Sök
-                    </button>
-                </div>
-                
+                        <label className="form-check-label ms-2" htmlFor="friendsEventsOnly">
+                            Visa endast vänners evenemang
+                        </label>
+                        </div>
 
+                        <button className="btn btn-dark w-25" onClick={handleSearch}>
+                            Sök
+                        </button>
+                    </div>
+
+                    {loading && <p>Laddar...</p>}
+                    {!loading && events.length === 0 && <p>Inga evenemang hittades.</p>}
+                    </div>
                 {loading && <p>Laddar...</p>}
                 {!loading && events.length === 0 && <p>Inga evenemang hittades.</p>}
             </div>
             
-            <div className="d-flex flex-wrap justify-content-center gap-4 mt-4">
+            <div className="d-flex flex-wrap justify-content-center gap-4 mt-4" style={{ paddingBottom: "40px" }}>
                 {events.map((e) => (
                 <EventCard
                     key={e.eventId}

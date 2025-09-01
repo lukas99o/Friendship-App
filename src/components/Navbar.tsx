@@ -112,7 +112,7 @@ export default function Navbar() {
                                         to="/register"
                                         onClick={closeNavbar}
                                     >
-                                        Registrera
+                                        Registrera dig
                                     </NavLink>
                                 </li>
                             </>

@@ -10,7 +10,7 @@
 
 .active-link {
   color: #ffeb3b !important;
-  font-weight: bold;
+  font-weight: 600;
   border-bottom: 2px solid #ffee58;
 }
 
@@ -79,6 +79,10 @@
   letter-spacing: 1px;
 }
 
+.header {
+  color: #f7931e; 
+}
+
 .btn-orange {
   background-color: #f7931e;       
   color: white;
@@ -102,6 +106,33 @@
 
 .btn-orange-active {
   background-color: #ffbd59;        
+}
+
+.btn-yellow {
+  background-color: #ffe600;       
+  color: #333;                    
+  border: 1px solid #fdd835;      
+  padding: 5px 20px;
+  border-radius: 4px;             
+  font-weight: 600;                
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;                    
+  text-decoration: none;
+}
+
+.btn-yellow:hover {
+  background-color: #fdd835;       
+  border-color: #fbc02d;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.btn-yellow:active {
+  background-color: #fbc02d;
+  transform: scale(0.98);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
 }
 
 .create-btn:hover {

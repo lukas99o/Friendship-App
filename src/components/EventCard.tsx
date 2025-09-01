@@ -47,7 +47,7 @@ export default function EventCard({ event, isJoined, onToggleJoin }: EventCardPr
             className={`btn mt-2 ${isJoined ? "btn-outline-danger" : "btn-outline-success"} w-100`}
             onClick={() => onToggleJoin(event.eventId)}
           >
-            {isJoined ? "Lämna evenemang" : "Gå med i evenemang"}
+            {isJoined ? "Lämna" : "Gå med"}
           </button>
         </div>
       </div>
