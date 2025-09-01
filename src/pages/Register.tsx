@@ -57,7 +57,7 @@ export default function Register() {
         }
 
         try {
-            const res = await fetch("https://localhost:7106/api/auth/register", {
+            const res = await fetch("https://ashy-stone-09b187203.2.azurestaticapps.net/api/auth/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

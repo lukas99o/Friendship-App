@@ -5,7 +5,7 @@ export async function AcceptFriendRequest(username: string): Promise<boolean> {
         return false;
     }
 
-    const res = await fetch(`https://localhost:7106/api/friendship/accept-friend-request/${username}`, {
+    const res = await fetch(`https://ashy-stone-09b187203.2.azurestaticapps.net/api/friendship/accept-friend-request/${username}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

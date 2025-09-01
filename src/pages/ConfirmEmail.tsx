@@ -14,7 +14,7 @@ export default function VerifyEmail() {
             return;
         }
 
-        fetch(`https://localhost:7106/api/auth/confirm-email?userId=${userId}&token=${encodeURIComponent(token)}`, {
+        fetch(`https://ashy-stone-09b187203.2.azurestaticapps.net/api/auth/confirm-email?userId=${userId}&token=${encodeURIComponent(token)}`, {
             method: "POST"
         })
             .then(res => {

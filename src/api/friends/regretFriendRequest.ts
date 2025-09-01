@@ -5,7 +5,7 @@ export async function RegretFriendRequest(username: string): Promise<boolean> {
         return false;
     }
 
-    const res = await fetch(`https://localhost:7106/api/friendship/regret-friend-request/${username}`, {
+    const res = await fetch(`https://ashy-stone-09b187203.2.azurestaticapps.net/api/friendship/regret-friend-request/${username}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',

@@ -5,7 +5,7 @@ export async function GetFriendRequests() {
         return null;
     }
 
-    const res = await fetch("https://localhost:7106/api/friendship/friend-requests", {
+    const res = await fetch("https://ashy-stone-09b187203.2.azurestaticapps.net/api/friendship/friend-requests", {
         method: "GET",
         headers: {
             "Authorization": `Bearer ${token}`
