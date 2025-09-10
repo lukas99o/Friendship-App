@@ -1,5 +1,3 @@
-import api from "../api"
-
 export default async function CreateEvent(parameters: any) {
     const res = await fetch("https://localhost:7106/api/event", {
         method: "POST",

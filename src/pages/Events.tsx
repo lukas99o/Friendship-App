@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getEvents } from "../api/events/events.ts";
 import { JoinEvent } from "../api/events/joinEvent.ts";
 import { LeaveEvent } from "../api/events/leaveEvent.ts";
-import { GetEventParticipantStatus } from "../api/participantStatus";
+import { GetEventParticipantStatus } from "../api/events/participantStatus.ts";
 import { GetFriendEvents } from "../api/events/friendEvents.ts";
 import EventCard from "../components/EventCard";
 import Dropdown from "../components/Dropdown";
@@ -18,6 +18,18 @@ export default function Events() {
     const [showOnlyFriendsEvents, setShowOnlyFriendsEvents] = useState(false);
     const [alphabeticalOrder, setAlphabeticalOrder] = useState(false);
     const [dateOrder, setDateOrder] = useState(false);
+    const [width, setWidth] = useState(window.innerWidth);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setWidth(window.innerWidth);
+        };
+
+        window.addEventListener("resize", handleResize);
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -92,7 +104,7 @@ export default function Events() {
 
     return (
         <div className="d-flex flex-column container">
-            <div className="d-flex flex-column p-3 rounded" style={{ backgroundColor: "#fafafa", opacity: 0.95, zIndex: 1 }}>
+            <div className="d-flex flex-column p-3 rounded" style={{ backgroundColor: "#fafafa", zIndex: 1 }}>
                 <div className="d-flex flex-column gap-3">
                     <div className="d-flex flex-column flex-md-row gap-2 justify-content-between align-items-center">
                         <Dropdown 
@@ -163,10 +175,15 @@ export default function Events() {
                             Visa endast vänners evenemang
                         </label>
                         </div>
-
-                        <button className="btn btn-dark w-25" onClick={handleSearch}>
-                            Sök
-                        </button>
+                        {width > 800 && (
+                            <button className="btn-orange" onClick={handleSearch}>
+                                Sök
+                            </button>
+                        ) || width < 800 && (
+                            <button className="btn-orange w-100" onClick={handleSearch}>
+                                Sök
+                            </button>
+                        )}
                     </div>
 
                     {loading && <p>Laddar...</p>}

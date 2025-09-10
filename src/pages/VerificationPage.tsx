@@ -17,7 +17,7 @@ export default function VerificationPage() {
     }
 
     return (
-        <div className="d-flex justify-content-center container">
+        <div className="d-flex justify-content-center container" style={{ height: "fit-content" }}>
             <div className="text-center p-5 rounded shadow bg-white" style={{ maxWidth: "500px" }}>
                 <div className="mb-4">
                     <svg
