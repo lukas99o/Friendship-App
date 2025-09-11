@@ -32,7 +32,7 @@ export default function MoreInfo() {
   return (
     <div className="container" style={{ maxWidth: "1200px" }}>
       
-      <button onClick={() => navigate(-1)} className="btn btn-warning text-decoration-none mb-3">
+      <button onClick={() => navigate(-1)} className="btn-orange mb-3">
         ← Tillbaka
       </button>
 

@@ -1,7 +1,15 @@
+import { useEffect } from "react";
+
 export default function StartPage() {
+    useEffect(() => {
+        fetch("https://localhost:7106/ping")
+            .then(() => console.log("✅ API wake-up request sent"))
+            .catch(err => console.error("❌ API not reachable", err));
+    }, []);
+
     return (
         <div
-            className="d-flex flex-column align-items-center pb-5"
+            className="d-flex flex-column align-items-center pb-5 px-3"
             style={{ minHeight: "85vh", fontFamily: "'Nunito', sans-serif" }}
         >
             <h1 className="fancy-title mb-4 text-center">Välkommen till Vänskap!</h1>

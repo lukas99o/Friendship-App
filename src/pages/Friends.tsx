@@ -125,7 +125,7 @@ export default function Friends() {
 
 
     return (
-        <div className="container d-flex flex-column h-100">
+        <div className="container d-flex flex-column" style={{ height: "80%"}}>
             {width < 968 && (
                 <div className="d-flex bg-light rounded shadow mb-3 gap-3 p-3 flex-wrap" style={{ flex: "0 1 auto"}}>
                     <button className={`btn-orange ${activeView ? 'btn-orange-active' : ''}`} onClick={() => setActiveView(true)} style={{ flex: 1 }}>Vänner</button>
@@ -133,10 +133,10 @@ export default function Friends() {
                 </div>
             )}
 
-            <div className="d-flex gap-3 flex-grow-1" style={{ overflowY: "hidden" }}>
+            <div className="d-flex gap-4 flex-grow-1" style={{ overflowY: "hidden" }}>
                 {(width > 968 || (activeView && width < 968)) && (
-                <div className="bg-light rounded shadow p-3 d-flex flex-column" style={{ width: width > 968 ? "50%" : "100%" }}>
-                    <h3 className="mb-3 header">Mina Vänner</h3>
+                <div className="bg-light rounded shadow p-3 d-flex flex-column container-header" style={{ width: width > 968 ? "50%" : "100%" }}>
+                    <h2 className="mb-3 header text-center mt-2">Mina Vänner</h2>
                     {loadingFriends ? (
                     <p>Laddar vänner...</p>
                     ) : friends.length > 0 ? (
@@ -175,8 +175,8 @@ export default function Friends() {
                         ))}
                     </div>
                     ) : (
-                    <div className="text-center py-4">
-                        <p className="mb-2"><strong>Inga vänner att visa</strong></p>
+                    <div className="p-3 border rounded">
+                        <p className="mb-2 text-center"><strong>Inga vänner att visa</strong></p>
                         <p className="text-muted">Lägg till vänner genom att skicka vänförfrågningar eller delta i evenemang.</p>
                     </div>
                     )}
@@ -184,8 +184,8 @@ export default function Friends() {
                 )}
 
                 {(width > 968 || (!activeView && width < 968)) && (
-                <div className="bg-light rounded shadow p-3 d-flex flex-column" style={{ width: width > 968 ? "50%" : "100%" }}>
-                    <h3 className="mb-3 header">Vänförfrågningar</h3>
+                <div className="bg-light rounded shadow p-3 d-flex flex-column container-header" style={{ width: width > 968 ? "50%" : "100%" }}>
+                    <h2 className="mb-3 header text-center mt-2">Vänförfrågningar</h2>
 
                     <div className="border rounded p-3 mb-4 bg-white shadow-sm" style={{ flexShrink: 0 }}>
                         <label className="form-label fw-bold">Skicka vänförfrågan:</label>
@@ -239,7 +239,7 @@ export default function Friends() {
                         )}
                         </>
                     ) : (
-                        <div className="text-center py-4">
+                        <div className="text-center p-4 border rounded">
                         <p className="text-muted"><strong>Inga vänförfrågningar att visa</strong></p>
                         </div>
                     )}
