@@ -76,7 +76,7 @@ export default function App() {
               <Events />
             </ProtectedRoute>
           } />
-          <Route path="/create-event" element={
+          <Route path="my-events/create-event" element={
             <ProtectedRoute>
               <CreateEvent />
             </ProtectedRoute>

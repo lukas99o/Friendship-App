@@ -74,16 +74,16 @@ export default function MyEvents() {
 
     return (
         <div className="container">
-            <div>
-                <Link to={"/create-event"} className="btn btn-orange w-100 mb-2 create-btn">
-                    Skapa Evenemang
-                </Link>
-            </div>
-            <div className="d-flex justify-content-around p-3 bg-light shadow-sm flex-wrap rounded gap-2">
-                <button className={`btn-orange ${activeView === "joined" ? 'btn-orange-active' : ''}`} onClick={() => setActiveView("joined")} style={{ width: "100px"}}>Deltar</button>
-                <button className={`btn-orange ${activeView === "created" ? 'btn-orange-active' : ''}`} onClick={() => setActiveView("created")} style={{ width: "100px"}}>Skapat</button>
-                <button className={`btn-orange ${activeView === "invited" ? 'btn-orange-active' : ''}`} onClick={() => setActiveView("invited")} style={{ width: "100px"}}>Inbjudan</button>
-                <button className={`btn-orange ${activeView === "saved" ? 'btn-orange-active' : ''}`} onClick={() => setActiveView("saved")} style={{ width: "100px"}}>Sparat</button>
+            <div className="d-flex justify-content-around p-3 bg-light shadow-sm flex-wrap rounded container-header">
+                <button className={`mt-2 btn-orange ${activeView === "joined" ? 'btn-orange-active' : ''}`} onClick={() => setActiveView("joined")} style={{ width: "100px"}}>Deltar</button>
+                <button className={`mt-2 btn-orange ${activeView === "created" ? 'btn-orange-active' : ''}`} onClick={() => setActiveView("created")} style={{ width: "100px"}}>Skapat</button>
+                <button className={`mt-2 btn-orange ${activeView === "invited" ? 'btn-orange-active' : ''}`} onClick={() => setActiveView("invited")} style={{ width: "100px"}}>Inbjudan</button>
+                <button className={`mt-2 btn-orange ${activeView === "saved" ? 'btn-orange-active' : ''}`} onClick={() => setActiveView("saved")} style={{ width: "100px"}}>Sparat</button>
+                <div className="w-100 d-flex justify-content-center">
+                    <Link to="/my-events/create-event" className="btn btn-orange w-50 create-btn mt-5">
+                        Skapa Evenemang
+                    </Link>
+                </div>   
             </div>
 
             <div className="mt-3 pb-5 d-flex justify-content-center">

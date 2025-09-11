@@ -104,8 +104,8 @@ export default function Events() {
 
     return (
         <div className="d-flex flex-column container">
-            <div className="d-flex flex-column p-3 rounded" style={{ backgroundColor: "#fafafa", zIndex: 1 }}>
-                <div className="d-flex flex-column gap-3">
+            <div className="d-flex flex-column p-3 rounded container-header" style={{ backgroundColor: "#fafafa", zIndex: 1 }}>
+                <div className="d-flex flex-column gap-3 mt-2">
                     <div className="d-flex flex-column flex-md-row gap-2 justify-content-between align-items-center">
                         <Dropdown 
                         selectedInterests={selectedInterests}
