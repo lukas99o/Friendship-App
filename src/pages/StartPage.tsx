@@ -35,7 +35,7 @@ export default function StartPage() {
                         <p>Vi erbjuder en plattform för att knyta kontakter och bygga meningsfulla relationer.</p>
                         <p>Oavsett om du letar efter vänner, aktiviteter eller bara vill ha kul, så har vi något för dig!</p>
                         <p>Registrera dig idag och börja din resa mot nya vänskaper!</p>
-                        <a className="btn btn-orange mt-2" style={{ color: "white", width: "fit-content", padding: "10px 20px" }}>Registrera dig</a>
+                        <a className="btn btn-orange mt-2" href="/register" style={{ color: "white", width: "fit-content", padding: "10px 20px" }}>Registrera dig</a>
 
                     </div>
 
