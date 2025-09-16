@@ -28,13 +28,35 @@ export interface EventMessageDto {
   senderName: string;
 }
 
+export interface ConversationMessageDto {
+  messageId: number;
+  createdAt: string;
+  content: string;
+  senderId: string;
+  senderName: string;
+}
+
 export interface FriendDto {
   username: string;
   name: string;
   age: Date;
+  userId: string;
 }
 
 export interface FriendRequestDto {
   incomingUsernames: string[];
   outgoingUsernames: string[];
+}
+
+export interface ConversationParticipantDto {
+  userId: string;
+  conversationId: number;
+}
+
+export interface ConversationDto {
+  conversationId: number;
+  title: string;
+  messages: ConversationMessageDto[];
+  createdAt: string;
+  conversationParticipants: ConversationParticipantDto[];
 }
