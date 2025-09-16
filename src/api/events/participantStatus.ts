@@ -1,3 +1,5 @@
+import { API_BASE_URL } from "../../config";
+
 export async function GetEventParticipantStatus() {
     const token = localStorage.getItem("jwtToken");
 
@@ -5,7 +7,7 @@ export async function GetEventParticipantStatus() {
         return null;
     }
 
-    const res = await fetch("https://localhost:7106/api/event/participant-status", {
+    const res = await fetch(`${API_BASE_URL}/api/event/participant-status`, {
         method: "GET",
         headers: {
             "Authorization": `Bearer ${token}`

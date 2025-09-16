@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { API_BASE_URL } from "../config";
 
 export default function VerifyEmail() {
     const [searchParams] = useSearchParams();
@@ -14,7 +15,7 @@ export default function VerifyEmail() {
             return;
         }
 
-        fetch(`https://localhost:7106/api/auth/confirm-email?userId=${userId}&token=${encodeURIComponent(token)}`, {
+        fetch(`${API_BASE_URL}/api/auth/confirm-email?userId=${userId}&token=${encodeURIComponent(token)}`, {
             method: "POST"
         })
             .then(res => {

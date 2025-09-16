@@ -1,5 +1,7 @@
+import { API_BASE_URL } from "../../config";
+
 export default async function CreateEvent(parameters: any) {
-    const res = await fetch("https://localhost:7106/api/event", {
+    const res = await fetch(`${API_BASE_URL}/api/event`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

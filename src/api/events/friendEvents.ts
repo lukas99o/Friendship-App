@@ -1,3 +1,5 @@
+import { API_BASE_URL } from "../../config";
+
 export async function GetFriendEvents() {
     const token = localStorage.getItem("jwtToken");
 
@@ -5,7 +7,7 @@ export async function GetFriendEvents() {
         return null;
     }
 
-    const res = await fetch("https://localhost:7106/api/event/friendsevents", {
+    const res = await fetch(`${API_BASE_URL}/api/event/friendsevents`, {
         method: "GET",
         headers: {
             "Authorization": `Bearer ${token}`

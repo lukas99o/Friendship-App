@@ -1,8 +1,9 @@
 import { useEffect } from "react";
+import { API_BASE_URL } from "../config";
 
 export default function StartPage() {
     useEffect(() => {
-        fetch("https://localhost:7106/ping")
+        fetch(`${API_BASE_URL}/ping`)
             .then(() => console.log("✅ API wake-up request sent"))
             .catch(err => console.error("❌ API not reachable", err));
     }, []);

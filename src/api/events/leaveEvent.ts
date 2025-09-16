@@ -1,3 +1,5 @@
+import { API_BASE_URL } from "../../config";
+
 export async function LeaveEvent(id: number) {
     const token = localStorage.getItem("jwtToken");
 
@@ -5,7 +7,7 @@ export async function LeaveEvent(id: number) {
         return null;
     }
 
-    const res = await fetch(`https://localhost:7106/api/event/leave/${id}`, {
+    const res = await fetch(`${API_BASE_URL}/api/event/leave/${id}`, {
         method: "POST",
         headers: {
             "Authorization": `Bearer ${token}`,

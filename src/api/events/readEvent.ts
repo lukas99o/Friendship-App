@@ -1,5 +1,7 @@
+import { API_BASE_URL } from "../../config";
+  
 export async function readEvent(eventId: number) {
-  const response = await fetch(`https://localhost:7106/api/event/${eventId}`, {
+  const response = await fetch(`${API_BASE_URL}/api/event/${eventId}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

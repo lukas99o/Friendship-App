@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
+import { API_BASE_URL } from "../config";
 
 export default function Register() {
     const [firstName, setFirstName] = useState("");
@@ -15,7 +16,7 @@ export default function Register() {
     const width = document.body.clientWidth;
 
     useEffect(() => {
-        fetch("https://localhost:7106/ping")
+        fetch(`${API_BASE_URL}/ping`)
             .then(() => console.log("✅ API wake-up request sent"))
             .catch(err => console.error("❌ API not reachable", err));
     }, []);
@@ -32,12 +33,6 @@ export default function Register() {
             window.removeEventListener("resize", handleResize);
         };
     }, [width]);
-
-    useEffect(() => {
-            fetch("https://localhost:7106/ping")
-                .then(() => console.log("✅ API wake-up request sent"))
-                .catch(err => console.error("❌ API not reachable", err));
-        }, []);
 
     function validateEmail(email: string) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -83,7 +78,7 @@ export default function Register() {
         }
 
         try {
-            const res = await fetch("https://localhost:7106/api/auth/register", {
+            const res = await fetch(`${API_BASE_URL}/api/auth/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

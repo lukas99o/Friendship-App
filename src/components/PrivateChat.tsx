@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import * as signalR from "@microsoft/signalr";
 import type { ConversationMessageDto } from "../types";
 import { GetConversationMessages } from "../api/conversations/getConversationMessages";
+import { API_BASE_URL } from "../config";
 
 interface Props {
   conversationId?: number;
@@ -32,7 +33,7 @@ export default function PrivateChat({ conversationId, senderId }: Props) {
     if (!conversationId) return;
 
     const connection = new signalR.HubConnectionBuilder()
-      .withUrl("https://localhost:7106/messageHub")
+      .withUrl(`${API_BASE_URL}/messageHub`)
       .withAutomaticReconnect()
       .build();
 

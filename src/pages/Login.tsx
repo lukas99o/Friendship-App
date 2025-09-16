@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/authContext";
+import { API_BASE_URL } from "../config";
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -11,7 +12,7 @@ export default function Login() {
     const width = document.body.clientWidth;
 
     useEffect(() => {
-        fetch("https://localhost:7106/ping")
+        fetch(`${API_BASE_URL}/ping`)
             .then(() => console.log("✅ API wake-up request sent"))
             .catch(err => console.error("❌ API not reachable", err));
     }, []);
@@ -44,7 +45,7 @@ export default function Login() {
         console.log(loginEmail, loginPassword, "hit");
 
         try {
-            const res = await fetch("https://localhost:7106/api/auth/login", {
+            const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email: loginEmail, password: loginPassword }),

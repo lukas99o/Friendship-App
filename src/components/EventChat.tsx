@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import * as signalR from "@microsoft/signalr";
 import type { EventMessageDto } from "../types";
+import { API_BASE_URL } from "../config";
 
 interface Props {
   conversationId: number;
@@ -21,7 +22,7 @@ export default function EventChat({ conversationId, senderId, messageList }: Pro
     }
 
     const connection = new signalR.HubConnectionBuilder()
-      .withUrl("https://localhost:7106/messageHub") 
+      .withUrl(`${API_BASE_URL}/messageHub`)
       .withAutomaticReconnect()
       .build();
 

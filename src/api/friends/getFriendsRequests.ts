@@ -1,3 +1,5 @@
+import { API_BASE_URL } from "../../config";
+
 export async function GetFriendRequests() {
     const token = localStorage.getItem("jwtToken");
 
@@ -5,7 +7,7 @@ export async function GetFriendRequests() {
         return null;
     }
 
-    const res = await fetch("https://localhost:7106/api/friendship/friend-requests", {
+    const res = await fetch(`${API_BASE_URL}/api/friendship/friend-requests`, {
         method: "GET",
         headers: {
             "Authorization": `Bearer ${token}`

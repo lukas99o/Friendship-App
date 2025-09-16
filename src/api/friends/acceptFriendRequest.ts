@@ -1,3 +1,5 @@
+import { API_BASE_URL } from "../../config";
+
 export async function AcceptFriendRequest(username: string): Promise<boolean> {
     const token = localStorage.getItem("jwtToken");
 
@@ -5,7 +7,7 @@ export async function AcceptFriendRequest(username: string): Promise<boolean> {
         return false;
     }
 
-    const res = await fetch(`https://localhost:7106/api/friendship/accept-friend-request/${username}`, {
+    const res = await fetch(`${API_BASE_URL}/api/friendship/accept-friend-request/${username}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

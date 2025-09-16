@@ -4,9 +4,9 @@ import { formatDate } from "../utils/date";
 
 interface EventCardProps {
   event: EventDto;
-  isJoined?: boolean; // valfri, behövs bara i default
+  isJoined?: boolean; 
   onToggleJoin?: (eventId: number) => void;
-  onLeave?: (eventId: number) => void; // för MyEvents
+  onLeave?: (eventId: number) => void; 
   variant?: "default" | "myEvents";
 }
 
@@ -47,7 +47,6 @@ export default function EventCard({
           )}
         </div>
 
-        {/* Knapparna varierar beroende på variant */}
         <div className="d-flex gap-2">
           <Link to={`/more-info/${event.eventId}`} className="btn mt-2 btn-outline-info w-100">
             Mer Info

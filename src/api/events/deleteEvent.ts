@@ -1,5 +1,7 @@
+import { API_BASE_URL } from "../../config";
+
 export async function hostDeleteEvent(eventId: number) {
-    const res = await fetch(`https://localhost:7106/api/event/host-delete/${eventId}`, {
+    const res = await fetch(`${API_BASE_URL}/api/event/host-delete/${eventId}`, {
         method: "DELETE",
         headers: {
             Authorization: `Bearer ${localStorage.getItem("jwtToken")}`

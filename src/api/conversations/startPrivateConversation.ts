@@ -1,8 +1,9 @@
 import type { ConversationDto } from "../../types";
+import { API_BASE_URL } from "../../config";
 
 export const StartPrivateConversation = async (username: string): Promise<ConversationDto | null> => {
   try {
-    const res = await fetch(`https://localhost:7106/api/conversation/start-private-conversation/${username}`, {
+    const res = await fetch(`${API_BASE_URL}/api/conversation/start-private-conversation/${username}`, {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`,
