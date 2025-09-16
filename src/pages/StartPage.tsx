@@ -16,12 +16,12 @@ export default function StartPage() {
 
             <div
                 className="container rounded bg-light p-4 p-md-5 shadow d-flex flex-column flex-md-row align-items-center gap-4"
-                style={{ overflow: "hidden" }} // förhindrar scroll på stora skärmar
+                style={{ overflow: "hidden" }} 
             >
                 <div
                     className="position-relative w-100 w-md-50"
                     style={{
-                        maxHeight: "400px", // max höjd på videon
+                        maxHeight: "400px", 
                         flex: "1 1 50%", 
                         display: "flex",
                         alignItems: "center",
@@ -37,7 +37,7 @@ export default function StartPage() {
                             width: "100%",
                             height: "100%",
                             maxHeight: "400px",
-                            objectFit: "cover", // fyller container utan att sträcka
+                            objectFit: "cover",
                             pointerEvents: "none",
                             filter: "brightness(0.85)",
                             borderRadius: "0.5rem"
