@@ -15,7 +15,7 @@ export default function StartPage() {
             <h1 className="fancy-title mb-4 text-center">Välkommen till Vänskap!</h1>
 
             <div
-                className="container rounded bg-light p-4 p-md-5 shadow d-flex flex-column flex-md-row align-items-center gap-4"
+                className="container rounded bg-light p-4 shadow d-flex flex-column flex-md-row align-items-center gap-4"
                 style={{ overflow: "hidden" }} 
             >
                 <div
