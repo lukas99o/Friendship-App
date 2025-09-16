@@ -42,18 +42,6 @@ export default function Login() {
             loginPassword = "Test123!";
         }
 
-        console.log(loginEmail, loginPassword, "hit");
-
-        let loginEmail = email;
-        let loginPassword = password;
-
-        if (guest) {
-            loginEmail = "iamtest@test.com";
-            loginPassword = "Test123!";
-        }
-
-        console.log(loginEmail, loginPassword, "hit");
-
         try {
             const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
                 method: "POST",

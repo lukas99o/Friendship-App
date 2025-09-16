@@ -1,1 +1,1 @@
-export const API_BASE_URL = "https://localhost:7106";
+export const API_BASE_URL = "https://friendship-c3cfdgejf5ateyc2.swedencentral-01.azurewebsites.net";
