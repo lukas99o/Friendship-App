@@ -261,13 +261,13 @@ export default function CreateEventPage() {
                                         onChange={(e) => setIsPublic(e.target.checked)}
                                         />
                                         <label className="form-check-label" htmlFor="isPublic">
-                                        Privat evenemang
+                                            Offentligt evenemang
                                         </label>
                                     </div>
                                 </div>
                             </div>
                             <button type="submit" className="btn-orange mt-0">
-                                Skapa event
+                                Skapa
                             </button>
                         </form>
 

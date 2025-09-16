@@ -16,38 +16,55 @@ export default function StartPage() {
 
             <div
                 className="container rounded bg-light p-4 p-md-5 shadow d-flex flex-column flex-md-row align-items-center gap-4"
+                style={{ overflow: "hidden" }} // förhindrar scroll på stora skärmar
             >
-                <div className="position-relative w-100 w-md-50">
+                <div
+                    className="position-relative w-100 w-md-50"
+                    style={{
+                        maxHeight: "400px", // max höjd på videon
+                        flex: "1 1 50%", 
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center"
+                    }}
+                >
                     <video
                         src="/videos/vänskap-flöde.mp4"
                         autoPlay
                         muted
                         loop
-                        style={{ width: "100%", pointerEvents: "none", filter: "brightness(0.85)" }}
-                        className="rounded"
+                        style={{
+                            width: "100%",
+                            height: "100%",
+                            maxHeight: "400px",
+                            objectFit: "cover", // fyller container utan att sträcka
+                            pointerEvents: "none",
+                            filter: "brightness(0.85)",
+                            borderRadius: "0.5rem"
+                        }}
                     />
                 </div>
 
-                <div className="w-90 w-md-50 text-center">
-                    <div className="shadow startpage-text rounded">
-                        <h2 className="mb-3" style={{ fontWeight: "bold" }}>Utforska Vänskap</h2>
+                <div
+                    className="w-90 w-md-50 text-center"
+                    style={{ flex: "1 1 50%" }}
+                >
+                    <div
+                        className="shadow startpage-text rounded p-4"
+                        style={{ height: "100%", display: "flex", flexDirection: "column", justifyContent: "center" }}
+                    >
+                        <h2 className="mb-3 header" style={{ fontWeight: "bold" }}>Utforska Vänskap</h2>
                         <p>Gå med i vår gemenskap och upptäck nya vänskapsband!</p>
                         <p>Vi erbjuder en plattform för att knyta kontakter och bygga meningsfulla relationer.</p>
                         <p>Oavsett om du letar efter vänner, aktiviteter eller bara vill ha kul, så har vi något för dig!</p>
                         <p>Registrera dig idag och börja din resa mot nya vänskaper!</p>
-                        <a className="btn btn-orange mt-2" href="/register" style={{ color: "white", width: "fit-content", padding: "10px 20px" }}>Registrera dig</a>
-
+                        <a className="btn btn-orange mt-2 mx-auto"
+                           href="/register"
+                           style={{ color: "white", width: "fit-content", padding: "10px 20px" }}
+                        >
+                            Registrera dig
+                        </a>
                     </div>
-
-                    <img
-                        src="/images/friendship.png"
-                        alt="Vänskap Logo"
-                        className="img-fluid mt-4"
-                        style={{ maxWidth: "300px", mixBlendMode: "multiply", transition: "transform 0.25s ease" }}
-                        onMouseEnter={e => e.currentTarget.style.transform = "scale(1.05)"}
-                        onMouseLeave={e => e.currentTarget.style.transform = "scale(1)"} 
-                    />
-
                 </div>
             </div>
         </div>
