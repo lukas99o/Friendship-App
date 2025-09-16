@@ -74,6 +74,11 @@ export default function MyEvents() {
 
     return (
         <div className="container">
+            <div className="text-center mb-2">
+                <Link to="/my-events/create-event" className="btn btn-orange px-3 py-2 create-btn">
+                    Skapa Evenemang
+                </Link>
+            </div>
             <ul className="nav nav-tabs justify-content-center shadow-sm rounded bg-light">
                 <li className="nav-item">
                 <button
