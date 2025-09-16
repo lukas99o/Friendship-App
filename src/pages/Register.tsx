@@ -12,6 +12,26 @@ export default function Register() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
+    const width = document.body.clientWidth;
+
+    useEffect(() => {
+        fetch("https://localhost:7106/ping")
+            .then(() => console.log("✅ API wake-up request sent"))
+            .catch(err => console.error("❌ API not reachable", err));
+    }, []);
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (document.body.clientWidth !== width) {
+                window.location.reload();
+            }
+        }
+
+        window.addEventListener("resize", handleResize);
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, [width]);
 
     useEffect(() => {
             fetch("https://localhost:7106/ping")
@@ -100,9 +120,17 @@ export default function Register() {
     }
 
     return (
-        <div className="d-flex justify-content-center align-items-center login-register-wrapper pb-5" id="login-register">
-            <form onSubmit={handleRegister} className="p-4 rounded shadow bg-white" style={{ width: "300px" }}>
-                <h2 className="mb-4 text-center header">Registrera dig</h2>
+        <div className="d-flex justify-content-center container pb-5" style={{ height: "fit-content" }}>
+            <form onSubmit={handleRegister} className="p-4 rounded shadow bg-white" style={{ width: "400px" }}>
+                {width < 968 ? (
+                    <>
+                        <h1 className="mb-4 text-center header">Registrera dig</h1>
+                    </>
+                ) : (
+                    <>
+                        <h2 className="mb-4 text-center header">Registrera dig</h2>
+                    </>
+                )}
                 <p className="fs-6 border p-2 text-center">Den kan ta upp till 1 minut för azure att starta upp API:et för Vänskap när appen varit i standby. Ta en kaffe kom tillbaka sen kan du komma in!</p>
                 <div className="mb-3">
                     <label className="form-label">Förnamn</label>

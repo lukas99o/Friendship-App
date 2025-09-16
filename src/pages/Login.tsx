@@ -8,12 +8,26 @@ export default function Login() {
     const [error, setError] = useState("");
     const navigate = useNavigate();
     const { login } = useAuth(); 
+    const width = document.body.clientWidth;
 
     useEffect(() => {
         fetch("https://localhost:7106/ping")
             .then(() => console.log("✅ API wake-up request sent"))
             .catch(err => console.error("❌ API not reachable", err));
     }, []);
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (document.body.clientWidth !== width) {
+                window.location.reload();
+            }
+        }
+
+        window.addEventListener("resize", handleResize);
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, [width]);
 
     async function handleLogin(e: React.FormEvent, guest = false) {
         e.preventDefault();
@@ -57,8 +71,16 @@ export default function Login() {
 
     return (
         <div className="container d-flex justify-content-center pb-5" style={{ height: "fit-content" }}>
-            <form onSubmit={handleLogin} className="p-4 rounded shadow bg-white" style={{ width: "300px" }}>
-                <h2 className="mb-4 text-center header">Logga in</h2>
+            <form onSubmit={handleLogin} className="p-4 rounded shadow bg-white" style={{ width: "400px" }}>
+                {width < 968 ? (
+                    <>
+                        <h1 className="mb-4 text-center header">Logga in</h1>
+                    </>
+                ) : (
+                    <>
+                        <h2 className="mb-4 text-center header">Logga in</h2>
+                    </>
+                )}
                 <p className="fs-6 border p-2 text-center">Den kan ta upp till 1 minut för azure att starta upp API:et för Vänskap när appen varit i standby. Ta en kaffe kom tillbaka sen kan du komma in!</p>
                 <div className="mb-3">
                     <label className="form-label">Email</label>
