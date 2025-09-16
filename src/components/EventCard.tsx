@@ -4,13 +4,21 @@ import { formatDate } from "../utils/date";
 
 interface EventCardProps {
   event: EventDto;
-  isJoined: boolean;
-  onToggleJoin: (eventId: number) => void;
+  isJoined?: boolean; 
+  onToggleJoin?: (eventId: number) => void;
+  onLeave?: (eventId: number) => void; 
+  variant?: "default" | "myEvents";
 }
 
-export default function EventCard({ event, isJoined, onToggleJoin }: EventCardProps) {
+export default function EventCard({ 
+  event, 
+  isJoined, 
+  onToggleJoin, 
+  onLeave, 
+  variant = "default" 
+}: EventCardProps) {
   return (
-    <div className="card shadow-sm border-0 overflow-hidden rounded" style={{ width: "100%", maxWidth: "600px" }}>
+    <div className="card shadow-sm border-0 overflow-hidden rounded" style={{ width: "600px" }}>
       {event.img && (
         <div style={{ height: "200px", overflow: "hidden" }}>
           <img
@@ -43,12 +51,24 @@ export default function EventCard({ event, isJoined, onToggleJoin }: EventCardPr
           <Link to={`/more-info/${event.eventId}`} className="btn mt-2 btn-outline-info w-100">
             Mer Info
           </Link>
-          <button
-            className={`btn mt-2 ${isJoined ? "btn-outline-danger" : "btn-outline-success"} w-100`}
-            onClick={() => onToggleJoin(event.eventId)}
-          >
-            {isJoined ? "Lämna" : "Gå med"}
-          </button>
+
+          {variant === "default" && onToggleJoin && (
+            <button
+              className={`btn mt-2 ${isJoined ? "btn-outline-danger" : "btn-outline-success"} w-100`}
+              onClick={() => onToggleJoin(event.eventId)}
+            >
+              {isJoined ? "Lämna" : "Gå med"}
+            </button>
+          )}
+
+          {variant === "myEvents" && onLeave && (
+            <button
+              className="btn mt-2 btn-outline-danger w-100"
+              onClick={() => onLeave(event.eventId)}
+            >
+              Lämna
+            </button>
+          )}
         </div>
       </div>
     </div>

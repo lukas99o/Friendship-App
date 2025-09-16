@@ -1,3 +1,5 @@
+import { API_BASE_URL } from "../../config";
+
 export async function GetFriends() {
     const token = localStorage.getItem("jwtToken");
 
@@ -5,7 +7,7 @@ export async function GetFriends() {
         return null;
     }
 
-    const res = await fetch("https://friendship-c3cfdgejf5ateyc2.swedencentral-01.azurewebsites.net/api/friendship/friends", {
+    const res = await fetch(`${API_BASE_URL}/api/friendship/friends`, {
         method: "GET",
         headers: {
             "Authorization": `Bearer ${token}`

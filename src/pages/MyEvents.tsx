@@ -5,11 +5,13 @@ import { formatDate } from "../utils/date";
 import { LeaveEvent } from "../api/events/leaveEvent.ts";
 import { hostDeleteEvent } from "../api/events/deleteEvent.ts";
 import { Link } from "react-router-dom";
+import EventCard from "../components/EventCard.tsx";
 
 export default function MyEvents() {
     const [createdEvents, setCreatedEvents] = useState<EventDto[]>([]);
     const [joinedEvents, setJoinedEvents] = useState<EventDto[]>([]);
     const [activeView, setActiveView] = useState<"created" | "joined" | "invited" | "saved">("joined");
+    const [width, setWidth] = useState(document.body.clientWidth);
 
     useEffect(() => {
         async function fetchEvents() {
@@ -27,6 +29,17 @@ export default function MyEvents() {
 
         fetchEvents();
     }, []); 
+
+    useEffect(() => {
+        const handleResize = () => {
+            setWidth(document.body.clientWidth);
+        }
+
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        }
+    }, [])
 
     const handleLeaveEvent = (eventId: number) => {
         if (createdEvents.some(event => event.eventId === eventId)) {
@@ -50,106 +63,101 @@ export default function MyEvents() {
 
     const renderEvents = (events: EventDto[]) => (
         events.map((event) => (
-            <div
-                key={event.eventId}
-                className="card p-0 d-flex flex-column flex-md-row w-100"
-                style={{ maxWidth: "600px" }}
-            >
-                <img
-                    src={event.img}
-                    alt={event.title}
-                    className="d-block d-md-none w-100"
-                    style={{
-                        height: "180px",
-                        objectFit: "cover",
-                        borderTopLeftRadius: ".25rem",
-                        borderTopRightRadius: ".25rem"
-                    }}
-                />
-
-                <img
-                    src={event.img}
-                    alt={event.title}
-                    className="d-none d-md-block"
-                    style={{
-                        width: "150px",
-                        height: "150px",
-                        objectFit: "cover",
-                        borderTopLeftRadius: ".25rem",
-                        borderBottomLeftRadius: ".25rem",
-                        alignSelf: "center",
-                        flexShrink: 0
-                    }}
-                />
-
-                <div className="d-flex flex-column flex-grow-1 p-2 p-md-3">
-                    <div>
-                        <h5 className="card-title mb-1">{event.title}</h5>
-                        <p className="text-muted mb-0" style={{ fontSize: "0.9rem" }}>
-                            {formatDate(event.startTime)} - {formatDate(event.endTime)}
-                        </p>
-                    </div>
-
-                    <div className="mt-2 mt-md-auto d-flex flex-column flex-md-row gap-2 justify-content-stretch justify-content-md-end">
-                        <Link
-                            to={`/more-info/${event.eventId}`}
-                            className="btn btn-outline-info w-100 w-md-auto"
-                        >
-                            Mer Info
-                        </Link>
-                        <button
-                            type="button"
-                            className="btn btn-outline-danger w-100 w-md-auto"
-                            onClick={() => handleLeaveEvent(event.eventId)}
-                        >
-                            Lämna
-                        </button>
-                    </div>
-                </div>
-            </div>
+            <EventCard 
+            key={event.eventId} 
+            event={event} 
+            variant="myEvents" 
+            onLeave={handleLeaveEvent} 
+            />
         ))
     );
 
     return (
         <div className="container">
-            <div>
-                <Link to={"/create-event"} className="btn btn-orange w-100 mb-2 create-btn">
+            <div className="text-center mb-2">
+                <Link to="/my-events/create-event" className="btn btn-orange px-3 py-2 create-btn">
                     Skapa Evenemang
                 </Link>
             </div>
-            <div className="d-flex justify-content-around p-3 bg-light shadow-sm flex-wrap rounded gap-2">
-                <button className={`btn-orange ${activeView === "joined" ? 'btn-orange-active' : ''}`} onClick={() => setActiveView("joined")} style={{ width: "100px"}}>Deltar</button>
-                <button className={`btn-orange ${activeView === "created" ? 'btn-orange-active' : ''}`} onClick={() => setActiveView("created")} style={{ width: "100px"}}>Skapat</button>
-                <button className={`btn-orange ${activeView === "invited" ? 'btn-orange-active' : ''}`} onClick={() => setActiveView("invited")} style={{ width: "100px"}}>Inbjudan</button>
-                <button className={`btn-orange ${activeView === "saved" ? 'btn-orange-active' : ''}`} onClick={() => setActiveView("saved")} style={{ width: "100px"}}>Sparat</button>
-            </div>
+            <ul className="nav nav-tabs justify-content-center shadow-sm rounded bg-light">
+                <li className="nav-item">
+                <button
+                    className={`nav-link ${activeView === "joined" ? "active" : ""}`}
+                    onClick={() => setActiveView("joined")}
+                    style={{ color: "black" }}
+                >
+                    Deltar
+                </button>
+                </li>
+                <li className="nav-item">
+                <button
+                    className={`nav-link ${activeView === "created" ? "active" : ""}`}
+                    onClick={() => setActiveView("created")}
+                    style={{ color: "black" }}
+                >
+                    Skapat
+                </button>
+                </li>
+                <li className="nav-item">
+                <button
+                    className={`nav-link ${activeView === "invited" ? "active" : ""}`}
+                    onClick={() => setActiveView("invited")}
+                    style={{ color: "black" }}
+                >
+                    Inbjudan
+                </button>
+                </li>
+                <li className="nav-item">
+                <button
+                    className={`nav-link ${activeView === "saved" ? "active" : ""}`}
+                    onClick={() => setActiveView("saved")}
+                    style={{ color: "black" }}
+                >
+                    Sparat
+                </button>
+                </li>
+            </ul>
 
-            <div className="d-flex flex-row flex-wrap mt-3 justify-content-between gap-3 pb-5">
-                {activeView === "joined" && (
-                    joinedEvents.length > 0 ? renderEvents(joinedEvents) : (
+            <div className="mt-3 pb-5 d-flex justify-content-center">
+                <div style={{ width: width > 1399 ? "95%" : "100%" }}>
+                    {activeView === "joined" && (
+                        joinedEvents.length > 0 ? (
+                            width > 1399 ? (
+                                <div className="d-flex flex-wrap justify-content-between gap-3">{renderEvents(joinedEvents)}</div>
+                            ) : (
+                                <div className="d-flex flex-wrap justify-content-center gap-3">{renderEvents(joinedEvents)}</div>
+                            )
+                        ) : (
+                            <div className="alert alert-info w-100 text-center">
+                                Du deltar inte i några evenemang än.
+                            </div>
+                        )
+                    )}
+                    {activeView === "created" && (
+                        createdEvents.length > 0 ? (
+                            width > 1399 ? (
+                                <div className="d-flex flex-wrap justify-content-between gap-3">{renderEvents(createdEvents)}</div>
+                            ) : (
+                                <div className="d-flex flex-wrap justify-content-center gap-3">{renderEvents(createdEvents)}</div>
+                            )
+                        ) : (
+                            <div className="alert alert-info w-100 text-center">
+                                Du har inte skapat några evenemang än.
+                            </div>
+                        )
+                    )}
+                    {activeView === "invited" && (
+                            <div className="alert alert-info w-100 text-center">
+                                Du har inga väntande inbjudningar.
+                            </div>
+                        )
+                    }
+                    {activeView === "saved" && (
                         <div className="alert alert-info w-100 text-center">
-                            Du deltar inte i några evenemang än.
+                            Inga sparade evenemang.
                         </div>
-                    )
-                )}
-                {activeView === "created" && (
-                    createdEvents.length > 0 ? renderEvents(createdEvents) : (
-                        <div className="alert alert-info w-100 text-center">
-                            Du har inte skapat några evenemang än.
-                        </div>
-                    )
-                )}
-                {activeView === "invited" && (
-                        <div className="alert alert-info w-100 text-center">
-                            Du har inga väntande inbjudningar.
-                        </div>
-                    )
-                }
-                {activeView === "saved" && (
-                    <div className="alert alert-info w-100 text-center">
-                        Inga sparade evenemang.
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
         </div>
     );

@@ -1,25 +1,36 @@
 import { useEffect, useRef, useState } from "react";
 import * as signalR from "@microsoft/signalr";
-import type { EventMessageDto } from "../types";
+import type { ConversationMessageDto } from "../types";
+import { GetConversationMessages } from "../api/conversations/getConversationMessages";
 import { API_BASE_URL } from "../config";
 
 interface Props {
-  conversationId: number;
+  conversationId?: number;
   senderId: string;
-  messageList?: EventMessageDto[];
 }
 
-export default function EventChat({ conversationId, senderId, messageList }: Props) {
-  const [messages, setMessages] = useState<EventMessageDto[]>(messageList || []);
+export default function PrivateChat({ conversationId, senderId }: Props) {
+  const [messages, setMessages] = useState<ConversationMessageDto[]>([]);
   const [messageText, setMessageText] = useState("");
   const connectionRef = useRef<signalR.HubConnection | null>(null);
   const bottomRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (!conversationId) {
-      console.error("No conversation ID provided");
+      setMessages([]);
       return;
     }
+
+    GetConversationMessages(conversationId)
+      .then(fetchedMessages => setMessages(fetchedMessages))
+      .catch(err => {
+        setMessages([]);
+        console.error("Kunde inte hämta meddelanden:", err);
+      });
+  }, [conversationId]);
+
+  useEffect(() => {
+    if (!conversationId) return;
 
     const connection = new signalR.HubConnectionBuilder()
       .withUrl(`${API_BASE_URL}/messageHub`)
@@ -30,13 +41,14 @@ export default function EventChat({ conversationId, senderId, messageList }: Pro
       .then(() => connection.invoke("JoinConversation", conversationId))
       .catch(err => console.error("SignalR connection failed: ", err));
 
-    connection.on("ReceiveMessage", (message: EventMessageDto) => {
+    connection.on("ReceiveMessage", (message: ConversationMessageDto) => {
       setMessages(prev => [...prev, message]);
     });
 
     connectionRef.current = connection;
+
     return () => {
-      if (connectionRef.current) {
+      if (connectionRef.current && conversationId) {
         connectionRef.current.invoke("LeaveConversation", conversationId)
           .catch(() => {})
           .finally(() => connectionRef.current?.stop());
@@ -49,32 +61,28 @@ export default function EventChat({ conversationId, senderId, messageList }: Pro
   }, [messages]);
 
   const sendMessage = async () => {
-    if (connectionRef.current && messageText.trim()) {
-      await connectionRef.current.invoke("SendMessage", conversationId, senderId, messageText);
-      setMessageText("");
-    }
+    if (!messageText.trim() || !connectionRef.current || !conversationId) return;
+    await connectionRef.current.invoke("SendMessage", conversationId, senderId, messageText);
+    setMessageText("");
   };
 
   return (
-    <div>
-      <div 
-        className="border rounded-3 p-3 mb-3 bg-white shadow-sm position-relative"
-        style={{ height: "300px", overflowY: "auto", background: "linear-gradient(145deg, #f8f9fa, #e9ecef)" }}
-      >
-        {messages.length > 0 ? (
-          messages.map(msg => (
-            <div key={msg.messageId} className="mb-2">
-              <strong>{msg.senderName}</strong> <small className="text-muted">{new Date(msg.createdAt).toLocaleString()}</small>
-              <p className="mb-0">{msg.content}</p>
-            </div>
-          ))
-        ) : (
+    <div className="d-flex flex-column h-100">
+      <div className="flex-grow-1 overflow-auto p-3 border rounded-3 mb-3 bg-white shadow-sm" style={{ background: "linear-gradient(145deg, #f8f9fa, #e9ecef)" }}>
+        {messages.length ? messages.map(msg => (
+          <div key={msg.messageId} className="mb-2">
+            <strong className="text-orange">{msg.senderName}</strong>
+            <small className="text-muted ms-2">{new Date(msg.createdAt).toLocaleString()}</small>
+            <p className="mb-0">{msg.content}</p>
+          </div>
+        )) : (
           <div className="text-center text-muted h-100 d-flex align-items-center justify-content-center flex-column">
             <i className="bi bi-chat-dots-fill fs-1 opacity-50 mb-3"></i>
             <p className="mb-0">Inga meddelanden än...</p>
-            <small>Var första att starta konversationen!</small>
+            <small>Var första att skriva!</small>
           </div>
         )}
+        <div ref={bottomRef}></div>
       </div>
 
       <div className="input-group shadow-sm">
@@ -87,10 +95,10 @@ export default function EventChat({ conversationId, senderId, messageList }: Pro
           placeholder="Skriv ett meddelande..."
           style={{ borderLeft: "none" }}
           value={messageText}
-          onChange={(e) => setMessageText(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+          onChange={e => setMessageText(e.target.value)}
+          onKeyDown={e => e.key === "Enter" && sendMessage()}
         />
-        <button className="btn btn-warning px-4 fw-bold" onClick={sendMessage}>
+        <button className="btn-orange px-2 px-lg-4 py-1 py-lg-2 px-4 fw-bold" onClick={sendMessage}>
           <i className="bi bi-send-fill me-1"></i> Skicka
         </button>
       </div>

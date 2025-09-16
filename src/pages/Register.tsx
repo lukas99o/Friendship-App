@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
+import { API_BASE_URL } from "../config";
 
 export default function Register() {
     const [firstName, setFirstName] = useState("");
@@ -12,6 +13,26 @@ export default function Register() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
+    const width = document.body.clientWidth;
+
+    useEffect(() => {
+        fetch(`${API_BASE_URL}/ping`)
+            .then(() => console.log("✅ API wake-up request sent"))
+            .catch(err => console.error("❌ API not reachable", err));
+    }, []);
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (document.body.clientWidth !== width) {
+                window.location.reload();
+            }
+        }
+
+        window.addEventListener("resize", handleResize);
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, [width]);
 
     function validateEmail(email: string) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -57,7 +78,7 @@ export default function Register() {
         }
 
         try {
-            const res = await fetch("https://friendship-c3cfdgejf5ateyc2.swedencentral-01.azurewebsites.net/api/auth/register", {
+            const res = await fetch(`${API_BASE_URL}/api/auth/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -94,10 +115,18 @@ export default function Register() {
     }
 
     return (
-        <div className="d-flex justify-content-center align-items-center login-register-wrapper pb-5" id="login-register">
-            <form onSubmit={handleRegister} className="p-4 rounded shadow bg-white" style={{ width: "300px" }}>
-                <h2 className="mb-4 text-center header">Registrera dig</h2>
-
+        <div className="d-flex justify-content-center container pb-5" style={{ height: "fit-content" }}>
+            <form onSubmit={handleRegister} className="p-4 rounded shadow bg-white" style={{ width: "400px" }}>
+                {width < 968 ? (
+                    <>
+                        <h1 className="mb-4 text-center header">Registrera dig</h1>
+                    </>
+                ) : (
+                    <>
+                        <h2 className="mb-4 text-center header">Registrera dig</h2>
+                    </>
+                )}
+                <p className="fs-6 border p-2 text-center">Den kan ta upp till 1 minut för azure att starta upp API:et för Vänskap när appen varit i standby. Ta en kaffe kom tillbaka sen kan du komma in!</p>
                 <div className="mb-3">
                     <label className="form-label">Förnamn</label>
                     <input

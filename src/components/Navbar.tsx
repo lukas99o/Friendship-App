@@ -62,6 +62,7 @@ export default function Navbar() {
                                             `nav-link ${isActive ? "active-link" : ""}`
                                         }
                                         to="/my-events"
+                                        end={false}
                                         onClick={closeNavbar}
                                     >
                                         Mina Evenemang

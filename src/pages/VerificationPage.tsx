@@ -1,4 +1,5 @@
 import { useLocation } from "react-router-dom";
+import { API_BASE_URL } from "../config";
 
 export default function VerificationPage() {
     const location = useLocation();
@@ -7,7 +8,7 @@ export default function VerificationPage() {
     async function handleResendEmail() {
         if (!email) return;
 
-        const res = await fetch(`https://friendship-c3cfdgejf5ateyc2.swedencentral-01.azurewebsites.net/api/auth/resend-email?email=${encodeURIComponent(email)}`, {
+        const res = await fetch(`${API_BASE_URL}/api/auth/resend-email?email=${encodeURIComponent(email)}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" }
         });
@@ -17,7 +18,7 @@ export default function VerificationPage() {
     }
 
     return (
-        <div className="d-flex justify-content-center container">
+        <div className="d-flex justify-content-center container" style={{ height: "fit-content" }}>
             <div className="text-center p-5 rounded shadow bg-white" style={{ maxWidth: "500px" }}>
                 <div className="mb-4">
                     <svg

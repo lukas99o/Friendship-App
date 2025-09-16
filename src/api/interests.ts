@@ -1,5 +1,7 @@
+import { API_BASE_URL } from "../config";
+
 export async function getInterests() {
-    const res = await fetch("https://friendship-c3cfdgejf5ateyc2.swedencentral-01.azurewebsites.net/api/event/interests", {
+    const res = await fetch(`${API_BASE_URL}/api/event/interests`, {
         method: "Get",
         headers: {
             "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
