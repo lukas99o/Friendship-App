@@ -13,7 +13,7 @@ export default function EventChat({ conversationId, senderId, messageList }: Pro
   const [messages, setMessages] = useState<EventMessageDto[]>(messageList || []);
   const [messageText, setMessageText] = useState("");
   const connectionRef = useRef<signalR.HubConnection | null>(null);
-  const bottomRef = useRef<HTMLDivElement | null>(null);
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (!conversationId) {
@@ -45,7 +45,12 @@ export default function EventChat({ conversationId, senderId, messageList }: Pro
   }, [conversationId]);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({
+        top: scrollContainerRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+    }
   }, [messages]);
 
   const sendMessage = async () => {
@@ -58,6 +63,7 @@ export default function EventChat({ conversationId, senderId, messageList }: Pro
   return (
     <div>
       <div 
+        ref={scrollContainerRef}
         className="border rounded-3 p-3 mb-3 bg-white shadow-sm position-relative"
         style={{ height: "300px", overflowY: "auto", background: "linear-gradient(145deg, #f8f9fa, #e9ecef)" }}
       >
