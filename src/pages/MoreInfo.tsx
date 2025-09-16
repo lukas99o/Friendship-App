@@ -14,7 +14,7 @@ export default function MoreInfo() {
   const { eventId } = useParams();
   const [event, setEvent] = useState<EventDto | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  // const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
   const userId = localStorage.getItem("userId") || "";
   const username = localStorage.getItem("username") || "";
@@ -33,7 +33,7 @@ export default function MoreInfo() {
         .catch(error => {
           console.error("Failed to fetch event:", error);
           setLoading(false);
-          setError("Misslyckades med att hämta eventet.");
+          // setError("Misslyckades med att hämta eventet.");
         });
 
       GetFriendRequests()
@@ -43,7 +43,7 @@ export default function MoreInfo() {
         .catch(error => {
           console.error("Failed to fetch friend requests:", error);
           setLoading(false);
-          setError("Misslyckades med att hämta vänförfrågningar.");
+          // setError("Misslyckades med att hämta vänförfrågningar.");
         });
 
       GetFriends()
@@ -54,7 +54,7 @@ export default function MoreInfo() {
         .catch(error => {
           console.error("Failed to fetch friends:", error);
           setLoading(false);
-          setError("Misslyckades med att hämta vänner.");
+          // setError("Misslyckades med att hämta vänner.");
         });
 
       setLoading(false);

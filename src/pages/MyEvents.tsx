@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import type { EventDto } from "../types.ts";
 import { getMyCreatedEvents, getMyJoinedEvents,  } from "../api/events/events.ts";
-import { formatDate } from "../utils/date";
 import { LeaveEvent } from "../api/events/leaveEvent.ts";
 import { hostDeleteEvent } from "../api/events/deleteEvent.ts";
 import { Link } from "react-router-dom";
