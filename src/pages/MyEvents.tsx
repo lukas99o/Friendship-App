@@ -74,20 +74,47 @@ export default function MyEvents() {
 
     return (
         <div className="container">
-            <div className="d-flex justify-content-around p-3 bg-light shadow-sm flex-wrap rounded container-header">
-                <button className={`mt-2 btn-orange ${activeView === "joined" ? 'btn-orange-active' : ''}`} onClick={() => setActiveView("joined")} style={{ width: "100px"}}>Deltar</button>
-                <button className={`mt-2 btn-orange ${activeView === "created" ? 'btn-orange-active' : ''}`} onClick={() => setActiveView("created")} style={{ width: "100px"}}>Skapat</button>
-                <button className={`mt-2 btn-orange ${activeView === "invited" ? 'btn-orange-active' : ''}`} onClick={() => setActiveView("invited")} style={{ width: "100px"}}>Inbjudan</button>
-                <button className={`mt-2 btn-orange ${activeView === "saved" ? 'btn-orange-active' : ''}`} onClick={() => setActiveView("saved")} style={{ width: "100px"}}>Sparat</button>
-                <div className="w-100 d-flex justify-content-center">
-                    <Link to="/my-events/create-event" className="btn btn-orange w-50 create-btn mt-5">
-                        Skapa Evenemang
-                    </Link>
-                </div>   
-            </div>
+            <ul className="nav nav-tabs justify-content-center shadow-sm rounded bg-light">
+                <li className="nav-item">
+                <button
+                    className={`nav-link ${activeView === "joined" ? "active" : ""}`}
+                    onClick={() => setActiveView("joined")}
+                    style={{ color: "black" }}
+                >
+                    Deltar
+                </button>
+                </li>
+                <li className="nav-item">
+                <button
+                    className={`nav-link ${activeView === "created" ? "active" : ""}`}
+                    onClick={() => setActiveView("created")}
+                    style={{ color: "black" }}
+                >
+                    Skapat
+                </button>
+                </li>
+                <li className="nav-item">
+                <button
+                    className={`nav-link ${activeView === "invited" ? "active" : ""}`}
+                    onClick={() => setActiveView("invited")}
+                    style={{ color: "black" }}
+                >
+                    Inbjudan
+                </button>
+                </li>
+                <li className="nav-item">
+                <button
+                    className={`nav-link ${activeView === "saved" ? "active" : ""}`}
+                    onClick={() => setActiveView("saved")}
+                    style={{ color: "black" }}
+                >
+                    Sparat
+                </button>
+                </li>
+            </ul>
 
             <div className="mt-3 pb-5 d-flex justify-content-center">
-                <div style={{ width: "95%" }}>
+                <div style={{ width: width > 1399 ? "95%" : "100%" }}>
                     {activeView === "joined" && (
                         joinedEvents.length > 0 ? (
                             width > 1399 ? (

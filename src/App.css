@@ -151,6 +151,10 @@
   color: white;
 }
 
+.active {
+  color: #f7931e !important; 
+}
+
 @media screen and (max-width: 768px) {
   .fancy-title {
     font-size: 3rem; 

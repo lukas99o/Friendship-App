@@ -104,7 +104,7 @@ export default function Events() {
 
     return (
         <div className="d-flex flex-column container">
-            <div className="d-flex flex-column p-3 rounded container-header" style={{ backgroundColor: "#fafafa", zIndex: 1 }}>
+            <div className="d-flex flex-column p-3 rounded" style={{ backgroundColor: "#fafafa", zIndex: 1 }}>
                 <div className="d-flex flex-column gap-3 mt-2">
                     <div className="d-flex flex-column flex-md-row gap-2 justify-content-between align-items-center">
                         <Dropdown 
@@ -180,7 +180,7 @@ export default function Events() {
                                 Sök
                             </button>
                         ) || width < 800 && (
-                            <button className="btn-orange w-100" onClick={handleSearch}>
+                            <button className="btn-orange px-2 px-lg-4 py-1 py-lg-2 w-100" onClick={handleSearch}>
                                 Sök
                             </button>
                         )}
@@ -189,8 +189,6 @@ export default function Events() {
                     {loading && <p>Laddar...</p>}
                     {!loading && events.length === 0 && <p>Inga evenemang hittades.</p>}
                     </div>
-                {loading && <p>Laddar...</p>}
-                {!loading && events.length === 0 && <p>Inga evenemang hittades.</p>}
             </div>
             
             <div className="d-flex flex-wrap justify-content-center gap-4 mt-4" style={{ paddingBottom: "40px" }}>

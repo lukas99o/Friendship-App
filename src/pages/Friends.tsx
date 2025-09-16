@@ -30,7 +30,6 @@ export default function Friends() {
   const [conversations, setConversations] = useState<ConversationDto[]>([])
   const timeoutRef = useRef<number | null>(null)
   const userId = localStorage.getItem("userId") || ""
-  const height = width < 968 ? "100%" : "80%"
 
   const sendFriendRequest = async (username: string) => {
     if (friendRequests.incomingUsernames.includes(username) || friendRequests.outgoingUsernames.includes(username)) {
@@ -127,14 +126,7 @@ export default function Friends() {
   }
 
   return (
-    <div className="container d-flex flex-column" style={{ height: height }}>
-      {width < 968 && selectedChatUser == null && (
-        <div className="d-flex bg-light rounded shadow mb-3 gap-3 p-3 flex-wrap" style={{ flex: "0 1 auto"}}>
-          <button className={`btn-orange px-2 px-lg-4 py-1 py-lg-2 ${activeView ? 'btn-orange-active' : ''}`} onClick={() => setActiveView(true)} style={{ flex: 1 }}>Vänner</button>
-          <button className={`btn-orange px-2 px-lg-4 py-1 py-lg-2 ${!activeView ? 'btn-orange-active' : ''}`} onClick={() => setActiveView(false)} style={{ flex: 1 }}>Hitta Vänner</button>
-        </div>
-      )}
-
+    <div className="container d-flex flex-column">
       <div className="d-flex gap-4 flex-grow-1" style={{ overflowY: "hidden" }}>
         {(width > 968 || (activeView && width < 968)) && (
           <div className="bg-light rounded shadow p-3 d-flex flex-column container-header" style={{ width: width > 968 ? "50%" : "100%" }}>
@@ -157,23 +149,36 @@ export default function Friends() {
               </div>
             ) : (
                 <> 
-                    <h2 className="mb-3 header text-center mt-1 mb-3">Mina Vänner</h2>
+                    {width < 968 ? (
+                        <div className="d-flex justify-content-around align-items-center">
+                            <h3 className="mb-3 header text-center mt-1 mb-3">Mina Vänner</h3>
+                            <button className="btn-orange px-2 px-lg-4 py-1 py-lg-2 mb-3" onClick={() => setActiveView(false)}>Hitta Vänner</button>
+                        </div>
+                    ) : (
+                        <div>
+                            <h2 className="mb-3 header text-center mt-1 mb-3">Mina Vänner</h2>
+                        </div>
+                    )}
+                    
                     {loadingFriends ? (
                     <p>Laddar vänner...</p>
                     ) : friends.length > 0 ? (
-                    <div className="flex-grow-1 overflow-auto border rounded p-2 shadow-sm">
+                    <>
+                    <div>
                         <div className="border rounded p-3 mb-4 bg-white shadow-sm" style={{ flexShrink: 0 }}>
-                        <label className="form-label fw-bold">Sök efter vän:</label>
-                        <div className="input-group gap-2">
-                            <input
-                            className="form-control"
-                            type="text"
-                            placeholder="Användarnamn..."
-                            value={friendSearch}
-                            onChange={(e) => setFriendSearch(e.target.value)}
-                            />
+                            <label className="form-label fw-bold">Sök efter vän:</label>
+                            <div className="input-group gap-2">
+                                <input
+                                className="form-control"
+                                type="text"
+                                placeholder="Användarnamn..."
+                                value={friendSearch}
+                                onChange={(e) => setFriendSearch(e.target.value)}
+                                />
+                            </div>
                         </div>
-                        </div>
+                    </div>
+                    <div className="flex-grow-1 overflow-auto border rounded p-3 shadow-sm">
                         {filteredFriends.map(friend => (
                         <div key={friend.username} className="border rounded p-3 mb-3 bg-white shadow-sm d-flex justify-content-between align-items-md-center flex-column flex-md-row">
                             <div className="d-flex gap-3 align-items-center">
@@ -207,6 +212,7 @@ export default function Friends() {
                         </div>
                         ))}
                     </div>
+                    </>
                     ) : (
                     <div className="p-3 border rounded">
                         <p className="mb-2 text-center"><strong>Inga vänner att visa</strong></p>
@@ -238,7 +244,16 @@ export default function Friends() {
               </div>
             ) : (
               <>
-                <h2 className="mb-3 header text-center mt-1">Vänförfrågningar</h2>
+                {width < 968 ? (
+                        <div className="d-flex justify-content-around align-items-center">
+                            <h3 className="mb-3 header text-center mt-1 mb-3">Vänförfrågningar</h3>
+                            <button className="btn-orange px-2 px-lg-4 py-1 py-lg-2 mb-3" onClick={() => setActiveView(true)}>Vänner</button>
+                        </div>
+                    ) : (
+                        <div>
+                            <h2 className="mb-3 header text-center mt-1 mb-3">Vänförfrågningar</h2>
+                        </div>
+                )}
 
                 <div className="border rounded p-3 mb-4 bg-white shadow-sm" style={{ flexShrink: 0 }}>
                   <label className="form-label fw-bold">Skicka vänförfrågan:</label>
@@ -250,7 +265,7 @@ export default function Friends() {
                       value={friendRequestUsername}
                       onChange={(e) => setFriendRequestUsername(e.target.value)}
                     />
-                    <button className="btn-orange px-2 px-lg-4 py-1 py-lg-2" onClick={() => sendFriendRequest(friendRequestUsername)}>Skicka</button>
+                    <button className="btn-orange px-2 py-1" onClick={() => sendFriendRequest(friendRequestUsername)}>Skicka</button>
                   </div>
                   {friendRequestMessage && (
                     <div className="alert alert-info mt-2 d-flex justify-content-between align-items-center">
@@ -259,7 +274,7 @@ export default function Friends() {
                   )}
                 </div>
 
-                <div className="flex-grow-1 overflow-auto border rounded p-2 shadow-sm">
+                <div className="flex-grow-1 overflow-auto border rounded p-3 shadow-sm">
                   {loadingRequests ? (
                     <p>Laddar vänförfrågningar...</p>
                   ) : (friendRequests.incomingUsernames?.length || friendRequests.outgoingUsernames?.length) ? (
