@@ -28,6 +28,7 @@ export default function Friends() {
   const [selectedChatUser, setSelectedChatUser] = useState<string | null>(null)
   const [chatStarted, setChatStarted] = useState<boolean>(false)
   const [conversations, setConversations] = useState<ConversationDto[]>([])
+  const [conversation, setConversation] = useState<ConversationDto | null>(null)
   const timeoutRef = useRef<number | null>(null)
   const userId = localStorage.getItem("userId") || ""
 
@@ -119,12 +120,6 @@ export default function Friends() {
     return () => clearTimeout(timeout)
   }, [friendSearch, friends])
 
-  const getConversationWithUser = (username: string) => {
-    const friendObj = friends.find(f => f.username === username)
-    if (!friendObj) return undefined
-    return conversations.find(c => c.conversationParticipants.some(p => p.userId === friendObj.userId))
-  }
-
   return (
     <div className="container d-flex flex-column">
       <div className="d-flex gap-4 flex-grow-1" style={{ overflowY: "hidden" }}>
@@ -141,7 +136,7 @@ export default function Friends() {
                 {chatStarted && (
                   <div className="bg-white border rounded p-3 shadow-sm flex-grow-1 d-flex flex-column" style={{ height: "200px" }}>
                     <PrivateChat
-                      conversationId={getConversationWithUser(selectedChatUser)?.conversationId}
+                      conversationId={conversation?.conversationId}
                       senderId={userId}
                     />
                   </div>
@@ -199,6 +194,7 @@ export default function Friends() {
                                         if (!conversations.some(c => c.conversationId === conversation.conversationId)) {
                                         setConversations(prev => [...prev, conversation])
                                         }
+                                        setConversation(conversation)
                                         setChatStarted(true)
                                     } else {
                                         alert("Kunde inte starta chatt med den här användaren.")
@@ -236,7 +232,7 @@ export default function Friends() {
                 {chatStarted && (
                   <div className="bg-white border rounded p-3 shadow-sm flex-grow-1 d-flex flex-column" style={{ height: "200px" }}>
                     <PrivateChat
-                      conversationId={getConversationWithUser(selectedChatUser)?.conversationId}
+                      conversationId={conversation?.conversationId}
                       senderId={userId}
                     />
                   </div>
