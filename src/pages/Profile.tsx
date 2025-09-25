@@ -12,8 +12,10 @@ export default function Profile() {
     const [editingAbout, setEditingAbout] = useState(false);
     const [aboutText, setAboutText] = useState("");
     const [aboutError, setAboutError] = useState("");
+    const userId = localStorage.getItem("userId") || "";
+    
     useEffect(() => {
-        GetUser().then(data => setUser(data));
+        GetUser(userId).then(data => setUser(data));
     }, []);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {

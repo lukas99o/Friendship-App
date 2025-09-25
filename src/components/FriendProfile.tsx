@@ -3,11 +3,11 @@ import { API_BASE_URL } from "../config";
 import { GetUser } from "../api/user/getUser";
 import type { UserDto } from "../types";
 
-export default function FriendProfile() {
+export default function FriendProfile(userId: string) {
     const [user, setUser] = useState<UserDto | null>(null);
 
     useEffect(() => {
-        GetUser().then(data => setUser(data));
+        GetUser(userId).then(data => setUser(data));
     }, []);
 
     if (!user) return <div>Laddar...</div>;

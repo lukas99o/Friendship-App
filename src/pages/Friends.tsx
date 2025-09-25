@@ -11,7 +11,6 @@ import type { FriendDto, FriendRequestDto, ConversationDto } from '../types'
 import { calculateAge } from '../utils/calculateAge'
 import PrivateChat from '../components/PrivateChat'
 import { API_BASE_URL } from '../config'
-import { eventListeners } from '@popperjs/core'
 
 export default function Friends() {
   const [friends, setFriends] = useState<FriendDto[]>([])
