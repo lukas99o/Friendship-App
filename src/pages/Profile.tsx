@@ -1,0 +1,123 @@
+import { useEffect, useState } from "react";
+import { GetUser } from "../api/user/getUser";
+import { uploadProfilePicture } from "../api/user/uploadProfilePicture";
+import { API_BASE_URL } from "../config";
+import { updateUserAbout } from "../api/user/updateUserAboot";
+import type { UserDto } from "../types";
+
+export default function Profile() {
+    const [user, setUser] = useState<UserDto | null>(null);
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const [uploadError, setUploadError] = useState<string>("");
+    const [editingAbout, setEditingAbout] = useState(false);
+    const [aboutText, setAboutText] = useState("");
+    const [aboutError, setAboutError] = useState("");
+    useEffect(() => {
+        GetUser().then(data => setUser(data));
+    }, []);
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            setSelectedFile(e.target.files[0]);
+        }
+    };
+
+    const handleUpload = async () => {
+        if (!selectedFile || !user) return;
+        setUploadError("");
+
+        const path = await uploadProfilePicture(selectedFile);
+        if (path) {
+            setUser(prev => prev ? { ...prev, profilePicturePath: path } : prev);
+            setSelectedFile(null);
+        } else {
+            setUploadError("Kunde inte ladda upp bilden.");
+        }
+    };
+
+    const handleAboutSave = async () => {
+        if (!aboutText.trim() || !user) {
+            setAboutError("Du måste skriva något om dig själv.");
+            return;
+        }
+        setAboutError("");
+        await updateUserAbout(aboutText);
+        setUser(prev => prev ? { ...prev, about: aboutText } : prev);
+        setEditingAbout(false);
+    };
+
+    if (!user) return <div>Laddar...</div>;
+
+    return (
+        <div className="container d-flex justify-content-center profile-container pb-5">
+            <div className="bg-white rounded-4 shadow p-4 container-header" style={{ maxWidth: 420, width: "100%" }}>
+                <div className="d-flex flex-column align-items-center mb-4">
+                    {user.profilePicturePath ? (
+                        <img
+                            src={`${API_BASE_URL}${user.profilePicturePath}`}
+                            alt="Profilbild"
+                            className="rounded-circle border border-3 border-warning mb-3"
+                            style={{ width: 120, height: 120, objectFit: "cover" }}
+                        />
+                    ) : (
+                        <div className="mb-3 w-100 text-center">
+                            <label className="form-label fw-bold">Ladda upp profilbild</label>
+                            <input
+                                type="file"
+                                className="form-control mb-2"
+                                accept="image/*"
+                                onChange={handleFileChange}
+                            />
+                            <button
+                                className="btn btn-warning w-100"
+                                onClick={handleUpload}
+                                disabled={!selectedFile}
+                            >
+                                Ladda upp
+                            </button>
+                            {uploadError && <div className="text-danger mt-2">{uploadError}</div>}
+                        </div>
+                    )}
+                    <h2 className="fw-bold text-orange mb-1">{user.userName}</h2>
+                    <span className="text-muted">{user.firstName} {user.lastName}, {user.age} år</span>
+                </div>
+                <div className="mb-3">
+                    <h5 className="fw-bold text-orange mb-2">Om mig</h5>
+                    <div className="bg-light rounded p-3">
+                        {editingAbout ? (
+                            <div>
+                                <textarea
+                                    className="form-control mb-2"
+                                    rows={3}
+                                    value={aboutText}
+                                    onChange={e => setAboutText(e.target.value)}
+                                    placeholder="Skriv något om dig själv..."
+                                    maxLength={150}
+                                />
+                                <button className="btn btn-warning me-2" onClick={handleAboutSave}>
+                                    Spara
+                                </button>
+                                <button className="btn btn-outline-secondary" onClick={() => setEditingAbout(false)}>
+                                    Avbryt
+                                </button>
+                                {aboutError && <div className="text-danger mt-2">{aboutError}</div>}
+                            </div>
+                        ) : user.about && user.about.trim() !== "" ? (
+                            <div className="d-flex flex-column gap-2">
+                                <p className="mb-0 border p-2 shadow-sm rounded" style={{ wordBreak: "break-word" }}>{user.about}</p>
+                                <button className="btn btn-outline-secondary" onClick={() => { setEditingAbout(true); setAboutText(user.about ? user.about : ""); }}>Ändra</button>
+                            </div>
+                        ) : (
+                            <button
+                                className="btn-orange"
+                                onClick={() => { setEditingAbout(true); setAboutText(""); }}
+                            >
+                                Skriv om dig själv
+                            </button>
+                        )}
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}

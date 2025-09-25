@@ -10,6 +10,8 @@ import { StartPrivateConversation } from '../api/conversations/startPrivateConve
 import type { FriendDto, FriendRequestDto, ConversationDto } from '../types'
 import { calculateAge } from '../utils/calculateAge'
 import PrivateChat from '../components/PrivateChat'
+import { API_BASE_URL } from '../config'
+import { eventListeners } from '@popperjs/core'
 
 export default function Friends() {
   const [friends, setFriends] = useState<FriendDto[]>([])
@@ -120,6 +122,12 @@ export default function Friends() {
     return () => clearTimeout(timeout)
   }, [friendSearch, friends])
 
+  const handleFriendRequestKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      sendFriendRequest(friendRequestUsername)
+    }
+  }
+
   return (
     <div className="container d-flex flex-column">
       <div className="d-flex gap-4 flex-grow-1" style={{ overflowY: "hidden" }}>
@@ -177,13 +185,13 @@ export default function Friends() {
                         {filteredFriends.map(friend => (
                         <div key={friend.username} className="border rounded p-3 mb-3 bg-white shadow-sm d-flex justify-content-between align-items-md-center flex-column flex-md-row">
                             <div className="d-flex gap-3 align-items-center">
-                            <div className="bg-secondary rounded-circle d-flex justify-content-center align-items-center" style={{ width: "50px", height: "50px" }}>👤</div>
+                            <div className="bg-secondary rounded-circle d-flex justify-content-center align-items-center" style={{ width: "100px", height: "100px" }}>{friend.profilePicturePath ? <img src={`${API_BASE_URL}${friend.profilePicturePath}`} alt="Profilbild" className="rounded-circle" style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : "👤"}</div>
                             <div>
                                 <h5 className={`mb-1 ${width < 768 ? "fs-6" : ""}`}>{friend.username}</h5>
                                 <p className={`mb-0 text-muted ${width < 768 ? "fs-6" : ""}`}>{friend.name}, {calculateAge(friend.age)} år</p>
                             </div>
                             </div>
-                            <div className="d-flex gap-2 mt-2 mt-md-0 justify-content-end justify-content-md-start">
+                            <div className="d-flex gap-2 mt-2 mt-md-0 justify-content-end justify-content-md-start flex-column">
                                 <button className="btn-orange px-2 px-lg-4 py-1 py-lg-2">Profil</button>
                                 <button className="btn-orange px-2 px-lg-4 py-1 py-lg-2"
                                     onClick={async () => {
@@ -260,6 +268,7 @@ export default function Friends() {
                       placeholder="Användarnamn..."
                       value={friendRequestUsername}
                       onChange={(e) => setFriendRequestUsername(e.target.value)}
+                      onKeyDown={handleFriendRequestKeyDown}
                     />
                     <button className="btn-orange px-2 py-1" onClick={() => sendFriendRequest(friendRequestUsername)}>Skicka</button>
                   </div>
