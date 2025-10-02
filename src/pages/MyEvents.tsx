@@ -9,7 +9,7 @@ import EventCard from "../components/EventCard.tsx";
 export default function MyEvents() {
     const [createdEvents, setCreatedEvents] = useState<EventDto[]>([]);
     const [joinedEvents, setJoinedEvents] = useState<EventDto[]>([]);
-    const [activeView, setActiveView] = useState<"created" | "joined" | "invited" | "saved">("joined");
+    const [activeView, setActiveView] = useState<"created" | "joined">("joined");
     const [width, setWidth] = useState(document.body.clientWidth);
 
     useEffect(() => {
@@ -97,24 +97,6 @@ export default function MyEvents() {
                     Skapat
                 </button>
                 </li>
-                <li className="nav-item">
-                <button
-                    className={`nav-link ${activeView === "invited" ? "active" : ""}`}
-                    onClick={() => setActiveView("invited")}
-                    style={{ color: "black" }}
-                >
-                    Inbjudan
-                </button>
-                </li>
-                <li className="nav-item">
-                <button
-                    className={`nav-link ${activeView === "saved" ? "active" : ""}`}
-                    onClick={() => setActiveView("saved")}
-                    style={{ color: "black" }}
-                >
-                    Sparat
-                </button>
-                </li>
             </ul>
 
             <div className="mt-3 pb-5 d-flex justify-content-center">
@@ -144,17 +126,6 @@ export default function MyEvents() {
                                 Du har inte skapat några evenemang än.
                             </div>
                         )
-                    )}
-                    {activeView === "invited" && (
-                            <div className="alert alert-info w-100 text-center">
-                                Du har inga väntande inbjudningar.
-                            </div>
-                        )
-                    }
-                    {activeView === "saved" && (
-                        <div className="alert alert-info w-100 text-center">
-                            Inga sparade evenemang.
-                        </div>
                     )}
                 </div>
             </div>
