@@ -10,6 +10,8 @@ import { StartPrivateConversation } from '../api/conversations/startPrivateConve
 import type { FriendDto, FriendRequestDto, ConversationDto } from '../types'
 import { calculateAge } from '../utils/calculateAge'
 import PrivateChat from '../components/PrivateChat'
+import { API_BASE_URL } from '../config'
+import FriendProfile from '../components/FriendProfile'
 
 export default function Friends() {
   const [friends, setFriends] = useState<FriendDto[]>([])
@@ -29,6 +31,7 @@ export default function Friends() {
   const [chatStarted, setChatStarted] = useState<boolean>(false)
   const [conversations, setConversations] = useState<ConversationDto[]>([])
   const [conversation, setConversation] = useState<ConversationDto | null>(null)
+  const [selectedFriendId, setSelectedFriendId] = useState<string | null>(null)
   const timeoutRef = useRef<number | null>(null)
   const userId = localStorage.getItem("userId") || ""
 
@@ -120,8 +123,14 @@ export default function Friends() {
     return () => clearTimeout(timeout)
   }, [friendSearch, friends])
 
+  const handleFriendRequestKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      sendFriendRequest(friendRequestUsername)
+    }
+  }
+
   return (
-    <div className="container d-flex flex-column">
+    <div className="container d-flex flex-column" style={{ height: width > 968 ? "75%" : "100%" }}>
       <div className="d-flex gap-4 flex-grow-1" style={{ overflowY: "hidden" }}>
         {(width > 968 || (activeView && width < 968)) && (
           <div className="bg-light rounded shadow p-3 d-flex flex-column container-header" style={{ width: width > 968 ? "50%" : "100%" }}>
@@ -141,6 +150,14 @@ export default function Friends() {
                     />
                   </div>
                 )}
+              </div>
+            ) : selectedFriendId && width < 968 ? (
+              <div className="flex-grow-1 d-flex flex-column overflow-auto">
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                  <h3 className="header mb-0">Profil</h3>
+                  <button className="btn-orange px-2 px-lg-4 py-1 py-lg-2" onClick={() => setSelectedFriendId(null)}>← Tillbaka</button>
+                </div>
+                <FriendProfile userId={selectedFriendId} />
               </div>
             ) : (
                 <> 
@@ -177,16 +194,28 @@ export default function Friends() {
                         {filteredFriends.map(friend => (
                         <div key={friend.username} className="border rounded p-3 mb-3 bg-white shadow-sm d-flex justify-content-between align-items-md-center flex-column flex-md-row">
                             <div className="d-flex gap-3 align-items-center">
-                            <div className="bg-secondary rounded-circle d-flex justify-content-center align-items-center" style={{ width: "50px", height: "50px" }}>👤</div>
+                            <div className="bg-secondary rounded-circle d-flex justify-content-center align-items-center" 
+                              style={{ width: "100px", height: "100px" }}>{friend.profilePicturePath ? <img src={`${API_BASE_URL}${friend.profilePicturePath}`} 
+                              alt="Profilbild" 
+                              className="rounded-circle" style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : <span className="text-white" style={{ fontSize: 48 }}>👤</span>}</div>
                             <div>
                                 <h5 className={`mb-1 ${width < 768 ? "fs-6" : ""}`}>{friend.username}</h5>
                                 <p className={`mb-0 text-muted ${width < 768 ? "fs-6" : ""}`}>{friend.name}, {calculateAge(friend.age)} år</p>
                             </div>
                             </div>
-                            <div className="d-flex gap-2 mt-2 mt-md-0 justify-content-end justify-content-md-start">
-                                <button className="btn-orange px-2 px-lg-4 py-1 py-lg-2">Profil</button>
+                            <div className="d-flex gap-2 mt-2 mt-md-0 justify-content-end justify-content-md-start flex-column">
+                                <button className="btn-orange px-2 px-lg-4 py-1 py-lg-2"
+                                    onClick={() => {
+                                        setSelectedFriendId(friend.userId)
+                                        setSelectedChatUser(null)
+                                        setChatStarted(false)
+                                    }}
+                                >
+                                  Profil
+                                </button>
                                 <button className="btn-orange px-2 px-lg-4 py-1 py-lg-2"
                                     onClick={async () => {
+                                    setSelectedFriendId(null)
                                     setChatStarted(false);
                                     setSelectedChatUser(friend.username)
                                     const conversation = await StartPrivateConversation(friend.username)
@@ -236,9 +265,19 @@ export default function Friends() {
                       senderId={userId}
                     />
                   </div>
-                )}
-              </div>
-            ) : (
+                 )}
+            </div>
+            ) :  selectedFriendId ? (
+                  <div className="flex-grow-1 d-flex flex-column">
+                    <div className="d-flex justify-content-between align-items-center mb-3">
+                      <h3 className="header mb-0">Profil</h3>
+                      <button className="btn-orange px-2 px-lg-4 py-1 py-lg-2" onClick={() => setSelectedFriendId(null)}>← Tillbaka</button>
+                    </div>
+                    <div className="mt-5">
+                      <FriendProfile userId={selectedFriendId} />
+                    </div>
+                  </div>
+              ) : (
               <>
                 {width < 968 ? (
                         <div className="d-flex justify-content-around align-items-center">
@@ -260,6 +299,7 @@ export default function Friends() {
                       placeholder="Användarnamn..."
                       value={friendRequestUsername}
                       onChange={(e) => setFriendRequestUsername(e.target.value)}
+                      onKeyDown={handleFriendRequestKeyDown}
                     />
                     <button className="btn-orange px-2 py-1" onClick={() => sendFriendRequest(friendRequestUsername)}>Skicka</button>
                   </div>

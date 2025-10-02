@@ -122,13 +122,23 @@ export default function Navbar() {
                     </ul>
                     {isLoggedIn && (
                         <>
-                            <button onClick={() => {
-                                logout();
-                                navigate("/");
-                                closeNavbar();
-                            }} className="navbar-logout-btn">
-                                Logga ut
-                            </button>
+                            <div className="d-flex align-items-center justify-content-end gap-2">
+                                <button className="navbar-profile-btn"
+                                    onClick={() => {
+                                        navigate("/profile");
+                                        closeNavbar();
+                                    }}
+                                >
+                                    Profil
+                                </button>
+                                <button onClick={() => {
+                                    logout();
+                                    navigate("/");
+                                    closeNavbar();
+                                }} className="navbar-logout-btn">
+                                    Logga ut
+                                </button>
+                            </div>
                         </>
                     )}
                 </div>

@@ -10,6 +10,7 @@ import ConfirmEmail from './pages/ConfirmEmail'
 import StartPage from './pages/StartPage'
 import MyEvents from './pages/MyEvents'
 import Friends from './pages/Friends'
+import Profile from './pages/Profile'
 // Components
 import ProtectedRoute from './components/ProtectedRoute'
 import Navbar from "./components/Navbar"
@@ -94,6 +95,11 @@ export default function App() {
           <Route path="/friends" element={
             <ProtectedRoute>
               <Friends />
+            </ProtectedRoute>
+          } />
+          <Route path="/profile" element={
+            <ProtectedRoute>
+              <Profile />
             </ProtectedRoute>
           } />
           <Route path="*" element={<div>404 Not Found</div>} />

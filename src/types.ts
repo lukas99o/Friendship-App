@@ -41,6 +41,7 @@ export interface FriendDto {
   name: string;
   age: Date;
   userId: string;
+  profilePicturePath: string | null;
 }
 
 export interface FriendRequestDto {
@@ -59,4 +60,13 @@ export interface ConversationDto {
   messages: ConversationMessageDto[];
   createdAt: string;
   conversationParticipants: ConversationParticipantDto[];
+}
+
+export interface UserDto {
+  userName: string;
+  firstName: string;
+  lastName: string;
+  age: number;
+  profilePicturePath: string | null;
+  about: string | null;
 }
