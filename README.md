@@ -45,3 +45,6 @@ npm install
 npm run dev
 ```
 App runs on [http://localhost:5173](http://localhost:5173).
+
+## ✨ Related Project
+Backend: 🔗 [Friendship API](https://friendship-c3cfdgejf5ateyc2.swedencentral-01.azurewebsites.net/)
