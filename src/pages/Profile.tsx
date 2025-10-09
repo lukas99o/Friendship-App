@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { GetUser } from "../api/user/getUser";
 import { uploadProfilePicture } from "../api/user/uploadProfilePicture";
 import { API_BASE_URL } from "../config";
@@ -13,7 +13,8 @@ export default function Profile() {
     const [aboutText, setAboutText] = useState("");
     const [aboutError, setAboutError] = useState("");
     const userId = localStorage.getItem("userId") || "";
-    
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
     useEffect(() => {
         GetUser(userId).then(data => setUser(data));
     }, []);
@@ -48,34 +49,67 @@ export default function Profile() {
         setEditingAbout(false);
     };
 
+    const handleProfilePicClick = () => {
+        if (fileInputRef.current) {
+            fileInputRef.current.click();
+        }
+    };
+
     if (!user) return <div>Laddar...</div>;
 
     return (
         <div className="container d-flex justify-content-center profile-container pb-5">
             <div className="bg-white rounded-4 shadow p-4 container-header" style={{ maxWidth: 420, width: "100%" }}>
                 <div className="d-flex flex-column align-items-center mb-4">
-                    {user.profilePicturePath ? (
-                        <img
-                            src={`${API_BASE_URL}${user.profilePicturePath}`}
-                            alt="Profilbild"
-                            className="rounded-circle border border-3 border-warning mb-3"
-                            style={{ width: 120, height: 120, objectFit: "cover" }}
-                        />
-                    ) : (
-                        <div className="mb-3 w-100 text-center">
-                            <label className="form-label fw-bold">Ladda upp profilbild</label>
-                            <input
-                                type="file"
-                                className="form-control mb-2"
-                                accept="image/*"
-                                onChange={handleFileChange}
+                    <div
+                        style={{ position: "relative", cursor: "pointer" }}
+                        onClick={handleProfilePicClick}
+                        onMouseEnter={e => e.currentTarget.classList.add("profile-pic-hover")}
+                        onMouseLeave={e => e.currentTarget.classList.remove("profile-pic-hover")}
+                    >
+                        {user.profilePicturePath ? (
+                            <img
+                                src={`${API_BASE_URL}${user.profilePicturePath}`}
+                                alt="Profilbild"
+                                className="rounded-circle border border-3 border-warning mb-3"
+                                style={{ width: 120, height: 120, objectFit: "cover", transition: "filter 0.2s" }}
                             />
+                        ) : (
+                            <div className="mb-3 w-100 text-center">
+                                <label className="form-label fw-bold">Ladda upp profilbild</label>
+                            </div>
+                        )}
+                        <input
+                            type="file"
+                            className="d-none"
+                            accept="image/*"
+                            ref={fileInputRef}
+                            onChange={handleFileChange}
+                        />
+                        <span
+                            className="profile-pic-hover-icon"
+                            style={{
+                                display: "none",
+                                position: "absolute",
+                                bottom: 10,
+                                right: 10,
+                                background: "#ffc107",
+                                borderRadius: "50%",
+                                padding: "6px",
+                                border: "2px solid #fff",
+                                boxShadow: "0 1px 4px rgba(0,0,0,0.08)"
+                            }}
+                        >
+                            <i className="bi bi-camera-fill text-white"></i>
+                        </span>
+                    </div>
+                    {selectedFile && (
+                        <div className="w-100 text-center mt-2">
                             <button
-                                className="btn btn-warning w-100"
+                                className="btn btn-warning w-100 mb-3"
                                 onClick={handleUpload}
-                                disabled={!selectedFile}
                             >
-                                Ladda upp
+                                Ladda upp ny profilbild
                             </button>
                             {uploadError && <div className="text-danger mt-2">{uploadError}</div>}
                         </div>
@@ -106,7 +140,17 @@ export default function Profile() {
                             </div>
                         ) : user.about && user.about.trim() !== "" ? (
                             <div className="d-flex flex-column gap-2">
-                                <p className="mb-0 border p-2 shadow-sm rounded" style={{ wordBreak: "break-word" }}>{user.about}</p>
+                                <p
+                                    className="mb-0 border p-2 shadow-sm rounded"
+                                    style={{
+                                        wordBreak: "break-word",
+                                        maxHeight: "30vh",
+                                        minHeight: 60,
+                                        overflowY: "auto"
+                                    }}
+                                >
+                                    {user.about}
+                                </p>
                                 <button className="btn btn-outline-secondary" onClick={() => { setEditingAbout(true); setAboutText(user.about ? user.about : ""); }}>Ändra</button>
                             </div>
                         ) : (
