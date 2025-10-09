@@ -16,14 +16,14 @@ export async function uploadProfilePicture(file: File): Promise<string | null> {
             body: formData 
         });
 
-        if (!res.ok) {
+        if (!res.ok) {  
             console.error("Upload failed:", res.statusText);
             return null;
         }
 
         const data = await res.json();
-        if (data.ProfilePicturePath) {
-            return data.ProfilePicturePath;
+        if (data.profilePicturePath) {
+            return data.profilePicturePath;
         }
 
         return null;
